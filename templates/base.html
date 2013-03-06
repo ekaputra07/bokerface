@@ -66,7 +66,7 @@
      <div id="fb-root"></div>
 
     {% if user %}
-      <p><a href="{{ current_user.profile_url }}"><img src="http://graph.facebook.com/{{ user.id }}/picture?type=square"/></a></p>
+      <p><a href="{{ user.profile_url }}"><img src="http://graph.facebook.com/{{ user.id }}/picture?type=square"/></a></p>
       <p>Hello, {{ user.name|escape }}</p>
     {% endif %}
 
@@ -108,7 +108,7 @@
       window.fbAsyncInit = function() {
         FB.init({appId: '{{ fbapp_id }}', status: true, cookie: true,
                  xfbml: true});
-        FB.Event.subscribe('{% if current_user %}auth.logout{% else %}auth.login{% endif %}', function(response) {
+        FB.Event.subscribe('{% if user %}auth.logout{% else %}auth.login{% endif %}', function(response) {
           {% if user %} window.location = "/logout" {% else %} window.location.reload(); {% endif %}
         });
       };

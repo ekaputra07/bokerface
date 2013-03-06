@@ -86,7 +86,8 @@ class BaseHandler(webapp2.RequestHandler):
         tpl      : String -Template file name
         context  : Dict - Dictionary of data to render in template
         """
-
+        print self.current_user
+        
         #add default/global data to context
         default_data = {
             'STATIC_URL': settings.STATIC_URL,
