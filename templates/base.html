@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta content='text/html; charset=UTF-8' http-equiv='Content-Type'/>
+<meta http-equiv='Content-Language' content='{id, en}'/>
+<!-- This site is optimized Shopping Bali // http://shoppingbali.com -->
+<title>{% block title %}{% endblock %}</title>
+<link href='{{STATIC_URL}}assets/css/docs.css' rel='stylesheet'>
+<link href='{{STATIC_URL}}assets/css/bootstrap.css' rel='stylesheet'>
+<style type='text/css'>
+  body {
+    padding-top: 60px;
+  }
+</style>
+<link href='{{STATIC_URL}}assets/css/bootstrap-responsive.css' rel='stylesheet'>
+<link href='{{STATIC_URL}}assets/css/hover.css' rel='stylesheet'>
+<link href='{{STATIC_URL}}assets/css/addons.css' rel='stylesheet'>
+<link href='{{STATIC_URL}}assets/img/favicon.png' rel='shortcut icon' type='image/x-icon' />
+<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+  <script src='http://html5shim.googlecode.com/svn/trunk/html5.js'></script>
+<![endif]-->
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' />
+</head>
+  <body>
+    <div class='navbar navbar-fixed-top'>
+      <div class='navbar-inner'>
+        <div class='container'>
+          <button type='button' class='btn btn-navbar' data-toggle='collapse' data-target='.nav-collapse'>
+            <span class='icon-bar'></span>
+            <span class='icon-bar'></span>
+            <span class='icon-bar'></span>
+          </button>
+          <a class='brand' href='/'><img src='{{STATIC_URL}}assets/img/logo-bokerface.png' /></a>
+          <div class='nav-collapse collapse'>
+            <ul class='nav'>
+              <li><a href='#about'>About</a></li>
+              <li class='dropdown'>
+                <a href='#' class='dropdown-toggle dropdown-hover' data-toggle='dropdown'>Browse <b class='caret'></b></a>
+                <ul class='dropdown-menu'>
+                  <li><a href='#'>Bokers Idol</a></li>
+                  <li class='divider'></li>
+                  <li><a href='#'>Most Like</a></li>
+                  <li><a href='#'>Most View</a></li>
+                  <li><a href='#'>Most Comment</a></li>
+                  <li class='divider'></li>
+                  <li><a href='#'>Boker of the day</a></li>
+                  <li><a href='#'>Boker of the week</a></li>
+                  <li><a href='#'>Boker of the month</a></li>
+                </ul>
+              </li>
+            </ul>
+            <ul class='nav pull-right'>
+              <li><a href='#'><strong>Sign in</strong></a></li>
+              <li class='divider-vertical'></li>
+              <li><a href='#'><i class='icon-user'></i>+ <strong>Sign up</strong></a></li>
+              <li class='divider-vertical last'></li>
+              <li class='btn btn-warning'><i class='icon-upload icon-white'></i> Upload</li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    {% block content %}
+    {% endblock %}
+    
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src='{{STATIC_URL}}assets/js/jquery.js'></script>
+    <script src='{{STATIC_URL}}assets/js/bootstrap.min.js'></script>
+    <script src='{{STATIC_URL}}assets/js/hover-dropdown.min.js'></script>
+    <script type='text/javascript'>
+      $(function() {
+        $('img[data-hover]').hover(function() {
+            $(this)
+                .attr('tmp', $(this).attr('src'))
+                .attr('src', $(this).attr('data-hover'))
+                .attr('data-hover', $(this).attr('tmp'))
+                .removeAttr('tmp');
+        }).each(function() {
+            $('<img />').attr('src', $(this).attr('data-hover'));
+        });;
+        $('.dropdown-hover').dropdownHover();
+    });
+    </script>
+  </body>
+</html>
