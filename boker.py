@@ -35,7 +35,10 @@ config = {}
 config['webapp2_extras.sessions'] = dict(secret_key='')
 
 app = webapp2.WSGIApplication(
-    [('/', HomeHandler), ('/logout', LogoutHandler)],
+    [
+        ('/', HomeHandler),
+        ('/logout', LogoutHandler)
+    ],
     debug=True,
     config=config
 )
