@@ -51,16 +51,34 @@
               </li>
             </ul>
             <ul class='nav pull-right'>
+              <li><fb:login-button autologoutlink="true" scope="publish_stream"></fb:login-button></li>
               <li><a href='#'><strong>Sign in</strong></a></li>
               <li class='divider-vertical'></li>
               <li><a href='#'><i class='icon-user'></i>+ <strong>Sign up</strong></a></li>
               <li class='divider-vertical last'></li>
               <li class='btn btn-warning'><i class='icon-upload icon-white'></i> Upload</li>
+              
             </ul>
           </div><!--/.nav-collapse -->
         </div>
       </div>
     </div>
+     <div id="fb-root"></div>
+
+    {% if user %}
+      <p><a href="{{ current_user.profile_url }}"><img src="http://graph.facebook.com/{{ user.id }}/picture?type=square"/></a></p>
+      <p>Hello, {{ user.name|escape }}</p>
+    {% endif %}
+
+    {% if user %}
+      <div>
+      Upload photo test: 
+       <form method="post">
+       Enter URL to URLFetch from:<input type="text" name="url"/>
+       <input type="submit"/>
+       </form>
+      </div>
+    {% endif %}
 
     {% block content %}
     {% endblock %}
@@ -84,6 +102,23 @@
         });;
         $('.dropdown-hover').dropdownHover();
     });
+    </script>
+
+    <script>
+      window.fbAsyncInit = function() {
+        FB.init({appId: '{{ fbapp_id }}', status: true, cookie: true,
+                 xfbml: true});
+        FB.Event.subscribe('{% if current_user %}auth.logout{% else %}auth.login{% endif %}', function(response) {
+          {% if user %} window.location = "/logout" {% else %} window.location.reload(); {% endif %}
+        });
+      };
+      (function() {
+        var e = document.createElement('script');
+        e.type = 'text/javascript';
+        e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
+        e.async = true;
+        document.getElementById('fb-root').appendChild(e);
+      }());
     </script>
   </body>
 </html>

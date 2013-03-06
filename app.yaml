@@ -4,14 +4,13 @@ runtime: python27
 api_version: 1
 threadsafe: true
 
-libraries:
-- name: django
-  version: "1.3"
-
 handlers:
 - url: /static/
   static_dir: static
-  
-- url: /.*
-  script: main.app
 
+- url: /.*
+  script: boker.app
+
+libraries:
+- name: jinja2
+  version: latest
