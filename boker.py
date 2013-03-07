@@ -9,7 +9,6 @@ from utils import BaseHandler
 class HomeHandler(BaseHandler):
 
     def get(self):
-
         return self.render_response('index.html')
 
     def post(self):
@@ -31,13 +30,29 @@ class LogoutHandler(BaseHandler):
         self.redirect('/')
 
 
+class AboutHandler(BaseHandler):
+    template = 'about.html'
+
+    def get(self):
+        return self.render_response(self.template)
+
+
+class UploadHandler(BaseHandler):
+    template = 'upload.html'
+
+    def get(self):
+        return self.render_response(self.template)
+
+
 config = {}
 config['webapp2_extras.sessions'] = dict(secret_key='')
 
 app = webapp2.WSGIApplication(
     [
         ('/', HomeHandler),
-        ('/logout', LogoutHandler)
+        ('/logout', LogoutHandler),
+        ('/about', AboutHandler),
+        ('/upload', UploadHandler),
     ],
     debug=True,
     config=config

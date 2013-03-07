@@ -1,0 +1,50 @@
+<div class='navbar navbar-fixed-top'>
+  <div class='navbar-inner'>
+    <div class='container'>
+      <button type='button' class='btn btn-navbar' data-toggle='collapse' data-target='.nav-collapse'>
+        <span class='icon-bar'></span>
+        <span class='icon-bar'></span>
+        <span class='icon-bar'></span>
+      </button>
+      <a class='brand' href='/'><img src='{{STATIC_URL}}assets/img/logo-bokerface.png' /></a>
+      <div class='nav-collapse collapse'>
+        <ul class='nav'>
+          <li><a href='/about'>About</a></li>
+          <li class='dropdown'>
+            <a href='#' class='dropdown-toggle dropdown-hover' data-toggle='dropdown'>Browse <b class='caret'></b></a>
+            <ul class='dropdown-menu'>
+              <li><a href='#'>Bokers Idol</a></li>
+              <li class='divider'></li>
+              <li><a href='#'>Most Like</a></li>
+              <li><a href='#'>Most View</a></li>
+              <li><a href='#'>Most Comment</a></li>
+              <li class='divider'></li>
+              <li><a href='#'>Boker of the day</a></li>
+              <li><a href='#'>Boker of the week</a></li>
+              <li><a href='#'>Boker of the month</a></li>
+            </ul>
+          </li>
+        </ul>
+        <ul class='nav pull-right'>
+
+        {% if user %}
+          <li class='dropdown mobile-divider'>
+            <a href='#' class='dropdown-toggle dropdown-hover'>
+              <img src='http://graph.facebook.com/{{ user.id }}/picture?type=square' class='av-img' /> {{ user.name|escape }}<b class='caret'></b>
+            </a>
+            <ul class='dropdown-menu'>
+              <li><fb:login-button autologoutlink="true" scope="publish_stream">Login with Facebook</fb:login-button></li>
+            </ul>
+          </li>
+        {% else %}
+          <li><fb:login-button autologoutlink="true" scope="publish_stream">Login with Facebook</fb:login-button></li>
+        {% endif %}
+
+          <li class='divider-vertical last'></li>
+          <a href='/upload' class='btn btn-warning'><i class='icon-upload icon-white'></i> Upload</a>
+          
+        </ul>
+      </div><!--/.nav-collapse -->
+    </div>
+  </div>
+</div>

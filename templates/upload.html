@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}About Boker Face • ini expresi gue, mana expresi loe{% endblock %}
+
+{% block content %}
+
+<div class='container'>
+      <div id='center' class='span8'>
+        <div class='alert alert-block upload top'>
+          <h3>Apakah Anda Boker hari ini?</h3>
+        </div>
+        <div class='row'>
+          <div class='span4'>
+            <div class='alert alert-block upload box'>
+              <h4>1. Upload <small>photo dengan expresi terbaik mu</small></h4>
+            </div>
+            <div class='alert alert-block upload box'>
+              <button class='btn btn-info btn-block btn-right'>Browse photo ...</button>
+            </div>
+          </div>
+          <div class='span4'>
+            <div class='alert alert-block upload box'>
+              <h4>2. Deskripsi <small>ceritakan tentang expresimu di photo</small></h4>
+            </div>
+            <div class='alert alert-block upload box'>
+              <form id='login' name='upload' method='POST' action='#'>
+                <div class='row-fluid'>
+                  <div class='span12'>
+                    <div id='bodytxt' class='span12'>
+                      <textarea rows='3' class='span12 textarea' placeholder='Use @ to mention teman ...'></textarea>
+                      <button class='btn btn-warning'>Submit</button> 
+                    </div>
+                  </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> <!-- /container -->
+
+{% endblock %}

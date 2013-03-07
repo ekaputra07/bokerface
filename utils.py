@@ -17,6 +17,7 @@ class BaseHandler(webapp2.RequestHandler):
     user. See http://developers.facebook.com/docs/authentication/ for
     more information.
     """
+
     @property
     def current_user(self):
         if self.session.get("user"):

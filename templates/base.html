@@ -23,65 +23,19 @@
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' />
 </head>
   <body>
-    <div class='navbar navbar-fixed-top'>
-      <div class='navbar-inner'>
-        <div class='container'>
-          <button type='button' class='btn btn-navbar' data-toggle='collapse' data-target='.nav-collapse'>
-            <span class='icon-bar'></span>
-            <span class='icon-bar'></span>
-            <span class='icon-bar'></span>
-          </button>
-          <a class='brand' href='/'><img src='{{STATIC_URL}}assets/img/logo-bokerface.png' /></a>
-          <div class='nav-collapse collapse'>
-            <ul class='nav'>
-              <li><a href='#about'>About</a></li>
-              <li class='dropdown'>
-                <a href='#' class='dropdown-toggle dropdown-hover' data-toggle='dropdown'>Browse <b class='caret'></b></a>
-                <ul class='dropdown-menu'>
-                  <li><a href='#'>Bokers Idol</a></li>
-                  <li class='divider'></li>
-                  <li><a href='#'>Most Like</a></li>
-                  <li><a href='#'>Most View</a></li>
-                  <li><a href='#'>Most Comment</a></li>
-                  <li class='divider'></li>
-                  <li><a href='#'>Boker of the day</a></li>
-                  <li><a href='#'>Boker of the week</a></li>
-                  <li><a href='#'>Boker of the month</a></li>
-                </ul>
-              </li>
-            </ul>
-            <ul class='nav pull-right'>
-              <li><fb:login-button autologoutlink="true" scope="publish_stream">Login with Facebook</fb:login-button></li>
-              <!--<li><a href='#'><strong>Sign in</strong></a></li>
-              <li class='divider-vertical'></li>
-              <li><a href='#'><i class='icon-user'></i>+ <strong>Sign up</strong></a></li>-->
-              <li class='divider-vertical last'></li>
-              <li class='btn btn-warning'><i class='icon-upload icon-white'></i> Upload</li>
-              
-            </ul>
-          </div><!--/.nav-collapse -->
-        </div>
-      </div>
-    </div>
-     <div id="fb-root"></div>
-
-    {% if user %}
-      <p><a href="{{ user.profile_url }}"><img src="http://graph.facebook.com/{{ user.id }}/picture?type=square"/></a></p>
-      <p>Hello, {{ user.name|escape }}</p>
-    {% endif %}
-
-    {% if user %}
-      <div>
-      Upload photo test: 
-       <form method="post">
-       Enter URL to URLFetch from:<input type="text" name="url"/>
-       <input type="submit"/>
-       </form>
-      </div>
-    {% endif %}
+    {% include 'topbar.html' %}
 
     {% block content %}
     {% endblock %}
+
+    <div class='footer'>
+      <div id='center' class='span9'>
+      <div class='row'>
+         &copy; 2013 <a href='http://www.bokerface.com'>BokerFace (BF)</a>
+      </div>
+      </div>
+    </div>
+    <div id="fb-root"></div>
     
     <!-- Le javascript
     ================================================== -->
