@@ -33,7 +33,10 @@
               <img src='http://graph.facebook.com/{{ user.id }}/picture?type=square' class='av-img' /> {{ user.name|escape }}<b class='caret'></b>
             </a>
             <ul class='dropdown-menu'>
-              <li><fb:login-button autologoutlink="true" scope="publish_stream">Login with Facebook</fb:login-button></li>
+              <li><a href='#'>My Bokers</a></li>
+              <li><a href='#'>Settings</a></li>
+              <li class="nav-header">Keluar Boker</li>
+              <li class="fb-btn-li"><fb:login-button autologoutlink="true" scope="publish_stream">Log out</fb:login-button></li>
             </ul>
           </li>
         {% else %}

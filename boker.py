@@ -3,6 +3,7 @@
 import webapp2
 import urllib2
 import facebook
+import settings
 
 from utils import BaseHandler
 
@@ -10,15 +11,6 @@ class HomeHandler(BaseHandler):
 
     def get(self):
         return self.render_response('index.html')
-
-    def post(self):
-        url = self.request.get('url')
-        file = urllib2.urlopen(url)
-        graph = facebook.GraphAPI(self.current_user['access_token'])
-        response = graph.put_photo(file, "Test Image")
-        photo_url = ("http://www.facebook.com/"
-                     "photo.php?fbid={0}".format(response['id']))
-        self.redirect(str(photo_url))
 
 
 class LogoutHandler(BaseHandler):
@@ -42,6 +34,15 @@ class UploadHandler(BaseHandler):
 
     def get(self):
         return self.render_response(self.template)
+
+    def post(self):
+        url = self.request.get('url')
+        file = urllib2.urlopen(url)
+        graph = facebook.GraphAPI(settings.PAGE_ACCESS_TOKEN)
+        response = graph.put_photo(file, "Foto ini di posting dari bokerface.com, it works!", settings.FACEBOOK_ALBUM_ID)
+        photo_url = ("http://www.facebook.com/photo.php?fbid={0}".format(response['id']))
+        self.redirect(str(photo_url))
+
 
 
 config = {}
