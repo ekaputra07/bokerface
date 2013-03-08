@@ -1,7 +1,7 @@
 body {background: #FFFFFF; color: #333;}
 .span6 {position:relative;}
 .thumbnails li.span6 {margin-bottom: 20px;}
-.outer {border: 5px solid #fff;background: #fff; box-shadow: rgba(0, 0, 0, 0.14902) 0px 5px 10px !important;}
+.outer {border-bottom: 5px solid #fff;background: #fff; box-shadow: rgba(0, 0, 0, 0.14902) 0px 5px 10px !important;}
 .thumbnails {float: none; margin: 0 0 0 0;}
 .thumbnail {padding:0;border:0;-webkit-border-radius: 0px;-moz-border-radius: 0px;border-radius: 0px;}
 .outer img {border: 0;}
@@ -12,7 +12,20 @@ body {background: #FFFFFF; color: #333;}
 .span4.product-info {float: right; display: inline-table;}
 .product-related {float: none; display: block; clear: both; margin-top: 20px;}
 ul.product-todo {list-style: none; margin-left: 0px;}
-.span8.comment-box {float: left; margin-bottom: 20px; margin-left: 0px;}
+.span9.comment-box {margin-bottom: 20px; margin-left: 0px; padding: 0 0 0 5px;}
+.photo-main {background: #333;}
+.photo-main img {display: block; margin: 0 auto;}
+.photo-lain {padding: 0;}
+.photo-lain hr {
+margin: 5px 0;
+border: 0;
+border-top: 1px solid #eeeeee;
+border-bottom: 1px solid #ffffff;
+}
+.photo-lain h4 {padding: 5px;}
+.photo-lain p {padding: 5px; font-size: 12px;}
+.outer p {margin: 10px 10px 10px 10px;}
+.sidebox.ft span {font-size: 12px;}
 .span4 .alert.alert-block.info {margin-bottom: 0;}
 .row .span4 .alert.alert-block.info {margin-bottom: 20px;}
 .comment-box p {font-size: 12px;}
@@ -57,6 +70,8 @@ li button.btn.btn-small {margin-top: 7px;}
 .mask .icon-share {position: absolute;top:10px; right: 10px; }
 .mask .price {color: #fff;margin: 10px;}
 .mask .keyhole {width:100%; height:100%; margin: 0 auto; background:transparent url(../img/keyhole.png) center center no-repeat;}
+a .mask .icon.stat-info {position: absolute; right: 10px; top: 10px; color: #fff; font-size: 11px; z-index: 9; font-weight: normal;}
+a:hover .mask .icon.stat-info {color: #fff; text-decoration: none;}
 .mask .btn {width:50px; height:50px; margin: 0 auto;}
 .mask h2 .label {font-size: 0.5em;}
 .register-btn {margin: 2px 10px 0 10px;}
@@ -75,10 +90,12 @@ padding: 30px 0 0 0;
 border-top: 1px solid #fff;
 }
 .alert.alert-block.login.top {margin-top:65px; background: #fff; border: 0px solid #efefef; color:#333;}
-.alert.alert-block.info {background: #fff; border: 1px solid #efefef; color:#333;}
+.alert.alert-block.info {background: #fff; border: 1px solid #efefef; color:#333;padding: 0px 0px 0px 0px;}
 .alert.alert-block.login {background: #fff; border: 0px solid #efefef; color:#333;}
-.alert.alert-block.upload.top {padding: 0px 15px;}
-.alert.alert-block.upload.box {background: #f7f7f7; border: 1px solid #efefef; color:#333;padding-right: 15px;}
+.alert.alert-block.upload.top {padding: 0px 15px;background: #fff;}
+.alert.alert-block.upload.box {background: #fff; border: 0px solid #efefef; color:#333;padding: 0 0 0 0;}
+.alert.alert-block.upload.box.text {background: #fff; border: 0px solid #efefef; color:#333;padding: 0 5px 0 5px;}
+.button-stat {margin: 0;}
 .carousel {
 position: relative;
 margin-bottom: 0px;
@@ -130,11 +147,46 @@ box-sizing:border-box;
 -webkit-box-sizing:border-box; /* Safari */
 }
 
+.alert .delete {margin-top: 15px;}
+li.fb-btn-li .fb_iframe_widget{margin:0 0 10px 21px; padding:0;}
+
+
 form {
     margin: 0;
 }
 
 .nav.pull-right .btn {margin-left: 15px;}
 
-.alert .delete {margin-top: 15px;}
-li.fb-btn-li .fb_iframe_widget{margin:0 0 10px 21px; padding:0;}
+.alert .delete {margin: 15px 0 0 0;}
+.alert .close {
+    line-height: 20px;
+    position: relative;
+    right: 0px;
+    top: 0px;
+}
+.about {
+    background: #c1b49a;
+    color: #706457;
+    border: 1px solid #FCF8E3;
+    border-radius: 0px 0px 0px 0px;
+    margin-bottom: 20px;
+    padding: 10px 15px 10px 15px;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+.welcome {
+    background: #c1b49a url('../img/bokerface-icon.png') top left no-repeat;
+    color: #706457;
+    border: 1px solid #FCF8E3;
+    border-radius: 0px 0px 0px 0px;
+    margin-bottom: 20px;
+    padding: 8px 35px 8px 140px;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.alert img {width: 100%; padding: 0; margin: 0;}
+.about-txt {font-size: 14px; line-height: 24px; text-align: justify; color: #706457; padding: 20px;}
+.about-txt h2, .about-txt h3 {margin-left: 15px;}
+blockquote small {
+    color: #c1b49a;
+    line-height: 20px;
+}

@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import webapp2
+from webapp2_extras.routes import RedirectRoute as R
 import urllib2
 import facebook
 import settings
@@ -8,9 +9,15 @@ import settings
 from utils import BaseHandler
 
 class HomeHandler(BaseHandler):
-
+    template = 'index.html'
     def get(self):
-        return self.render_response('index.html')
+        return self.render_response(self.template)
+
+
+class PhotoHandler(BaseHandler):
+    template = 'photo.html'
+    def get(self):
+        return self.render_response(self.template)
 
 
 class LogoutHandler(BaseHandler):
@@ -50,10 +57,11 @@ config['webapp2_extras.sessions'] = dict(secret_key='')
 
 app = webapp2.WSGIApplication(
     [
-        ('/', HomeHandler),
-        ('/logout', LogoutHandler),
-        ('/about', AboutHandler),
-        ('/upload', UploadHandler),
+        R('/', HomeHandler, name='home'),
+        R('/logout', LogoutHandler, name='logout', strict_slash=True),
+        R('/about', AboutHandler, name='about', strict_slash=True),
+        R('/upload', UploadHandler, name='upload', strict_slash=True),
+        R('/photo', PhotoHandler, name='photo', strict_slash=True),
     ],
     debug=True,
     config=config

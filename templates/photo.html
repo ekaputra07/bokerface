@@ -1,186 +1,53 @@
-<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
-<html dir='ltr' lang='{id / en_US}' xmlns='http://www.w3.org/1999/xhtml' xmlns:b='http://www.google.com/2005/gml/b' xmlns:data='http://www.google.com/2005/gml/data' xmlns:expr='http://www.google.com/2005/gml/expr'>
-<head>
-<meta content='text/html; charset=UTF-8' http-equiv='Content-Type'/>
-<meta http-equiv='Content-Language' content='{id, en}'/>
-<!-- This site is optimized Shopping Bali // http://shoppingbali.com -->
-<title>{title} • {user display name} • Boker Face</title>
-<link href='assets/css/docs.css' rel='stylesheet'>
-<link href='assets/css/bootstrap.css' rel='stylesheet'>
-<style type='text/css'>
-  body {
-    padding-top: 60px;
-  }
-</style>
-<link href='assets/css/bootstrap-responsive.css' rel='stylesheet'>
-<link href='assets/css/hover.css' rel='stylesheet'>
-<link href='assets/css/addons.css' rel='stylesheet'>
-<link href='assets/img/favicon.png' rel='shortcut icon' type='image/x-icon' />
-<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-<!--[if lt IE 9]>
-  <script src='http://html5shim.googlecode.com/svn/trunk/html5.js'></script>
-<![endif]-->
-<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' />
-</head>
-  <body>
-    <div class='navbar navbar-fixed-top'>
-      <div class='navbar-inner'>
-        <div class='container'>
-          <button type='button' class='btn btn-navbar' data-toggle='collapse' data-target='.nav-collapse'>
-            <span class='icon-bar'></span>
-            <span class='icon-bar'></span>
-            <span class='icon-bar'></span>
-          </button>
-          <a class='brand' href='#'><img src='assets/img/logo-bokerface.png' /></a>
-          <div class='nav-collapse collapse'>
-            <ul class='nav'>
-              <li><a href='#about'>About</a></li>
-              <li class='dropdown'>
-                <a href='#' class='dropdown-toggle dropdown-hover' data-toggle='dropdown'>Browse <b class='caret'></b></a>
-                <ul class='dropdown-menu'>
-                  <li><a href='#'>Bokers Idol</a></li>
-                  <li class='divider'></li>
-                  <li><a href='#'>Most Like</a></li>
-                  <li><a href='#'>Most View</a></li>
-                  <li><a href='#'>Most Comment</a></li>
-                  <li class='divider'></li>
-                  <li><a href='#'>Boker of the day</a></li>
-                  <li><a href='#'>Boker of the week</a></li>
-                  <li><a href='#'>Boker of the month</a></li>
-                </ul>
-              </li>
-            </ul>
-            <ul class='nav pull-right'>
-              <li><a href='#'><span class='label label-important'>30</span></a></li>
-              <li class='divider-vertical'></li>
-              <li class='dropdown mobile-divider'>
-                <a href='#' class='dropdown-toggle dropdown-hover'><img src='images/sudieartha.jpg' class='av-img' /> Sudi Artha<b class='caret'></b></a>
-                <ul class='dropdown-menu'>
-                  <li><a href='#'>Who to Follow</a></li>
-                  <li><a href='#'>Invite Friends</a></li>
-                  <li><a href='#'>Your Profile</a></li>
-                  <li class='divider'></li>
-                  <li><a href='#'>Upload Photo</a></li>
-                  <li><a href='#'>Setting</a></li>
-                  <li><a href='#'>Sign out</a></li>
-                </ul>
-              </li>
-              <li class='divider-vertical last'></li>
-              <li class='btn btn-warning'><i class='icon-upload icon-white'></i> Upload</li>
-            </ul>
-          </div><!--/.nav-collapse -->
+{% extends 'base.html' %}
+
+{% block title %}About Boker Face • ini expresi gue, mana expresi loe{% endblock %}
+
+{% block content %}
+<div id='center' class='span9'>
+  <div class='row-fluid'>
+    <div class='span12'>
+      <div class='photo-main'>
+        <img src='{{STATIC_URL}}images/00.png' alt=''>
+      </div>
+      <div class='outer'>
+        <p>Floorink Lite is ideal for that quick fix - high impact look. With photographic print quality - Floorink Lite gives exceptional results. Carrying an R9 slip rating it provides a perfect high design temporary flooring solution for shop floors, retail outlets, concessions and exhibition spaces.</p>
+      </div>
+      <div class='sidebox ft'>
+        <a href='http://www.shoppingbali.com/theheartdirector'><img class='avatar' src='{{STATIC_URL}}assets/img/avatar0.png' alt='theheartdirector' /></a> <p class='label label-important promo-it'><i class='icon-eye-open icon-white'></i> theheartdirector + 123</p>
+      </div>
+    </div>
+    <div class='span9 comment-box'>
+      <hr>
+      <span class='button-stat'><a href='#'><button class='btn btn-warning btn-small'><i class='icon-star icon-white'></i> Star 2</button></a> <a href='#comment'><button class='btn btn-inverse btn-small'><i class='icon-comment icon-white'></i> Comment 2</button></a> <a href='#'><button class='btn btn-inverse btn-small'><i class='icon-thumbs-up icon-white'></i> Like 3</button></a></span>
+      <hr>
+      <a href='http://www.shoppingbali.com/theheartdirector'><img class='avatar-comment' src='{{STATIC_URL}}assets/img/avatar0.png' alt='theheartdirector' /> <p class='label label'>theheartdirector</p></a> 
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+      <a href='http://www.shoppingbali.com/LLKoOLReL'><img class='avatar-comment' src='{{STATIC_URL}}assets/img/avatar1.png' alt='LLKoOLReL' /> <p class='label label'>LLKoOLReL</p></a>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+      <a href='http://www.shoppingbali.com/LLKoOLReL'><img class='avatar-comment' src='{{STATIC_URL}}assets/img/avatar1.png' alt='LLKoOLReL' /> <p class='label label'>LLKoOLReL</p></a>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+      <hr>
+      <div class='row-fluid'>
+        <div class='span1'>
+          <a href='http://www.shoppingbali.com/theheartdirector'><img class='avatar-comment' src='{{STATIC_URL}}assets/img/avatar0.png' alt='theheartdirector' /></a>
+        </div>
+        <div id='comment' class='span11'>
+          <textarea rows='2' class='span12 comment-textarea' placeholder='Use @ to mention someone'></textarea>
+          <button class='btn btn-inverse'>Post comment</button>
         </div>
       </div>
     </div>
-
-    <div class='container'>
-      <div id='center' class='span9'>
-      <div class='row'>
-              <div class='span6'>
-                <div class='outer'>
-                <div class='view view-thumb thumbnail'>
-                  <img src='images/00.png' alt=''>
-                  <a data-toggle='modal' href='#myPModal' data-target='#myPModal'>
-                    <div class='mask'>
-                      <span class='info'><button class='btn btn-large btn-danger' type='button'><i class='icon-zoom-in icon-white'></i></button></span>                    
-                    </div>
-                  </a>
-                </div>
-                <!-- Modal -->
-                  <div id='myPModal' class='modal hide fade' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
-                  <div class='modal-header'>
-                  <button type='button' class='close' data-dismiss='modal' aria-hidden='true'>×</button>
-                  <h4><span class='label label-important'>theheartdirector</span> Ini expresi gue, mana expresi loe?</h4>
-                  </div>
-                  <div class='modal-body'>
-                  <img src='images/00.png' alt=''>
-                  </div>
-                  </div>
-                </div>
-                <div class='sidebox ft'>
-                  <a href='http://www.shoppingbali.com/theheartdirector'><img class='avatar' src='assets/img/avatar0.png' alt='theheartdirector' /></a> <p class='label label-important promo-it'><i class='icon-user icon-white'></i> theheartdirector</p>
-                </div>
-                  
-              </div>
-
-              <div class='span3 product-info'>
-                <div class='alert alert-block info'>
-                  <h4>Photographic Flooring by Printed Space</h4>
-                  <hr>
-                  <p>Floorink Lite is ideal for that quick fix - high impact look. With photographic print quality - Floorink Lite gives exceptional results. Carrying an R9 slip rating it provides a perfect high design temporary flooring solution for shop floors, ... <a data-toggle='modal' href='#myModal' data-target='#myModal'>more</a></p>                  
-                  <hr>
-                  <ul class='product-todo'>
-                    <li><a href='#'><button class='btn btn-warning btn-small'><i class='icon-star icon-white'></i> Star Boker</button></a></li>
-                    <li><a href='#comment'><button class='btn btn-primary btn-small'><i class='icon-comment icon-white'></i> Comment</button></a></li>
-                    <li><a href='#'><button class='btn btn-danger btn-small'><i class='icon-heart icon-white'></i> Like it</button></a></li>
-                  </ul>
-                </div>
-              </div>
-              <!-- Modal -->
-              <div id='myModal' class='modal hide fade' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
-              <div class='modal-header'>
-              <button type='button' class='close' data-dismiss='modal' aria-hidden='true'>×</button>
-              <h4>Photographic Flooring by Printed Space</h4>
-              </div>
-              <div class='modal-body'>
-              <p>Floorink Lite is ideal for that quick fix - high impact look. With photographic print quality - Floorink Lite gives exceptional results. Carrying an R9 slip rating it provides a perfect high design temporary flooring solution for shop floors, retail outlets, concessions and exhibition spaces.</p>
-              <p>Floorink Lite is ideal for that quick fix - high impact look. With photographic print quality - Floorink Lite gives exceptional results. Carrying an R9 slip rating it provides a perfect high design temporary flooring solution for shop floors, retail outlets, concessions and exhibition spaces.</p>
-              <p>Image: City</p>
-              <p>Dimensions: 4m x 2m</p>
-              <p>Please allow 1-2 months for shipping.</p>
-              </div>
-              </div>
-              <div class='span6 comment-box'>
-            <hr>
-            <i class='icon-comment'></i> <p class='label label'>2</p> <i class='icon-star'></i> <p class='label label'>2</p> <i class='icon-eye-open'></i> <p class='label label'>1234</p> <i class='icon-heart'></i> <p class='label label'>123</p>
-            <hr>
-            <a href='http://www.shoppingbali.com/theheartdirector'><img class='avatar-comment' src='assets/img/avatar0.png' alt='theheartdirector' /> <p class='label label'>theheartdirector</p></a>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-            <a href='http://www.shoppingbali.com/LLKoOLReL'><img class='avatar-comment' src='assets/img/avatar1.png' alt='LLKoOLReL' /> <p class='label label'>LLKoOLReL</p></a>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-            <hr>
-            <div class='row-fluid'>
-              <div class='span1'>
-                <a href='http://www.shoppingbali.com/theheartdirector'><img class='avatar-comment' src='assets/img/avatar0.png' alt='theheartdirector' /></a>
-              </div>
-              <div id='comment' class='span11'>
-                   <textarea rows='2' class='span12 comment-textarea' placeholder='Write a comment ...'></textarea>
-              <button class='btn btn-primary'>Post comment</button> <p class='label label-important'>Use @ to mention someone</p>
-              </div>
-            </div>
-            </div>
-            
-            </div>
-      </div>
-    </div> <!-- /container -->
-    <div class='footer'>
-      <div id='center' class='span9'>
-      <div class='row'>
-         &copy; 2013 <a href='http://bokerface.com'>BokerFace.com (BF)</a>
-      </div>
+    <div class='span3'>
+      <div class='alert alert-block info photo-lain'>
+        <h4>Photo Boker lainnya dari user ini</h4>
+        <hr>
+        <img src='{{STATIC_URL}}images/01.jpg' alt=''>
+        <p>Floorink Lite is ideal for that quick fix - high impact look. With photographic print quality ..</p>
+        <hr>
+        <img src='{{STATIC_URL}}images/01.jpg' alt=''>
+        <p>Floorink Lite is ideal for that quick fix - high impact look. With photographic print quality ..</p>
       </div>
     </div>
-    </div>
-    <!-- Le javascript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src='assets/js/jquery.js'></script>
-    <script src='assets/js/bootstrap.min.js'></script>
-    <script src='assets/js/hover-dropdown.min.js'></script>
-
-    <script type='text/javascript'>
-      $(function() {
-        $('img[data-hover]').hover(function() {
-            $(this)
-                .attr('tmp', $(this).attr('src'))
-                .attr('src', $(this).attr('data-hover'))
-                .attr('data-hover', $(this).attr('tmp'))
-                .removeAttr('tmp');
-        }).each(function() {
-            $('<img />').attr('src', $(this).attr('data-hover'));
-        });;
-        $('.dropdown-hover').dropdownHover();
-    });
-    </script>
-  </body>
-</html>
+  </div>
+</div>
+{% endblock %}
