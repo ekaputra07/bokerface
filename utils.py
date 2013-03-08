@@ -2,7 +2,8 @@ import webapp2
 import jinja2
 from webapp2_extras import sessions
 
-import facebook
+from libs import facebook
+
 import settings
 from models import User
 
