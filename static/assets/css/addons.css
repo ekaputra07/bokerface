@@ -8,11 +8,11 @@ body {background: #FFFFFF; color: #333;}
 .outer h2 {font-size: 1em; margin: 5px 0;line-height: 1em;}
 .sidebox {width: auto;height:60px;padding: 5px;}
 .sidebox.ft {background: url(../img/bg-ft.png) 0 0 no-repeat;}
-.sidebox .avatar {margin: 0 5px 0 0;}
+.sidebox .avatar {margin: 5px 5px 0 0;}
 .span4.product-info {float: right; display: inline-table;}
 .product-related {float: none; display: block; clear: both; margin-top: 20px;}
 ul.product-todo {list-style: none; margin-left: 0px;}
-.span9.comment-box {margin-bottom: 20px; margin-left: 0px; padding: 0 0 0 5px;}
+.span9.comment-box {margin-bottom: 20px; margin-left: 0px; padding: 5px;}
 .photo-main {background: #333;}
 .photo-main img {display: block; margin: 0 auto;}
 .photo-lain {padding: 0;}
@@ -141,15 +141,14 @@ position: relative;
 display: -moz-inline-block;
 display: inline-block;
 margin-top: 9px;
-margin-right:15px;
 box-sizing:border-box;
 -moz-box-sizing:border-box; /* Firefox */
 -webkit-box-sizing:border-box; /* Safari */
 }
 
-.alert .delete {margin-top: 15px;}
-li.fb-btn-li .fb_iframe_widget{margin:0 0 10px 21px; padding:0;}
-
+.fb-btn-li .fb_iframe_widget{
+    margin: 0 0 0 21px;
+}
 
 form {
     margin: 0;
@@ -164,7 +163,7 @@ form {
     right: 0px;
     top: 0px;
 }
-.about {
+.about, .alert {
     background: #c1b49a;
     color: #706457;
     border: 1px solid #FCF8E3;
@@ -190,3 +189,4 @@ blockquote small {
     color: #c1b49a;
     line-height: 20px;
 }
+.alert.alert-block.upload.box {padding: 5px;}

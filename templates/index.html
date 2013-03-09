@@ -10,86 +10,26 @@
   </div>
   <div class='row'>
     <ul class='thumbnails'>
-      <li class='span6'>
-        <div class='outer'>
-        <div class='view view-thumb thumbnail'>
-            <img src='{{STATIC_URL}}images/00.png' alt=''>
-            <a href='/photo'>
-              <div class='mask'>
-                <span class='keyhole'></span>
-                <span class='label label-important icon stat-info'><i class='icon-star icon-white'></i> 123 <i class='icon-thumbs-up icon-white'></i> 123 <i class='icon-comment icon-white'></i> 12</span>
-              </div>
-            </a>
-        </div>
-        <p>Floorink Lite is ideal for that quick fix - high impact look. With photographic print quality - Floorink Lite gives exceptional results. Carrying an R9 slip rating it provides a perfect high design temporary flooring solution for shop floors, retail outlets, concessions and exhibition spaces.</p>
-        </div>
-        <div class='sidebox ft'><a href='http://www.shoppingbali.com/theheartdirector'><img class='avatar' src='{{STATIC_URL}}assets/img/avatar0.png' alt='theheartdirector' /></a>
-        <p class='label label-important'><i class='icon-eye-open icon-white'></i> theheartdirector + 123</p></div>
-      </li>
-      <li class='span6'>
-        <div class='outer'>
-        <div class='view view-thumb thumbnail'>
-            <img src='{{STATIC_URL}}images/01.jpg' alt=''>
-            <a href='/photo'>
-              <div class='mask'>
-                <span class='keyhole'></span>
-                <span class='label label-important icon stat-info'><i class='icon-star icon-white'></i> 123 <i class='icon-thumbs-up icon-white'></i> 123 <i class='icon-comment icon-white'></i> 12</span>
-              </div>
-            </a>
-        </div>
-        <p>Floorink Lite is ideal for that quick fix - high impact look. With photographic print quality - Floorink Lite gives exceptional results. Carrying an R9 slip rating it provides a perfect high design temporary flooring solution for shop floors, retail outlets, concessions and exhibition spaces.</p>
-        </div>
-        <div class='sidebox ft'><a href='http://www.shoppingbali.com/LLKoOLReL'><img class='avatar' src='{{STATIC_URL}}assets/img/avatar1.png' alt='LLKoOLReL' /></a>
-        <p class='label label-important'><i class='icon-eye-open icon-white'></i> LLKoOLReL + 123</p></div>
-      </li>
-      <li class='span6'>
-        <div class='outer'>
-        <div class='view view-thumb thumbnail'>
-            <img src='{{STATIC_URL}}images/02.jpg' alt=''>
-            <a href='/photo'>
-              <div class='mask'>
-                <span class='keyhole'></span>
-                <span class='label label-important icon stat-info'><i class='icon-star icon-white'></i> 123 <i class='icon-thumbs-up icon-white'></i> 123 <i class='icon-comment icon-white'></i> 12</span>
-              </div>
-            </a>
-        </div>
-        <p>Floorink Lite is ideal for that quick fix - high impact look. With photographic print quality - Floorink Lite gives exceptional results. Carrying an R9 slip rating it provides a perfect high design temporary flooring solution for shop floors, retail outlets, concessions and exhibition spaces.</p>
-        </div>
-        <div class='sidebox ft'><a href='http://www.shoppingbali.com/raluca'><img class='avatar' src='{{STATIC_URL}}assets/img/avatar2.jpg' alt='raluca' /></a>
-        <p class='label label-important'><i class='icon-eye-open icon-white'></i> raluca + 123</p></div>
-      </li>
-      <li class='span6'>
-        <div class='outer'>
-        <div class='view view-thumb thumbnail'>
-            <img src='{{STATIC_URL}}images/03.jpg' alt=''>
-            <a href='/photo'>
-              <div class='mask'>
-                <span class='keyhole'></span>
-                <span class='label label-important icon stat-info'><i class='icon-star icon-white'></i> 123 <i class='icon-thumbs-up icon-white'></i> 123 <i class='icon-comment icon-white'></i> 12</span>
-              </div>
-            </a>
-        </div>
-        <p>Floorink Lite is ideal for that quick fix - high impact look. With photographic print quality - Floorink Lite gives exceptional results. Carrying an R9 slip rating it provides a perfect high design temporary flooring solution for shop floors, retail outlets, concessions and exhibition spaces.</p>
-        </div>
-        <div class='sidebox ft'><a href='http://www.shoppingbali.com/arredmentibertola'><img class='avatar' src='{{STATIC_URL}}assets/img/avatar2.jpg' alt='arredmentibertola' /></a> 
-        <p class='label label-important'><i class='icon-eye-open icon-white'></i> arredmentibertola + 123</p></div>
-      </li>
-      <li class='span6'>
-        <div class='outer'>
-        <div class='view view-thumb thumbnail'>
-            <img src='{{STATIC_URL}}images/04.jpg' alt=''>
-            <a href='/photo'>
-              <div class='mask'>
-                <span class='keyhole'></span>
-                <span class='label label-important icon stat-info'><i class='icon-star icon-white'></i> 123 <i class='icon-thumbs-up icon-white'></i> 123 <i class='icon-comment icon-white'></i> 12</span>
-              </div>
-            </a>
-        </div>
-        <p>Floorink Lite is ideal for that quick fix - high impact look. With photographic print quality - Floorink Lite gives exceptional results. Carrying an R9 slip rating it provides a perfect high design temporary flooring solution for shop floors, retail outlets, concessions and exhibition spaces.</p>
-        </div>
-        <div class='sidebox ft'><a href='http://www.shoppingbali.com/Kim_Marsh'><img class='avatar' src='{{STATIC_URL}}assets/img/avatar2.jpg' alt='Kim_Marsh' /></a>
-          <p class='label label-important'><i class='icon-eye-open icon-white'></i> Kim_Marsh + 123</p></div>
-      </li>
+      {% for boker in bokers %}
+        <li class='span6'>
+          <div class='outer'>
+          <div class='view view-thumb thumbnail'>
+              <img src='/images/{{boker.photo.key()}}?type=home_thumb' alt='{{boker.description}}'>
+              <a href='/boker/{{boker.key().id()}}'>
+                <div class='mask'>
+                  <span class='keyhole'></span>
+                  <span class='label label-important icon stat-info'><i class='icon-star icon-white'></i> 123 <i class='icon-thumbs-up icon-white'></i> 123 <i class='icon-comment icon-white'></i> 12</span>
+                </div>
+              </a>
+          </div>
+          <p><span class='label label-inverse'>{{boker.user.name}}</span> {{boker.description}}</p>
+          </div>
+          <div class='sidebox ft'>
+            <a href='{{boker.user.profile_url}}'><img class='avatar' src='http://graph.facebook.com/{{ boker.user.id }}/picture?type=square' alt='theheartdirector' /></a>
+            {{boker.created|is_new}} <span><i class='icon-time'></i> {{boker.created|naturaltime}}</span>
+          </div>
+        </li>      
+    {% endfor %}
     </ul>
   </div>
 </div>

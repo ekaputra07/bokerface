@@ -6,6 +6,7 @@ url_patterns = [
     R('/', HomeHandler, name='home'),
     R('/logout', LogoutHandler, name='logout', strict_slash=True),
     R('/about', AboutHandler, name='about', strict_slash=True),
-    R('/upload', UploadHandler, name='upload', strict_slash=True),
-    R('/photo', PhotoHandler, name='photo', strict_slash=True),
+    R('/boker', BokerHandler, name='boker', strict_slash=True),
+    R('/boker/<boker_id>', BokerViewHandler, name='boker_view', strict_slash=True),
+    R('/images/<photo_id>', ImageHandler, name='photo_view', strict_slash=True),
 ]

@@ -6,14 +6,19 @@
 <div id='center' class='span9'>
   <div class='row-fluid'>
     <div class='span12'>
-      <div class='photo-main'>
-        <img src='{{STATIC_URL}}images/00.png' alt=''>
-      </div>
+
       <div class='outer'>
-        <p>Floorink Lite is ideal for that quick fix - high impact look. With photographic print quality - Floorink Lite gives exceptional results. Carrying an R9 slip rating it provides a perfect high design temporary flooring solution for shop floors, retail outlets, concessions and exhibition spaces.</p>
+      <div class='photo-main'>
+        <img src='/images/{{boker.photo.key()}}' alt='{{boker.description}}'>
       </div>
+        <p><span class='label label-inverse'>{{boker.user.name}}</span> {{boker.description}}</p>
+      </div>
+
       <div class='sidebox ft'>
-        <a href='http://www.shoppingbali.com/theheartdirector'><img class='avatar' src='{{STATIC_URL}}assets/img/avatar0.png' alt='theheartdirector' /></a> <p class='label label-important promo-it'><i class='icon-eye-open icon-white'></i> theheartdirector + 123</p>
+        <a href='{{boker.user.profile_url}}'>
+          <img class='avatar' src='http://graph.facebook.com/{{ boker.user.id }}/picture?type=square' alt='theheartdirector' />
+        </a> 
+        {{boker.created|is_new}} <span><i class='icon-time'></i> {{boker.created|naturaltime}}</span>
       </div>
     </div>
     <div class='span9 comment-box'>
