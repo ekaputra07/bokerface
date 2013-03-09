@@ -44,6 +44,14 @@
     <script src='{{STATIC_URL}}assets/js/jquery.js'></script>
     <script src='{{STATIC_URL}}assets/js/bootstrap.min.js'></script>
     <script src='{{STATIC_URL}}assets/js/hover-dropdown.min.js'></script>
+    
+    <script src='{{STATIC_URL}}assets/js/backbone/underscore-min.js'></script>
+    <script src='{{STATIC_URL}}assets/js/backbone/backbone-min.js'></script>
+    <script src='{{STATIC_URL}}assets/js/backbone/streams.js'></script>
+
+    {% block footerscript %}
+    {% endblock %}
+
     <script type='text/javascript'>
       $(function() {
         $('img[data-hover]').hover(function() {
@@ -75,8 +83,5 @@
         document.getElementById('fb-root').appendChild(e);
       }());
     </script>
-
-    {% block footerscript %}
-    {% endblock %}
   </body>
 </html>

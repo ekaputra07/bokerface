@@ -5,16 +5,15 @@ from google.appengine.api import images
 from libs import facebook
 
 import settings
-from utils import BaseHandler
+from utils import BaseHandler, naturaltime, is_new
 from models import *
+
 
 class HomeHandler(BaseHandler):
     template = 'index.html'
 
     def get(self):
-        bokers = Boker.all()
-        bokers.order('-created')
-        return self.render_response(self.template, {'bokers': bokers})
+        return self.render_response(self.template)
 
 
 class LogoutHandler(BaseHandler):
@@ -111,3 +110,39 @@ class ImageHandler(BaseHandler):
             if photo:
                 photo.delete()
         self.response.out.write('ok')
+
+
+# ================== Below Parts is Json Stream providers ======== #
+
+class StreamHandler(BaseHandler):
+
+    def get(self):
+        bokers = Boker.all()
+        bokers.order('-created')
+        objects = []
+        for b in bokers:
+
+            data = {
+                'user': {
+                    'id': b.user.id,
+                    'name': b.user.name,
+                    'profile_url': b.user.profile_url,
+                },
+                'photo': {
+                    'key': str(b.photo.key()),
+                },
+                'created': naturaltime(b.created),
+                'is_new': is_new(b.created),
+                'description': b.description,
+                'permalink': webapp2.uri_for('boker_view', boker_id=b.key().id()),
+            }
+
+            objects.append(data)
+
+        streams = dict(
+            meta='test',
+            objects=objects,
+        )
+
+        self.response.headers['Content-Type'] = 'application/json'
+        self.response.out.write(json.dumps(streams))
