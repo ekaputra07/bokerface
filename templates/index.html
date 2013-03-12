@@ -29,16 +29,17 @@
                 </div>
               </a>
           </div>
-          <p><span class='label label-inverse'><%= obj.user.name %></span> <%= obj.description %></p>
+          <p><span class='label label-inverse'><%= obj.user.username %></span> <%= obj.description %></p>
           </div>
           <div class='sidebox ft'>
-            <a href='<%= obj.user.profile_url %>'><img class='avatar' src='http://graph.facebook.com/<%= obj.user.id %>/picture?type=square' alt='theheartdirector' /></a>
+            <a href='<%= obj.user.url %>'><img class='avatar' src='http://graph.facebook.com/<%= obj.user.id %>/picture?type=square' alt='theheartdirector' /></a>
             <%= obj.is_new %> <span><i class='icon-time'></i> <%= obj.created %></span>
           </div>
         </li>
     </script>
 
     <script type="text/javascript">
+
         var BokersView = Backbone.View.extend({
             el: '#bokers-container',
             initialize: function(){
@@ -47,27 +48,43 @@
 
                 this.bokers = new Posts([], {});
                 this.bokers.bind('add', this.render_item, this);
+                this.loading = false;
             },
             render_item: function(boker){
-              console.log(boker)
                 this.$el.append(this.template({obj: boker.toJSON()}));
                 return this;
             },
 
             fetch_data: function(){
+                var that = this;
+
+                this.loading = true;
                 $('.loading').show();
                 this.bokers.fetch({
                     update: true,
                     success: function(){
+                        that.loading = false;
                         $('.loading').hide();
                     }
                 });
             }
         });
 
-        jQuery(document).ready(function(){
+        jQuery(document).ready(function($){
             var bokers_list = new BokersView;
             bokers_list.fetch_data();
+
+            $(window).scroll(function(){
+                if(bokers_list.loading==false){
+                    var closeToBottom = ($(window).scrollTop() + $(window).height() > $(document).height() - 100);
+                    if(closeToBottom) {
+                        if(bokers_list.bokers.next_url){
+                            bokers_list.bokers.url = bokers_list.bokers.next_url;
+                            bokers_list.fetch_data();
+                        }
+                    } 
+                }
+            });
         });
     </script>
 {% endblock %}

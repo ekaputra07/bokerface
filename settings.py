@@ -1,9 +1,11 @@
 import os
 
-DEBUG = False
+DEBUG = True
 
 TEMPLATES_DIR = os.path.join(os.path.dirname(__file__), 'templates/')
 STATIC_URL = '/static/'
+
+PAGINATION_LIMIT = 2
 
 APP_DOMAIN = 'http://www.bokerface.com/'
 FACEBOOK_APP_ID = '496912247033162'

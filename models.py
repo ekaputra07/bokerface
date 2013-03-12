@@ -4,12 +4,15 @@ class User(db.Model):
     """User account model"""
 
     id = db.StringProperty(required=True)
-    created = db.DateTimeProperty(auto_now_add=True)
-    updated = db.DateTimeProperty(auto_now=True)
-    name = db.StringProperty(required=True)
     profile_url = db.StringProperty(required=True)
     access_token = db.StringProperty(required=True)
+
+    username = db.StringProperty(required=True)
+    name = db.StringProperty()
     avatar = db.BlobProperty()
+
+    created = db.DateTimeProperty(auto_now_add=True)
+    updated = db.DateTimeProperty(auto_now=True)
 
 
 class Photo(db.Model):

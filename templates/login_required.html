@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div id='center' class='span6'>
+
+        <div class='alert alert-warning about'>
+          <h1>Login</h1>
+        </div>
+        <div class='row'>
+        <ul class='thumbnails'>
+        <li class='span6'>
+          <div class='outer about-txt'>
+            <p>Silahkan login terlebih dahulu dengan akun <strong>Facebook</strong> anda.</p>
+            <p><fb:login-button autologoutlink="true" scope="publish_stream">Login with Facebook</fb:login-button></p>
+          </div>
+        </li>
+        </ul>
+        </div>
+
+</div>
+{% endblock %}

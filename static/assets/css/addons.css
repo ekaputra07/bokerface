@@ -140,7 +140,7 @@ font-size: 90%; font-weight: normal;
 position: relative;
 display: -moz-inline-block;
 display: inline-block;
-margin-top: 9px;
+margin: 9px 15px 0 0; 
 box-sizing:border-box;
 -moz-box-sizing:border-box; /* Firefox */
 -webkit-box-sizing:border-box; /* Safari */

@@ -1,22 +1,53 @@
 import urllib2, urllib, json
+
 import webapp2
 from google.appengine.api import images
 
 from libs import facebook
 
 import settings
-from utils import BaseHandler, naturaltime, is_new
+from utils import BaseHandler
+from templatetags import naturaltime, is_new
 from models import *
+from forms import *
 
 
 class HomeHandler(BaseHandler):
+    """ Homepage """
+
     template = 'index.html'
 
     def get(self):
         return self.render_response(self.template)
 
 
+class UserHandler(BaseHandler):
+    """User profile page"""
+    template = 'user.html'
+
+    def get(self, username):
+        user = User.gql("WHERE username=:1", username).get()
+        if user:
+            return self.render_response(self.template, locals())
+        self.abort(404)
+
+
+class LoginHandler(BaseHandler):
+    """Login required page"""
+
+    template = 'login_required.html'
+
+    def get(self):
+        if not self.current_user:
+            return self.render_response(self.template)
+        else:
+            next = self.request.get('next') or self.uri_for('home')
+            self.redirect(next)
+
+
+
 class LogoutHandler(BaseHandler):
+    """Logout"""
 
     def get(self):
         if self.current_user is not None:
@@ -26,6 +57,8 @@ class LogoutHandler(BaseHandler):
 
 
 class AboutHandler(BaseHandler):
+    """ About Us page"""
+
     template = 'about.html'
 
     def get(self):
@@ -33,15 +66,23 @@ class AboutHandler(BaseHandler):
 
 
 class BokerViewHandler(BaseHandler):
+    """ Single boker viewer"""
+
     template = 'photo.html'
 
     def get(self, boker_id):
+
         boker = Boker.get_by_id(int(boker_id))
         if boker:
-            return self.render_response(self.template, {'boker': boker})
+            return self.render_response(self.template, locals())
+        else:
+            self.abort(404)
 
 
 class BokerHandler(BaseHandler):
+    """ Boker uploader view"""
+
+    login_required = True
     template = 'boker.html'
 
     def get(self):
@@ -76,16 +117,58 @@ class BokerHandler(BaseHandler):
             if photo and desc:
                 boker = Boker(user=user, photo=photo, description=desc)
                 boker.put()
-                self.redirect(webapp2.uri_for('boker_view', boker_id=boker.key().id() ))
+                self.redirect(self.uri_for('boker_view', boker_id=boker.key().id() ))
             else:
                 return self.render_response(self.template, {
                             'errors': 'Photo dan Deskripsi harus diisi.',
                             'photokey': photokey,
                             'desc': desc,
-                            }) 
+                            })
+
+
+class SettingHandler(BaseHandler):
+    """ Settings Editor view"""
+
+    login_required = True
+    template = 'settings.html'
+
+    def get(self):
+        querystring = self.request.GET
+
+        if self.request.get('tab') == 'profile' or not self.request.get('tab'):
+            title = 'Page Settings'
+            tab = 'profile'
+
+            user = User.get_by_key_name(self.current_user['id'])
+            form = ProfileForm(instance=user)
+
+        elif self.request.get('tab') == 'sharing':
+            title = 'Sharing Settings'
+            tab = 'sharing'
+
+        return self.render_response(self.template, locals())
+
+    def post(self):
+
+        if self.request.get('tab') == 'profile' or not self.request.get('tab'):
+            title = 'Page Settings'
+            tab = 'profile'
+
+            user = User.get_by_key_name(self.current_user['id'])
+            form = ProfileForm(self.request.POST, instance=user)
+
+            if form.is_valid():
+                form.save()
+                self.redirect(self.uri_for('settings')+'?tab=profile&success=1')
+
+            return self.render_response(self.template, locals())
+
+        elif self.request.get('tab') == 'sharing':
+            pass
 
 
 class ImageHandler(BaseHandler):
+    """ Image server"""
 
     def get(self, photo_id):
         photo = Photo.get(photo_id)
@@ -117,16 +200,37 @@ class ImageHandler(BaseHandler):
 class StreamHandler(BaseHandler):
 
     def get(self):
-        bokers = Boker.all()
-        bokers.order('-created')
+
+        page = int(self.request.get('page') or 1)
+        limit = int(self.request.get('limit') or settings.PAGINATION_LIMIT)
+        bokers = Boker.all().order('-created')
+
+        user_filter = self.request.get('username')
+
+        if user_filter:
+            user = User.gql("WHERE username=:1", user_filter).get()
+            bokers.filter('user =', user)
+
+
+        # calculate number of pages
+        total = bokers.count()
+        num_pages = total // limit
+        if total % limit > 0:
+            num_pages += 1
+
+        offset = limit*(page-1)
+        bokers = bokers.run(limit=limit, offset=offset)
+
+        # Get objects
         objects = []
         for b in bokers:
 
             data = {
                 'user': {
                     'id': b.user.id,
+                    'username': b.user.username,
                     'name': b.user.name,
-                    'profile_url': b.user.profile_url,
+                    'url': self.uri_for('user', username=b.user.username),
                 },
                 'photo': {
                     'key': str(b.photo.key()),
@@ -134,13 +238,23 @@ class StreamHandler(BaseHandler):
                 'created': naturaltime(b.created),
                 'is_new': is_new(b.created),
                 'description': b.description,
-                'permalink': webapp2.uri_for('boker_view', boker_id=b.key().id()),
+                'permalink': self.uri_for('boker_view', boker_id=b.key().id()),
             }
 
             objects.append(data)
 
+        # metadata
+        meta = {
+            'count': len(objects),
+            'limit': limit,
+            'page': page,
+            'next_url': (self.uri_for('streams') + '?page=' + str(page+1)) if page < num_pages else None,
+            'previous_url': (self.uri_for('streams') + '?page=' + str(page-1)) if page > 1 else None,
+            'pages': num_pages,
+        }
+
         streams = dict(
-            meta='test',
+            meta=meta,
             objects=objects,
         )
 

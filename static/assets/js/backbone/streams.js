@@ -8,6 +8,7 @@ var Posts = Backbone.Collection.extend({
 
     initialize: function([], options){
         this.query = options.query || '';
+        this.next_url = null;
     },
 
     url: function(){
@@ -15,6 +16,7 @@ var Posts = Backbone.Collection.extend({
     },
 
     parse: function(resp){
+        this.next_url = resp.meta.next_url;
         return resp.objects;
     }
 

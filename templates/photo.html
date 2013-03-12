@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}About Boker Face • ini expresi gue, mana expresi loe{% endblock %}
+{% block title %}{{boker.user.name}}{% endblock %}
 
 {% block content %}
 <div id='center' class='span9'>
@@ -11,7 +11,7 @@
       <div class='photo-main'>
         <img src='/images/{{boker.photo.key()}}' alt='{{boker.description}}'>
       </div>
-        <p><span class='label label-inverse'>{{boker.user.name}}</span> {{boker.description}}</p>
+        <p><span class='label label-inverse'>{{boker.user.username}}</span> {{boker.description}}</p>
       </div>
 
       <div class='sidebox ft'>

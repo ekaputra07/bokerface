@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block title %}{{title}}{% endblock %}
+
+{% block content %}
+<div id='center' class='span6'>
+
+        <div class='alert alert-warning about'>
+          <h1>Settings</h1>
+        </div>
+        <div class='row'>
+        <ul class='thumbnails'>
+        <li class='span6'>
+          <div class='outer about-txt'>
+
+            {% if querystring and querystring['welcome']=='1' %}
+            <div class="alert alert-error">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <h4>Perhatian!</h4>
+            Silahkan set <strong>username</strong> anda sebelum ber-boker ria lebih lanjut.
+            </div>
+            {% endif %}
+
+            {% if querystring and querystring['success']=='1' %}
+            <div class="alert alert-success">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <h4>Berhasil!</h4>
+            Profile anda berhasil disimpan.
+            </div>
+            {% endif %}
+
+            {% if querystring and querystring['success']=='2' %}
+            <div class="alert alert-success">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <h4>Berhasil!</h4>
+            Konfigurasi sharing anda berhasil disimpan.
+            </div>
+            {% endif %}
+
+            <ul class="nav nav-tabs">
+
+            <li {% if tab == 'profile' %}class="active"{% endif %}>
+            <a href="{{ uri_for('settings') }}?tab=profile">Profile</a>
+            </li>
+
+            <li {% if tab == 'sharing' %}class="active"{% endif %}>
+            <a href="{{ uri_for('settings') }}?tab=sharing">Sharing</a>
+            </ul>
+            
+            <form name="settings" method="post" action="">
+            {% if form %}
+
+                {% if form.errors %}
+                <div class="alert alert-error">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <h4>Error</h4>
+                {{ form.errors }}
+                </div>
+                {% endif %}
+
+
+                {{ form.as_p() }}
+            {% endif %}
+            <p><button class="btn btn-warning"><i class="icon icon-ok icon-white"></i> Simpan</button></p>
+            </form>
+
+          </div>
+        </li>
+        </ul>
+        </div>
+
+</div>
+{% endblock %}

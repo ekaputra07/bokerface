@@ -1,5 +1,3 @@
-from datetime import date, datetime, timedelta
-
 import webapp2
 import jinja2
 from webapp2_extras import sessions
@@ -21,6 +19,8 @@ class BaseHandler(webapp2.RequestHandler):
     more information.
     """
 
+    login_required = False
+
     @property
     def current_user(self):
         if settings.DEBUG:
@@ -33,6 +33,7 @@ class BaseHandler(webapp2.RequestHandler):
                 user = User(
                     key_name='111',
                     id='111',
+                    username='ekaputra07',
                     name='Eka Putra',
                     profile_url='https://facebook.com/ekaputra07',
                     access_token='adadhkudghoiudaugfikafgiufsft87wt84rusgfugf8efgsu',
@@ -40,6 +41,7 @@ class BaseHandler(webapp2.RequestHandler):
                 user.put()
 
             self.session['user'] = dict(
+                username=user.username,
                 name=user.name,
                 profile_url=user.profile_url,
                 id=user.id,
@@ -68,18 +70,20 @@ class BaseHandler(webapp2.RequestHandler):
                         graph = facebook.GraphAPI(cookie["access_token"])
                         profile = graph.get_object("me")
                         user = User(
-                            key_name=str(profile["id"]),
-                            id=str(profile["id"]),
-                            name=profile["name"],
-                            profile_url=profile["link"],
-                            access_token=cookie["access_token"]
+                            key_name=str(profile['id']),
+                            id=str(profile['id']),
+                            username=profile['username'],
+                            name=profile['name'],
+                            profile_url=profile['link'],
+                            access_token=cookie['access_token']
                         )
                         user.put()
-                    elif user.access_token != cookie["access_token"]:
-                        user.access_token = cookie["access_token"]
+                    elif user.access_token != cookie['access_token']:
+                        user.access_token = cookie['access_token']
                         user.put()
                     # User is now logged in
-                    self.session["user"] = dict(
+                    self.session['user'] = dict(
+                        username=user.username,
                         name=user.name,
                         profile_url=user.profile_url,
                         id=user.id,
@@ -95,8 +99,13 @@ class BaseHandler(webapp2.RequestHandler):
         http://webapp-improved.appspot.com/api/webapp2_extras/sessions.html
 
         """
+
         self.session_store = sessions.get_store(request=self.request)
         try:
+
+            # Check user login if required
+            self.if_login_required()
+
             webapp2.RequestHandler.dispatch(self)
         finally:
             self.session_store.save_sessions(self.response)
@@ -111,70 +120,39 @@ class BaseHandler(webapp2.RequestHandler):
         """
         return self.session_store.get_session()
 
+
+    def if_login_required(self):
+        """ Check if user need loggedin"""
+
+        if self.login_required:
+            if not self.current_user:
+                # Redirect to login page
+                self.redirect('%s?next=%s' % (self.uri_for('login'), self.request.path))
+            # else:
+            #     # Make use user have set their username before using
+            #     # this app further more.
+            #     user = User.get_by_key_name(self.current_user['id'])
+
+            #     # To avoid infinite redirect on settings page, redirect will only run on
+            #     # pages other than settings page.
+            #     if not user.username and self.request.path != self.uri_for('settings'):
+            #         self.redirect(self.uri_for('settings')+'?tab=profile&welcome=1')
+        return
+
     def render_response(self, tpl, context={}):
         """
-        Wrapper function for rendering template and out put.
+        Wrapper function for rendering template and output.
         tpl      : String -Template file name
         context  : Dict - Dictionary of data to render in template
         """
-        print self.current_user
         
         #add default/global data to context
         default_data = {
             'STATIC_URL': settings.STATIC_URL,
-            'user' : self.current_user,
+            'current_user' : self.current_user,
             'fbapp_id': settings.FACEBOOK_APP_ID,
         }
         context.update(default_data)
 
         template = jinja_environment.get_template(tpl)
         self.response.out.write(template.render(context))
-
-
-
-def naturaltime(value):
-    """
-    For date and time values shows how many seconds, minutes or hours ago
-    compared to current timestamp returns representing string.
-
-    This code snipets based on Django 1.4 Humanize tags.
-    """
-    if not isinstance(value, date): # datetime is a subclass of date
-        return value
-
-    now = datetime.now()
-
-    delta = now - value
-    if delta.seconds == 0:
-        return 'Sekarang'
-    elif delta.seconds < 60:
-        return '%d detik yang lalu' % delta.seconds
-    elif delta.seconds // 60 < 60:
-        count = delta.seconds // 60
-        return '%d menit yang lalu' % count
-    elif delta.seconds // 60 // 60 < 24:
-        count = delta.seconds // 60 // 60
-        return '%d jam yang lalu' % count
-    elif delta.seconds // 60 // 60 // 24 < 30:
-        count = delta.seconds // 60 // 60 // 24
-        return '%d hari yang lalu' % count
-    else:
-        count = delta.seconds // 60 // 60 // 24 // 30
-        return '%d bulan yang lalu' % count
-
-jinja_environment.filters['naturaltime'] = naturaltime
-
-
-def is_new(value):
-    """ Return 'baru' if posted under a hour ago"""
-
-    if not isinstance(value, date): # datetime is a subclass of date
-        return value
-
-    now = datetime.now()
-    delta = now - value
-    if delta.seconds // 60 < 60:
-        return '<span class="label label-success">baru</span>'
-    return ''
-
-jinja_environment.filters['is_new'] = is_new
