@@ -199,8 +199,15 @@ class ImageHandler(BaseHandler):
 
 class StreamHandler(BaseHandler):
 
+    def _build_qs(self, qs={}):
+        """Build querystring format from dictionary"""
+
+        query = [('%s=%s' % (k, v)) for k, v in qs.iteritems()]
+        return '&'.join(query)
+
     def get(self):
 
+        qs = {}
         page = int(self.request.get('page') or 1)
         limit = int(self.request.get('limit') or settings.PAGINATION_LIMIT)
         bokers = Boker.all().order('-created')
@@ -208,6 +215,7 @@ class StreamHandler(BaseHandler):
         user_filter = self.request.get('username')
 
         if user_filter:
+            qs['username'] = user_filter
             user = User.gql("WHERE username=:1", user_filter).get()
             bokers.filter('user =', user)
 
@@ -218,10 +226,11 @@ class StreamHandler(BaseHandler):
         if total % limit > 0:
             num_pages += 1
 
+        # Get objects
         offset = limit*(page-1)
         bokers = bokers.run(limit=limit, offset=offset)
 
-        # Get objects
+        # Build objects dict's
         objects = []
         for b in bokers:
 
@@ -244,12 +253,18 @@ class StreamHandler(BaseHandler):
             objects.append(data)
 
         # metadata
+        qs.update({'page': page+1})
+        next_qs = self._build_qs(qs)
+
+        qs.update({'page': page-1})
+        previous_qs = self._build_qs(qs)
+
         meta = {
             'count': len(objects),
             'limit': limit,
             'page': page,
-            'next_url': (self.uri_for('streams') + '?page=' + str(page+1)) if page < num_pages else None,
-            'previous_url': (self.uri_for('streams') + '?page=' + str(page-1)) if page > 1 else None,
+            'next_url': '%s?%s' % (self.uri_for('streams'), next_qs) if page < num_pages else None,
+            'previous_url': '%s?%s' % (self.uri_for('streams'), previous_qs) if page > 1 else None,
             'pages': num_pages,
         }
 
