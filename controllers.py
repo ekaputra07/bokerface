@@ -6,7 +6,7 @@ from google.appengine.api import images
 from libs import facebook
 
 import settings
-from utils import BaseHandler
+from utils import BaseHandler, crop_image
 from templatetags import naturaltime, is_new
 from models import *
 from forms import *
@@ -99,9 +99,11 @@ class BokerHandler(BaseHandler):
             ext = filename.split('.')[-1].lower()
 
             fd = self.request.body
-            photo_blob = Photo.create_blob(fd)
+            cropped, img = crop_image(fd, 'post', False)
+            photo_blob = Photo.create_blob(img)
 
-            photo = Photo(user=user, file=photo_blob, extension=ext, is_used=False)
+            extension = 'jpg' if cropped==True else ext
+            photo = Photo(user=user, file=photo_blob, extension=extension, is_used=False)
             photo.put()
 
             self.response.headers['Content-Type'] = 'application/json'
@@ -173,15 +175,16 @@ class ImageHandler(BaseHandler):
     def get(self, photo_id):
         photo = Photo.get(photo_id)
         if photo:
+
+            if self.request.get('type'):
+                cropped, img = crop_image(photo.file, self.request.get('type'), True)
+                if img:
+                    self.response.headers['Content-Type'] = 'image/jpg'
+                    self.response.out.write(img)
+                else:
+                    self.response.out.write('No image')
+
             self.response.headers['Content-Type'] = str('image/%s' % photo.extension)
-
-            if self.request.get('type') == 'home_thumb':
-                img = images.Image(photo.file)
-
-                if img.width > 620 or img.height > 620:
-                    thumb = images.resize(photo.file, width=620, height=620)
-                    self.response.out.write(thumb)
-
             self.response.out.write(photo.file)
 
         else:

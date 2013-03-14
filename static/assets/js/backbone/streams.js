@@ -6,7 +6,7 @@ var Posts = Backbone.Collection.extend({
 
     model: Post,
 
-    initialize: function([], options){
+    initialize: function(models, options){
         this.query = options.query || '';
         this.next_url = null;
     },

@@ -15,8 +15,8 @@
       </div>
 
       <div class='sidebox ft'>
-        <a href='{{boker.user.profile_url}}'>
-          <img class='avatar' src='http://graph.facebook.com/{{ boker.user.id }}/picture?type=square' alt='theheartdirector' />
+        <a href='{{ uri_for('user', username=boker.user.username) }}'>
+          <img class='avatar' src='http://graph.facebook.com/{{ boker.user.id }}/picture?type=square' alt='{{boker.user.username}}' />
         </a> 
         {{boker.created|is_new}} <span><i class='icon-time'></i> {{boker.created|naturaltime}}</span>
       </div>

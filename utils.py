@@ -1,6 +1,7 @@
 import webapp2
 import jinja2
 from webapp2_extras import sessions
+from google.appengine.api import images
 
 from libs import facebook
 
@@ -156,3 +157,38 @@ class BaseHandler(webapp2.RequestHandler):
 
         template = jinja_environment.get_template(tpl)
         self.response.out.write(template.render(context))
+
+
+def crop_image(raw_img, size_id, strict=True):
+    """
+    Crop images based on size id specified
+    Params:
+    raw_img : raw image source
+    size_id : size ID string available in settings
+    strict  : (True) always crop, (False) crop only if dimension larger
+              than size specified.
+    """
+
+    if size_id in settings.IMAGE_SIZES:
+        w = settings.IMAGE_SIZES[size_id][0]
+        h = settings.IMAGE_SIZES[size_id][1]
+
+        img = images.Image(raw_img)
+
+        crop = True
+        if not strict:
+            # Crop only if out of dimensions
+            if img.width < w and img.height < h:
+                crop = False
+
+        if crop:
+            try:
+                img.resize(w,h)
+                img = img.execute_transforms(output_encoding=images.JPEG)
+            except:
+                return (False, False)
+            else:
+                return (True, img)
+        else:
+            return (False, raw_img)
+    return (False, False)
