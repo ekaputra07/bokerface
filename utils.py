@@ -29,15 +29,15 @@ class BaseHandler(webapp2.RequestHandler):
 
             # Since we can't test real FB user on localhost
             # I made a fake account
-            user = User.get_by_key_name('111')
+            user = User.get_by_key_name('100000145269859')
             if not user:
                 user = User(
-                    key_name='111',
-                    id='111',
+                    key_name='100000145269859',
+                    id='100000145269859',
                     username='ekaputra07',
                     name='Eka Putra',
                     profile_url='https://facebook.com/ekaputra07',
-                    access_token='adadhkudghoiudaugfikafgiufsft87wt84rusgfugf8efgsu',
+                    access_token='AAAHD8GX4DUoBAPZBmp2UgUd4VHO7i5mnZApCfJ84cH4InLw6I1UpH6wkN076CPprMkQZAg9gAeu4xJelaP7vErxcrgPn7VZCdFfmUReP6ZC29tYHui5OO',
                 )
                 user.put()
 
@@ -70,10 +70,12 @@ class BaseHandler(webapp2.RequestHandler):
                         # Not an existing user so get user info
                         graph = facebook.GraphAPI(cookie["access_token"])
                         profile = graph.get_object("me")
+
+                        username = profile.get('username', profile['id'])
                         user = User(
                             key_name=str(profile['id']),
                             id=str(profile['id']),
-                            username=profile['username'],
+                            username=username,
                             name=profile['name'],
                             profile_url=profile['link'],
                             access_token=cookie['access_token']

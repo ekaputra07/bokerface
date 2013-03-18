@@ -99,6 +99,7 @@ class BokerHandler(BaseHandler):
             ext = filename.split('.')[-1].lower()
 
             fd = self.request.body
+
             cropped, img = crop_image(fd, 'post', False)
             photo_blob = Photo.create_blob(img)
 
@@ -119,6 +120,23 @@ class BokerHandler(BaseHandler):
             if photo and desc:
                 boker = Boker(user=user, photo=photo, description=desc)
                 boker.put()
+
+
+                # graph = facebook.GraphAPI(settings.PAGE_ACCESS_TOKEN)
+                # attachment = {
+                #     "name": "Link name",
+                #     "link": "http://www.example.com/",
+                #     "caption": "{*actor*} posted a new review",
+                #     "description": "This is a longer description of the attachment",
+                #     "picture": "http://www.bokerface.com/images/ag9zfmJva2VyZmFjZS1hcHByDQsSBVBob3RvGNGMAQw",
+                # }
+                # graph.put_wall_post(desc, attachment)
+
+                graph = facebook.GraphAPI(settings.PAGE_ACCESS_TOKEN)
+                file = urllib2.urlopen(settings.APP_DOMAIN + self.uri_for('image', photo_id=photo.key()))
+                # file = urllib2.urlopen('http://www.bokerface.com/images/ag9zfmJva2VyZmFjZS1hcHByDQsSBVBob3RvGNGMAQw')
+                graph.put_photo(file, message=desc)
+
                 self.redirect(self.uri_for('boker_view', boker_id=boker.key().id() ))
             else:
                 return self.render_response(self.template, {
