@@ -917,6 +917,10 @@
   .modal.fade.in {
     top: 20px;
   }
+  
+  #photofix {position: relative;}
+
+  .photo-lain {padding: 0; width:100%; max-width: 100%; float: left;}
 }
 
 @media (max-width: 480px) {

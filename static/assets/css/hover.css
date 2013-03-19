@@ -15,7 +15,6 @@
    -ms-transform: translateY(-100px);
    transform: translateY(-100px);
 }
-/*
 .view-thumb .icon.stat-info{
    -ms-filter: "progid: DXImageTransform.Microsoft.Alpha(Opacity=0)";
    filter: alpha(opacity=0);
@@ -26,7 +25,6 @@
    -ms-transform: translateX(-100px);
    transform: translateX(-100px);
 }
-*/
 .view-thumb p {
    -ms-filter: "progid: DXImageTransform.Microsoft.Alpha(Opacity=0)";
    filter: alpha(opacity=0);

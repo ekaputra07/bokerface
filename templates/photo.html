@@ -3,56 +3,60 @@
 {% block title %}{{boker.user.name}}{% endblock %}
 
 {% block content %}
-<div id='center' class='span9'>
-  <div class='row-fluid'>
-    <div class='span12'>
-
-      <div class='outer'>
-      <div class='photo-main'>
-        <img src='/images/{{boker.photo.key()}}' alt='{{boker.description}}'>
-      </div>
-        <p><span class='label label-inverse'>{{boker.user.username}}</span> {{boker.description}}</p>
-      </div>
-
-      <div class='sidebox ft'>
-        <a href='{{ uri_for('user', username=boker.user.username) }}'>
-          <img class='avatar' src='http://graph.facebook.com/{{ boker.user.id }}/picture?type=square' alt='{{boker.user.username}}' />
-        </a> 
-        {{boker.created|is_new}} <span><i class='icon-time'></i> {{boker.created|naturaltime}}</span>
-      </div>
-    </div>
-    <div class='span9 comment-box'>
-      <hr>
-      <span class='button-stat'><a href='#'><button class='btn btn-warning btn-small'><i class='icon-star icon-white'></i> Star 2</button></a> <a href='#comment'><button class='btn btn-inverse btn-small'><i class='icon-comment icon-white'></i> Comment 2</button></a> <a href='#'><button class='btn btn-inverse btn-small'><i class='icon-thumbs-up icon-white'></i> Like 3</button></a></span>
-      <hr>
-      <a href='http://www.shoppingbali.com/theheartdirector'><img class='avatar-comment' src='{{STATIC_URL}}assets/img/avatar0.png' alt='theheartdirector' /> <p class='label label'>theheartdirector</p></a> 
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-      <a href='http://www.shoppingbali.com/LLKoOLReL'><img class='avatar-comment' src='{{STATIC_URL}}assets/img/avatar1.png' alt='LLKoOLReL' /> <p class='label label'>LLKoOLReL</p></a>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-      <a href='http://www.shoppingbali.com/LLKoOLReL'><img class='avatar-comment' src='{{STATIC_URL}}assets/img/avatar1.png' alt='LLKoOLReL' /> <p class='label label'>LLKoOLReL</p></a>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-      <hr>
-      <div class='row-fluid'>
-        <div class='span1'>
-          <a href='http://www.shoppingbali.com/theheartdirector'><img class='avatar-comment' src='{{STATIC_URL}}assets/img/avatar0.png' alt='theheartdirector' /></a>
+<div id='center' class='span12'>
+        <div class='row'>  
+          <div id='photofix' class='span7'>
+            <div class='photo-main'> 
+              <div class='outerphoto'>
+                <!-- AddThis Button BEGIN -->
+                <div class="addthis_toolbox addthis_default_style ">
+                <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+                <a class="addthis_button_tweet" tw:via="bokerface"></a>
+                <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+                </div>
+                <script type="text/javascript">
+                  var addthis_config = {
+                      username: "bokerface",
+                      ui_header_color: "#ffffff",
+                      ui_header_background: "#c70000",
+                      ui_cobrand: "bokerface.com",
+                      ui_use_addressbook: true,
+                      data_ga_property: "UA-1149719-10",
+                      data_track_clickback: true
+                  }
+                  var addthis_share = {
+                      templates: {
+                          twitter: '{{title}} {{url}} via @bokerface #bokerface #boker #bf',
+                      }
+                  }
+                  </script>
+                  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=bengkelmediagroup"></script>
+                  <!-- AddThis Button END -->
+                <img src='{{ uri_for('image', photo_id=boker.photo.key()) }}' alt='{{boker.description}}' height="100">
+              </div>
+            </div>
+          </div>
+          <div class='span5 comment-box'>
+            <div class='outertxt'>
+              <p><span class='label label-inverse'>{{boker.user.username}}</span> {{boker.description}}</p>
+            </div>
+            <div class='sidebox ft'>
+              <a href='{{ uri_for('user', username=boker.user.username) }}'><img class='avatar' src='http://graph.facebook.com/{{ boker.user.id }}/picture?type=square' alt='{{boker.user.username}}' /></a>
+              {{boker.created|is_new}} <span><i class='icon-time'></i> {{boker.created|naturaltime}}</span>
+            </div>
+            <hr>
+            <div class="comment-main">
+              <span class='button-stat'>
+                <a href='#'>
+                  <button class='btn btn-block btn-large btn-info'><i class='icon-star icon-white'></i>Votes Boker Star Idol (2)</button>
+                </a>
+              </span>
+            </div>
+            <hr>
+            <div class="comment-main" style="max-width:470px">
+              <div class="fb-comments" data-href="http://sudigital.com/labs/bf/photo.html" data-width="470" data-num-posts="20"></div>
+            </div>
         </div>
-        <div id='comment' class='span11'>
-          <textarea rows='2' class='span12 comment-textarea' placeholder='Use @ to mention someone'></textarea>
-          <button class='btn btn-inverse'>Post comment</button>
-        </div>
       </div>
     </div>
-    <div class='span3'>
-      <div class='alert alert-block info photo-lain'>
-        <h4>Photo Boker lainnya dari user ini</h4>
-        <hr>
-        <img src='{{STATIC_URL}}images/01.jpg' alt=''>
-        <p>Floorink Lite is ideal for that quick fix - high impact look. With photographic print quality ..</p>
-        <hr>
-        <img src='{{STATIC_URL}}images/01.jpg' alt=''>
-        <p>Floorink Lite is ideal for that quick fix - high impact look. With photographic print quality ..</p>
-      </div>
-    </div>
-  </div>
-</div>
 {% endblock %}

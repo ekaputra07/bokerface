@@ -2,7 +2,13 @@
 <html>
 <head>
 <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'/>
-<meta http-equiv='Content-Language' content='{id, en}'/>
+
+<meta name="google-site-verification" content="tfsfJmPwdsukhLFYb2s-D86Jr7UOLeo1bWNSrUK0CSA" />
+<meta name="msvalidate.01" content="F1DD28D9E465F29AE2AD0BB844C05C99" />
+<meta name="alexaVerifyID" content="3sylDTpaSwmN7OOfiht2aJHytxM" />
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
 <title>{% block title %}Boker Face{% endblock %} • ini expresi gue, mana expresi loe</title>
 <link href='{{STATIC_URL}}assets/css/docs.css' rel='stylesheet'>
 <link href='{{STATIC_URL}}assets/css/bootstrap.css' rel='stylesheet'>
@@ -11,9 +17,9 @@
     padding-top: 60px;
   }
 </style>
-<link href='{{STATIC_URL}}assets/css/bootstrap-responsive.css' rel='stylesheet'>
 <link href='{{STATIC_URL}}assets/css/hover.css' rel='stylesheet'>
 <link href='{{STATIC_URL}}assets/css/addons.css' rel='stylesheet'>
+<link href='{{STATIC_URL}}assets/css/bootstrap-responsive.css' rel='stylesheet'>
 <link href='{{STATIC_URL}}assets/img/favicon.png' rel='shortcut icon' type='image/x-icon' />
 <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
 <!--[if lt IE 9]>
@@ -22,6 +28,7 @@
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' />
 </head>
   <body>
+    <div id="fb-root"></div>
     {% include 'topbar.html' %}
     
     <div class='container'>
@@ -32,12 +39,10 @@
   <div class='footer'>
     <div id='center' class='span9'>
       <div class='row'>
-         &copy; 2013 <a href='http://www.bokerface.com'>BokerFace (BF)</a>
+             &copy; 2013 <a href='http://bokerface.com'>BokerFace.com (BF)</a> hasil kolaborasi <a href='http://ilabbali.org/labs/' target='_blank'>Labs</a> kontributor @sudieartha + @ekaputra di <a href='http://ilabbali.org' target='_blank'>Ilabbali.org</a>
       </div>
     </div>
   </div>
-    <div id="fb-root"></div>
-    
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
@@ -82,6 +87,20 @@
         e.async = true;
         document.getElementById('fb-root').appendChild(e);
       }());
+    </script>
+
+    <script type="text/javascript">
+      //BokerFace.com UA-1149719-10
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-1149719-10']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
     </script>
   </body>
 </html>

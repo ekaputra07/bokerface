@@ -1,6 +1,8 @@
 body {background: #FFFFFF; color: #333;}
 .span6 {position:relative;}
 .thumbnails li.span6 {margin-bottom: 20px;}
+.outerphoto {padding: 1px;background: #fff; box-shadow: rgba(0, 0, 0, 0.14902) 0px 5px 10px !important;}
+.outertxt {padding: 5px 0;background: #fff; box-shadow: rgba(0, 0, 0, 0.14902) 0px 5px 10px !important;}
 .outer {border-bottom: 5px solid #fff;background: #fff; box-shadow: rgba(0, 0, 0, 0.14902) 0px 5px 10px !important;}
 .thumbnails {float: none; margin: 0 0 0 0;}
 .thumbnail {padding:0;border:0;-webkit-border-radius: 0px;-moz-border-radius: 0px;border-radius: 0px;}
@@ -12,10 +14,11 @@ body {background: #FFFFFF; color: #333;}
 .span4.product-info {float: right; display: inline-table;}
 .product-related {float: none; display: block; clear: both; margin-top: 20px;}
 ul.product-todo {list-style: none; margin-left: 0px;}
-.span9.comment-box {margin-bottom: 20px; margin-left: 0px; padding: 5px;}
+.span5.comment-box {float:right; margin-bottom: 20px; margin-left:10px; padding: 0;}
+.comment-main {padding: 0 5px;}
 .photo-main {background: #333;}
-.photo-main img {display: block; margin: 0 auto;}
-.photo-lain {padding: 0;}
+.photo-main img {display: block; margin: 3px auto;}
+.photo-lain {padding: 0; width:100%; max-width: 49%; float: left;}
 .photo-lain hr {
 margin: 5px 0;
 border: 0;
@@ -29,9 +32,12 @@ border-bottom: 1px solid #ffffff;
 .span4 .alert.alert-block.info {margin-bottom: 0;}
 .row .span4 .alert.alert-block.info {margin-bottom: 20px;}
 .comment-box p {font-size: 12px;}
+.outertxt p {padding: 10px 10px 0 10px; font-size: 14px;}
 .comment-textarea {display: block;}
 textarea {resize:vertical;}
 .avatar-comment {display: block; width: 33px; height: 33px; float: left; margin: 0 15px 10px 0;}
+.avatar-comment-active {display: block; float: left; margin: 0 15px 10px 0;}
+.span1.avatar {width: 33px; float: left;}
 .sidebox p {text-align:center;}
 .sidebox .label {margin: 20px 5px 0 5px;}
 .sidebox button {float: right; margin: 15px 20px 0 0;}
@@ -140,14 +146,9 @@ font-size: 90%; font-weight: normal;
 position: relative;
 display: -moz-inline-block;
 display: inline-block;
-margin: 9px 15px 0 0; 
 box-sizing:border-box;
 -moz-box-sizing:border-box; /* Firefox */
 -webkit-box-sizing:border-box; /* Safari */
-}
-
-.fb-btn-li .fb_iframe_widget{
-    margin: 0 0 0 21px;
 }
 
 form {
@@ -190,4 +191,9 @@ blockquote small {
     line-height: 20px;
 }
 .alert.alert-block.upload.box {padding: 5px;}
+
+#photofix {position: relative;}
+
+.social-btn {margin: 5px 0 15px 0;}
+.navbar-social-btn {margin: 10px 15px 0 15px;}
 .loading{text-align:center;}

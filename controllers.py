@@ -133,7 +133,7 @@ class BokerHandler(BaseHandler):
                 # file = urllib2.urlopen('http://www.bokerface.com/images/ag9zfmJva2VyZmFjZS1hcHByDQsSBVBob3RvGNGMAQw')
 
                 boker_url = settings.APP_DOMAIN + self.uri_for('boker_view', boker_id=boker.key().id())
-                message = "%s\n%s\n\nMana Ekpresi Gokil Loe? check http://bokerface.com" % (desc, boker_url)
+                message = "%s\n%s\n\nApakah Anda lagi Boker hari ini? cekidot http://bokerface.com" % (desc, boker_url)
 
                 graph = facebook.GraphAPI(settings.PAGE_ACCESS_TOKEN)
                 file = urllib2.urlopen(settings.APP_DOMAIN + self.uri_for('image', photo_id=photo.key()))
