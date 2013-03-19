@@ -121,7 +121,6 @@ class BokerHandler(BaseHandler):
                 boker = Boker(user=user, photo=photo, description=desc)
                 boker.put()
 
-
                 # graph = facebook.GraphAPI(settings.PAGE_ACCESS_TOKEN)
                 # attachment = {
                 #     "name": "Link name",
@@ -131,11 +130,14 @@ class BokerHandler(BaseHandler):
                 #     "picture": "http://www.bokerface.com/images/ag9zfmJva2VyZmFjZS1hcHByDQsSBVBob3RvGNGMAQw",
                 # }
                 # graph.put_wall_post(desc, attachment)
+                # file = urllib2.urlopen('http://www.bokerface.com/images/ag9zfmJva2VyZmFjZS1hcHByDQsSBVBob3RvGNGMAQw')
+
+                boker_url = settings.APP_DOMAIN + self.uri_for('boker_view', boker_id=boker.key().id())
+                message = "%s\n%s\n\nMana Ekpresi Gokil Loe? check http://bokerface.com" % (desc, boker_url)
 
                 graph = facebook.GraphAPI(settings.PAGE_ACCESS_TOKEN)
                 file = urllib2.urlopen(settings.APP_DOMAIN + self.uri_for('image', photo_id=photo.key()))
-                # file = urllib2.urlopen('http://www.bokerface.com/images/ag9zfmJva2VyZmFjZS1hcHByDQsSBVBob3RvGNGMAQw')
-                graph.put_photo(file, message=desc, album_id=settings.TIMELINE_ALBUM_ID)
+                graph.put_photo(file, message=message, album_id=settings.TIMELINE_ALBUM_ID)
 
                 self.redirect(self.uri_for('boker_view', boker_id=boker.key().id() ))
             else:
