@@ -135,7 +135,7 @@ class BokerHandler(BaseHandler):
                 graph = facebook.GraphAPI(settings.PAGE_ACCESS_TOKEN)
                 file = urllib2.urlopen(settings.APP_DOMAIN + self.uri_for('image', photo_id=photo.key()))
                 # file = urllib2.urlopen('http://www.bokerface.com/images/ag9zfmJva2VyZmFjZS1hcHByDQsSBVBob3RvGNGMAQw')
-                graph.put_photo(file, message=desc)
+                graph.put_photo(file, message=desc, album_id=settings.TIMELINE_ALBUM_ID)
 
                 self.redirect(self.uri_for('boker_view', boker_id=boker.key().id() ))
             else:
