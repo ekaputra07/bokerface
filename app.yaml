@@ -11,6 +11,18 @@ handlers:
 - url: /static/
   static_dir: static
 
+- url: /3sylDTpaSwmN7OOfiht2aJHytxM.html
+  static_files: static/3sylDTpaSwmN7OOfiht2aJHytxM.html
+  upload: static/3sylDTpaSwmN7OOfiht2aJHytxM.html
+
+- url: /BingSiteAuth.xml
+  static_files: static/BingSiteAuth.xml
+  upload: static/BingSiteAuth.xml
+
+- url: /google47f813d05fe65499.html
+  static_files: static/google47f813d05fe65499.html
+  upload: static/google47f813d05fe65499.html
+
 - url: /.*
   script: main.app
 
