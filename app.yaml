@@ -4,6 +4,9 @@ runtime: python27
 api_version: 1
 threadsafe: true
 
+# env_variables:
+#   DJANGO_SETTINGS_MODULE: 'settings'
+
 handlers:
 - url: /static/
   static_dir: static
@@ -16,3 +19,6 @@ libraries:
   version: latest
 - name: django
   version: 1.3
+
+builtins:
+- deferred: on

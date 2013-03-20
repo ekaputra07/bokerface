@@ -2,6 +2,7 @@ import urllib2, urllib, json
 
 import webapp2
 from google.appengine.api import images
+from google.appengine.ext import deferred
 
 from libs import facebook
 
@@ -10,6 +11,7 @@ from utils import BaseHandler, crop_image
 from templatetags import naturaltime, is_new
 from models import *
 from forms import *
+from workers import *
 
 
 class HomeHandler(BaseHandler):
@@ -89,7 +91,6 @@ class BokerHandler(BaseHandler):
         return self.render_response(self.template)
 
     def post(self):
-
         user = User.get_by_key_name(self.current_user['id'])
 
         #  action upload a photo
@@ -121,23 +122,9 @@ class BokerHandler(BaseHandler):
                 boker = Boker(user=user, photo=photo, description=desc)
                 boker.put()
 
-                # graph = facebook.GraphAPI(settings.PAGE_ACCESS_TOKEN)
-                # attachment = {
-                #     "name": "Link name",
-                #     "link": "http://www.example.com/",
-                #     "caption": "{*actor*} posted a new review",
-                #     "description": "This is a longer description of the attachment",
-                #     "picture": "http://www.bokerface.com/images/ag9zfmJva2VyZmFjZS1hcHByDQsSBVBob3RvGNGMAQw",
-                # }
-                # graph.put_wall_post(desc, attachment)
-                # file = urllib2.urlopen('http://www.bokerface.com/images/ag9zfmJva2VyZmFjZS1hcHByDQsSBVBob3RvGNGMAQw')
-
-                boker_url = settings.APP_DOMAIN + self.uri_for('boker_view', boker_id=boker.key().id())
-                message = "%s\n%s\n\nApakah Anda lagi Boker hari ini? cekidot http://bokerface.com" % (desc, boker_url)
-
-                graph = facebook.GraphAPI(settings.PAGE_ACCESS_TOKEN)
-                file = urllib2.urlopen(settings.APP_DOMAIN + self.uri_for('image', photo_id=photo.key()))
-                graph.put_photo(file, message=message, album_id=settings.TIMELINE_ALBUM_ID)
+                # Run task: Posting to page wall
+                user_access_token = self.current_user['access_token']
+                deferred.defer(post_page_wall, user_access_token, boker.key().id(), photokey, desc)
 
                 self.redirect(self.uri_for('boker_view', boker_id=boker.key().id() ))
             else:
