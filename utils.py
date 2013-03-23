@@ -154,6 +154,7 @@ class BaseHandler(webapp2.RequestHandler):
             'STATIC_URL': settings.STATIC_URL,
             'current_user' : self.current_user,
             'fbapp_id': settings.FACEBOOK_APP_ID,
+            'app_domain': settings.APP_DOMAIN,
         }
         context.update(default_data)
 

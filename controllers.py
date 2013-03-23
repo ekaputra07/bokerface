@@ -37,15 +37,15 @@ class UserHandler(BaseHandler):
 class LoginHandler(BaseHandler):
     """Login required page"""
 
-    template = 'login_required.html'
+    template = 'login.html'
 
     def get(self):
         if not self.current_user:
-            return self.render_response(self.template)
+            msg = self.request.get('msg')
+            return self.render_response(self.template, {'msg': msg})
         else:
             next = self.request.get('next') or self.uri_for('home')
             self.redirect(next)
-
 
 
 class LogoutHandler(BaseHandler):

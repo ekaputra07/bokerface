@@ -8,6 +8,7 @@
 <meta name="alexaVerifyID" content="3sylDTpaSwmN7OOfiht2aJHytxM" />
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta property="fb:app_id" content="{{fbapp_id}}"/>
 
 <title>{% block title %}Boker Face{% endblock %} • ini expresi gue, mana expresi loe</title>
 <link href='{{STATIC_URL}}assets/css/docs.css' rel='stylesheet'>
@@ -30,6 +31,15 @@
 </head>
   <body>
     <div id="fb-root"></div>
+    <script>
+    (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/all.js#appId={{fbapp_id}}&xfbml=1";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+    </script>
     {% include 'topbar.html' %}
     
     <div class='container'>
@@ -75,19 +85,25 @@
 
     <script>
       window.fbAsyncInit = function() {
-        FB.init({appId: '{{ fbapp_id }}', status: true, cookie: true,
-                 xfbml: true});
+        FB.init({appId: '{{ fbapp_id }}', status: true, cookie: true, xfbml: true});
         FB.Event.subscribe('{% if current_user %}auth.logout{% else %}auth.login{% endif %}', function(response) {
-          {% if current_user %} window.location = "/logout" {% else %} window.location.reload(); {% endif %}
+          {% if current_user %} window.location = "{{ uri_for('logout') }}" {% else %} window.location.reload(); {% endif %}
         });
       };
-      (function() {
-        var e = document.createElement('script');
-        e.type = 'text/javascript';
-        e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
-        e.async = true;
-        document.getElementById('fb-root').appendChild(e);
-      }());
+
+      {% if current_user %}
+      function fb_logout(){
+        FB.logout();
+      }
+      {% else %}
+      function fb_login(){
+        FB.login(function(resp){
+          if(!response.authResponse){
+            window.location = "{{ uri_for('login') }}?msg=fb_error";
+          }
+        }, {scope: 'publish_stream'});
+      }
+      {% endif %}
     </script>
 
     <script type="text/javascript">
