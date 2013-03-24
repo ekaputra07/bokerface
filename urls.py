@@ -13,4 +13,5 @@ url_patterns = [
     R('/streams', StreamHandler, name='streams', strict_slash=True),
     R('/settings', SettingHandler, name='settings', strict_slash=True),
     R('/<username>', UserHandler, name='user', strict_slash=True),
+    R('/ajax-action', AjaxHandler, name='ajax_handler', strict_slash=True),
 ]

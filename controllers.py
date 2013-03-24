@@ -209,6 +209,19 @@ class ImageHandler(BaseHandler):
         self.response.out.write('ok')
 
 
+# ================== Below Parts is Ajax Action handler ======== #
+
+class AjaxHandler(BaseHandler):
+
+    def get(self):
+        self.response.out.write('Invalid Request!.')
+
+    def post(self):
+        action = self.request.get('action')
+        self.response.out.write(action)
+
+
+
 # ================== Below Parts is Json Stream providers ======== #
 
 class StreamHandler(BaseHandler):

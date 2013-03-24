@@ -60,13 +60,13 @@
     <script src='{{STATIC_URL}}assets/js/jquery.js'></script>
     <script src='{{STATIC_URL}}assets/js/bootstrap.min.js'></script>
     <script src='{{STATIC_URL}}assets/js/hover-dropdown.min.js'></script>
+    <script src='{{STATIC_URL}}assets/js/ajax-action.js'></script>
     
     <script src='{{STATIC_URL}}assets/js/backbone/underscore-min.js'></script>
     <script src='{{STATIC_URL}}assets/js/backbone/backbone-min.js'></script>
     <script src='{{STATIC_URL}}assets/js/backbone/streams.js'></script>
 
-    {% block footerscript %}
-    {% endblock %}
+    {% block footerscript %}{% endblock %}
 
     <script type='text/javascript'>
       $(function() {
@@ -89,6 +89,8 @@
         FB.Event.subscribe('{% if current_user %}auth.logout{% else %}auth.login{% endif %}', function(response) {
           {% if current_user %} window.location = "{{ uri_for('logout') }}" {% else %} window.location.reload(); {% endif %}
         });
+
+        {% block fb_event_scripts %}{% endblock %}
       };
 
       {% if current_user %}
