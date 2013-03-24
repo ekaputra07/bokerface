@@ -71,7 +71,7 @@ class BaseHandler(webapp2.RequestHandler):
                         graph = facebook.GraphAPI(cookie["access_token"])
                         profile = graph.get_object("me")
 
-                        username = profile.get('username', profile['id'])
+                        username = profile.get('username', 'user%s' % str(profile['id'])[-4:])
                         user = User(
                             key_name=str(profile['id']),
                             id=str(profile['id']),

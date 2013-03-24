@@ -13,14 +13,6 @@
         <li class='span6'>
           <div class='outer about-txt'>
 
-            {% if querystring and querystring['welcome']=='1' %}
-            <div class="alert alert-error">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-            <h4>Perhatian!</h4>
-            Silahkan set <strong>username</strong> anda sebelum ber-boker ria lebih lanjut.
-            </div>
-            {% endif %}
-
             {% if querystring and querystring['success']=='1' %}
             <div class="alert alert-success">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -43,22 +35,12 @@
             <a href="{{ uri_for('settings') }}?tab=profile">Profile</a>
             </li>
 
-            <li {% if tab == 'sharing' %}class="active"{% endif %}>
-            <a href="{{ uri_for('settings') }}?tab=sharing">Sharing</a>
+            <!-- <li {% if tab == 'sharing' %}class="active"{% endif %}>
+            <a href="{{ uri_for('settings') }}?tab=sharing">Sharing</a></li> -->
             </ul>
             
             <form name="settings" method="post" action="">
             {% if form %}
-
-                {% if form.errors %}
-                <div class="alert alert-error">
-                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                <h4>Error</h4>
-                {{ form.errors }}
-                </div>
-                {% endif %}
-
-
                 {{ form.as_p() }}
             {% endif %}
             <p><button class="btn btn-warning"><i class="icon icon-ok icon-white"></i> Simpan</button></p>

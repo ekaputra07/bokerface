@@ -6,6 +6,7 @@ class User(db.Model):
     id = db.StringProperty(required=True)
     profile_url = db.StringProperty(required=True)
     access_token = db.StringProperty(required=True)
+    is_admin = db.BooleanProperty(default=False)
 
     username = db.StringProperty(required=True)
     name = db.StringProperty()

@@ -39,9 +39,9 @@
             </a>
             <ul class='dropdown-menu'>
               <li><a href='{{ uri_for('user', username=current_user.username) }}'>My Bokers</a></li>
-              <!-- <li><a href=''>Settings</a></li> -->
-              <li class="nav-header">Keluar Boker</li>
-              <li><a href='javascript:;' onclick="fb_logout();" title="Log out"><strong>Log out</strong></a></li>
+              <li><a href='{{ uri_for('settings') }}'>Settings</a></li>
+              <li class='divider'></li>
+              <li><a href='javascript:;' onclick="fb_logout();" title="Log out"><strong>Logout</strong></a></li>
             </ul>
           </li>
         {% else %}

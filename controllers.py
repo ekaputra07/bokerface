@@ -119,8 +119,12 @@ class BokerHandler(BaseHandler):
 
             photo = Photo.get(photokey)
             if photo and desc:
+                # Save boker
                 boker = Boker(user=user, photo=photo, description=desc)
                 boker.put()
+                # Set photo used
+                photo.is_used = True
+                photo.put()
 
                 # Run task: Posting to page wall
                 user_access_token = self.current_user['access_token']
@@ -145,11 +149,11 @@ class SettingHandler(BaseHandler):
         querystring = self.request.GET
 
         if self.request.get('tab') == 'profile' or not self.request.get('tab'):
-            title = 'Page Settings'
+            title = 'Profile Settings'
             tab = 'profile'
 
             user = User.get_by_key_name(self.current_user['id'])
-            form = ProfileForm(instance=user)
+            form = ProfileForm(self.session, instance=user)
 
         elif self.request.get('tab') == 'sharing':
             title = 'Sharing Settings'
@@ -160,11 +164,11 @@ class SettingHandler(BaseHandler):
     def post(self):
 
         if self.request.get('tab') == 'profile' or not self.request.get('tab'):
-            title = 'Page Settings'
+            title = 'Profile Settings'
             tab = 'profile'
 
             user = User.get_by_key_name(self.current_user['id'])
-            form = ProfileForm(self.request.POST, instance=user)
+            form = ProfileForm(self.session, self.request.POST, instance=user)
 
             if form.is_valid():
                 form.save()
