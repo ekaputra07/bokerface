@@ -47,8 +47,9 @@
             <hr>
             <div class="comment-main">
               <span class='button-stat'>
-                <a href='#'>
-                  <button class='btn btn-block btn-large btn-info'><i class='icon-star icon-white'></i>Votes Boker Star Idol (2)</button>
+
+                <a href='javascript:;' class="btn btn-block btn-large btn-info vote-boker {% if not can_vote %}disabled{% endif %}" data-boker="{{boker.key()}}">
+                  <i class='icon-star icon-white'></i> Votes as Boker Star <i class='icon-star icon-white'></i>
                 </a>
               </span>
             </div>
@@ -63,12 +64,28 @@
 
 {% block fb_event_scripts %}
     FB.Event.subscribe('comment.create', function(resp){
-        console.log('created ', resp);
-        app_push('inc_comment', resp, function(resp){alert(resp);});
+        ajax_action('inc_comment', {boker: '{{ boker.key() }}'});
     });
 
     FB.Event.subscribe('comment.remove', function(resp){
-        console.log('removed ', resp);
-        app_push('dec_comment', resp, function(resp){alert(resp);});
+        ajax_action('dec_comment', {boker: '{{ boker.key() }}'});
     });
+{% endblock %}
+
+{% block footerscript %}
+    {% if can_vote %}
+    <script>
+    jQuery(document).ready(function($){
+        $('.vote-boker').click(function(){
+            var boker = $(this).attr('data-boker'),
+                that = this;;
+            ajax_action('vote', {boker: boker}, function(resp){
+                if(resp=='ok'){
+                    $(that).addClass('disabled').unbind('click');
+                }
+            });
+        });
+    });
+    </script>
+    {% endif %}
 {% endblock %}

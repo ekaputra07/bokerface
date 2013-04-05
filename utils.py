@@ -37,6 +37,7 @@ class BaseHandler(webapp2.RequestHandler):
                     username='ekaputra07',
                     name='Eka Putra',
                     profile_url='https://facebook.com/ekaputra07',
+                    is_admin=True,
                     access_token='AAAHD8GX4DUoBAPZBmp2UgUd4VHO7i5mnZApCfJ84cH4InLw6I1UpH6wkN076CPprMkQZAg9gAeu4xJelaP7vErxcrgPn7VZCdFfmUReP6ZC29tYHui5OO',
                 )
                 user.put()
@@ -46,7 +47,8 @@ class BaseHandler(webapp2.RequestHandler):
                 name=user.name,
                 profile_url=user.profile_url,
                 id=user.id,
-                access_token=user.access_token
+                access_token=user.access_token,
+                is_admin=user.is_admin,
             )
             return self.session.get('user');
 
@@ -90,7 +92,8 @@ class BaseHandler(webapp2.RequestHandler):
                         name=user.name,
                         profile_url=user.profile_url,
                         id=user.id,
-                        access_token=user.access_token
+                        access_token=user.access_token,
+                        is_admin=user.is_admin,
                     )
                     return self.session.get("user")
             return None
@@ -155,6 +158,7 @@ class BaseHandler(webapp2.RequestHandler):
             'current_user' : self.current_user,
             'fbapp_id': settings.FACEBOOK_APP_ID,
             'app_domain': settings.APP_DOMAIN,
+            # 'csrf_token': self.request.cookies['csrftoken'],
         }
         context.update(default_data)
 

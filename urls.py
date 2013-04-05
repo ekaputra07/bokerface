@@ -1,6 +1,8 @@
 from webapp2_extras.routes import RedirectRoute as R
 
-from controllers import *
+from views.site import *
+from views.administration import *
+import api
 
 url_patterns = [
     R('/', HomeHandler, name='home'),
@@ -10,8 +12,9 @@ url_patterns = [
     R('/boker', BokerHandler, name='boker', strict_slash=True),
     R('/boker/<boker_id>', BokerViewHandler, name='boker_view', strict_slash=True),
     R('/images/<photo_id>', ImageHandler, name='image', strict_slash=True),
-    R('/streams', StreamHandler, name='streams', strict_slash=True),
     R('/settings', SettingHandler, name='settings', strict_slash=True),
-    R('/<username>', UserHandler, name='user', strict_slash=True),
     R('/ajax-action', AjaxHandler, name='ajax_handler', strict_slash=True),
+    R('/api/streams', api.StreamHandler, name='streams', strict_slash=True),
+    R('/administration', AdministrationIndexHandler, name='administration_index', strict_slash=True),
+    R('/<username>', UserHandler, name='user', strict_slash=True),
 ]

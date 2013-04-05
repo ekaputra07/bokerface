@@ -48,3 +48,37 @@ def post_page_wall(access_token, boker_id, photo_key, message, **kwargs):
             pass
     else:
         logging.info('Runtask: post_page_wall...')
+
+
+def update_num_view(boker_key):
+    """ Increment number of views each time boker detail page opened"""
+    boker = Boker.get(boker_key)
+    if boker:
+        boker.num_view += 1
+        boker.put()
+
+
+def update_num_comment(action, boker_key):
+    """ Update number of comment per Boker """
+
+    boker = Boker.get(boker_key)
+    if boker:
+        if action=='inc_comment':
+            boker.num_comment += 1
+            boker.put()
+        if action=='dec_comment':
+            if boker.num_comment > 0:
+                boker.num_comment -= 1
+                boker.put()
+
+
+def vote_boker(user_id, boker_key):
+    """ Vote a boker """
+    boker = Boker.get(boker_key)
+    user = User.get_by_key_name(user_id)
+    if boker and user:
+        # Avoid multi votes
+        if not Vote.already_vote(user, boker):
+            vote = Vote(user=user, boker=boker)
+            vote.put()
+    return

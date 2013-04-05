@@ -12,7 +12,7 @@ var Posts = Backbone.Collection.extend({
     },
 
     url: function(){
-        return '/streams?'+this.query;
+        return '/api/streams?'+this.query;
     },
 
     parse: function(resp){

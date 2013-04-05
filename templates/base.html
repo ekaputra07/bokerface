@@ -31,15 +31,6 @@
 </head>
   <body>
     <div id="fb-root"></div>
-    <script>
-    (function(d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) return;
-      js = d.createElement(s); js.id = id;
-      js.src = "//connect.facebook.net/en_US/all.js#appId={{fbapp_id}}&xfbml=1";
-      fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-    </script>
     {% include 'topbar.html' %}
     
     <div class='container'>
@@ -50,13 +41,14 @@
   <div class='footer'>
     <div id='center' class='span9'>
       <div class='row'>
-             &copy; 2013 <a href='http://bokerface.com'>BokerFace.com (BF)</a> hasil kolaborasi <a href='http://ilabbali.org/labs/' target='_blank'>Labs</a> kontributor @sudieartha + @ekaputra07 di <a href='http://ilabbali.org' target='_blank'>Ilabbali.org</a>
+             &copy; 2013 <a href='http://bokerface.com'>BokerFace.com (BF)</a> hasil kolaborasi <a href='http://ilabbali.org/labs/' target='_blank'>Labs</a> kontributor @sudieartha + <a href="{{ uri_for('user', username='ekaputra07') }}" title="Eka Putra">@ekaputra07</a> di <a href='http://ilabbali.org' target='_blank'>Ilabbali.org</a>
       </div>
     </div>
   </div>
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
+
     <script src='{{STATIC_URL}}assets/js/jquery.js'></script>
     <script src='{{STATIC_URL}}assets/js/bootstrap.min.js'></script>
     <script src='{{STATIC_URL}}assets/js/hover-dropdown.min.js'></script>
@@ -66,7 +58,15 @@
     <script src='{{STATIC_URL}}assets/js/backbone/backbone-min.js'></script>
     <script src='{{STATIC_URL}}assets/js/backbone/streams.js'></script>
 
-    {% block footerscript %}{% endblock %}
+    <script>
+    (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/all.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+    </script>
 
     <script type='text/javascript'>
       $(function() {
@@ -97,16 +97,19 @@
       function fb_logout(){
         FB.logout();
       }
+      
       {% else %}
       function fb_login(){
         FB.login(function(resp){
-          if(!response.authResponse){
+          if(!resp.authResponse){
             window.location = "{{ uri_for('login') }}?msg=fb_error";
           }
         }, {scope: 'publish_stream'});
       }
       {% endif %}
     </script>
+
+    {% block footerscript %}{% endblock %}
 
     <script type="text/javascript">
       //BokerFace.com UA-1149719-10

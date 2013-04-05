@@ -1,6 +1,6 @@
 import os
 
-DEBUG  = False
+DEBUG  = True
 
 TEMPLATES_DIR = os.path.join(os.path.dirname(__file__), 'templates/')
 STATIC_URL = '/static/'

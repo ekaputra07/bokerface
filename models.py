@@ -26,7 +26,7 @@ class Photo(db.Model):
     uploaded = db.DateTimeProperty(auto_now_add=True)
 
     @classmethod
-    def create_blob(self, fd):
+    def create_blob(cls, fd):
         return db.Blob(fd)
 
 
@@ -37,6 +37,24 @@ class Boker(db.Model):
     photo = db.ReferenceProperty(Photo, required=True, collection_name='photos')
     description = db.TextProperty()
     created = db.DateTimeProperty(auto_now_add=True)
+    num_comment = db.IntegerProperty(default=0)
+    num_view = db.IntegerProperty(default=0)
+    num_like = db.IntegerProperty(default=0)
+
+
+class Vote(db.Model):
+    """Votes"""
+
+    user = db.ReferenceProperty(User, collection_name='votes')
+    boker = db.ReferenceProperty(Boker, collection_name='votes')
+    created = db.DateTimeProperty(auto_now_add=True)
+
+    @classmethod
+    def already_vote(cls, user, boker):
+        result = Vote.gql('WHERE user=:1 AND boker=:2', user, boker).get()
+        if result:
+            return True
+        return False
 
 
 class Setting(db.Model):
@@ -47,11 +65,11 @@ class Setting(db.Model):
     value = db.StringProperty()
     
     @classmethod
-    def get(self, u, n):
+    def get(cls, u, n):
         return Setting.gql('WHERE name=:1 AND user=:2', n, u) or ''
 
     @classmethod
-    def set(self, u, n, v):
+    def set(cls, u, n, v):
         setting = Setting(user=u, name=n, value=v)
         setting.put()
 
@@ -63,10 +81,10 @@ class AdminSetting(db.Model):
     value = db.StringProperty()
 
     @classmethod
-    def get(self, n):
+    def get(cls, n):
         return AdminSetting.gql('WHERE name=:1', n) or ''
 
     @classmethod
-    def set(self, n, v):
+    def set(cls, n, v):
         setting = AdminSetting(name=n, value=v)
         setting.put()
