@@ -1,7 +1,7 @@
 import re
 from libs.djangoforms import forms, ModelForm
 
-from models import User
+from models import *
 
 
 def validate_username(username):
@@ -50,3 +50,10 @@ class ProfileForm(ModelForm):
             raise forms.ValidationError('Username "%s" sudah terpakai.' % username)
 
         return username
+
+
+class ContestForm(ModelForm):
+    """Contest form"""
+    class Meta:
+        model = Contest
+        exclude = ['banner']

@@ -19,4 +19,7 @@ TIMELINE_ALBUM_ID = '163850820438671'
 IMAGE_SIZES = {
     'post': [620, 620],
     'thumb': [150, 150],
+    'winner': [300, 100],
 }
+
+TZ_OFFSET = +8 # WITA from UTC

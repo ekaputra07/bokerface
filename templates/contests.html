@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+
+{% block title %}Kontes Boker Star{% endblock %}
+
+{% block content %}
+<div id='center' class="span8">
+          <div class='alert alert-warning welcome'>
+            <h1>Kontes Boker Star</h1>
+            Ga harus perfect untuk bisa menjadi star idol, Kamu pun bisa. Ini expresi BF gue, mana expresi BF loe?
+          </div>
+
+        <div class='row'>
+        <ul class='thumbnails'>
+        <li class='span8'>
+          <div class='outer about-txt'>
+
+        <!-- AddThis Button BEGIN -->
+        <div class="addthis_toolbox addthis_default_style pull-right">
+        <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+        <a class="addthis_button_tweet" tw:via="bokerface"></a>
+        <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+        </div>
+        <script type="text/javascript">
+          var addthis_config = {
+              username: "bokerface",
+              ui_header_color: "#ffffff",
+              ui_header_background: "#c70000",
+              ui_cobrand: "bokerface.com",
+              ui_use_addressbook: true,
+              data_ga_property: "UA-1149719-10",
+              data_track_clickback: true
+          }
+          var addthis_share = {
+              templates: {
+                  twitter: '{{title}} {{url}} via @bokerface #bokerface #boker #bf',
+              }
+          }
+        </script>
+        <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=bengkelmediagroup"></script>
+          <!-- AddThis Button END -->
+
+            <ul class="nav nav-tabs">
+              <li {% if tab == 'kontes' %}class="active"{% endif %}><a href="{{ uri_for('contests') }}?tab=kontes">Kontes Aktif</a></li>
+              <li {% if tab == 'about' %}class="active"{% endif %}><a href="{{ uri_for('contests') }}?tab=about">Tentang Kontes</a></li>
+              <li {% if tab == 'rules' %}class="active"{% endif %}><a href="{{ uri_for('contests') }}?tab=rules">Peraturan</a></li>
+            </ul>
+
+            {% if tab == 'kontes' %}
+                {% if active_contest %}
+
+                {% if active_contest.banner %}
+                <div class="pull-right" style="background:#ddd;margin-left:20px">
+                    <img src="{{ file_serve(active_contest.banner.key(), size=250, crop=True) }}"/>
+                </div>
+                {% endif %}
+
+                <span class="label label-warning"><i class="icon icon-star icon-white"></i> Nama Kontes</strong></span><br/>
+                {{active_contest.name}}<br>
+                <i>(dicari {{active_contest.num_winners}} pemenang)</i>
+                <br><br>
+
+                <span class="label label-warning"><i class="icon icon-time icon-white"></i> Periode</strong></span><br/>
+                <strong>{{active_contest.start|formattime}}</strong> <i>- sampai -</i> <strong>{{active_contest.end|formattime}}</strong>
+                <br><br>
+                <span class="label label-warning"><i class="icon icon-info-sign icon-white"></i> Keterangan</strong></span><br/>
+                {{active_contest.description}}
+
+                <br><br>
+                <span class="label label-warning"><i class="icon icon-gift icon-white"></i> Hadiah</strong></span><br/>
+                {{active_contest.reward}}
+                {% else %}
+                <span class="lead muted">Untuk saat ini belum ada kontes yang sedang berjalan.</span><br/>
+                Untuk melihat detail kontes sebelumnya, silahkan lihat pada daftar di bawah.
+                {% endif %}
+            {% endif %}
+
+            {% if tab == 'about' %}
+                Tentang Kontes...
+            {% endif %} 
+
+            {% if tab == 'rules' %}
+                Peraturan Kontes...
+            {% endif %} 
+
+          </div>
+        </li>
+        </ul>
+        </div>
+
+        <div class='row'>
+        <ul class='thumbnails'>
+        <li class='span8'>
+          <div class='outer about-txt'>
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Nama Kontes</th>
+                    <th>Periode</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                {% if contests %}
+                {% for c in contests %}
+                  <tr {% if c.active %}class="success"{% endif %}>
+                    <td><a href="{{ uri_for('contest', contest_id=c.key().id()) }}" title="{{c.name}}"><i class="icon icon-zoom-in"></i> <strong>{{c.name}}</strong></a></td>
+                    <td>{{c.start|formattime}} <i>- sampai -</i> {{c.end|formattime}}</td>
+                  </tr>
+                {% endfor %}
+                {% endif %}
+                  
+                </tbody>
+              </table>
+
+          </div>
+        </li>
+        </ul>
+        </div>
+
+</div>
+{% endblock %}

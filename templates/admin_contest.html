@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block title %}Manage Contest{% endblock %}
+
+{% block content %}
+<style>
+textarea{
+    width:100%;
+}
+</style>
+<div id='center' class="span8">
+
+        <div class='alert alert-warning about'>
+          <h1>Manage Contest</h1>
+        </div>
+        <div class='row'>
+        <ul class='thumbnails'>
+        <li class='span8'>
+          <div class='outer about-txt'>
+            {% if querystring %}
+                {% if querystring['success']=='1' %}
+                <div class="alert alert-success">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <h4>Berhasil!</h4>
+                Contest berhasil disimpan.
+                </div>
+                {% endif %}
+
+                {% if querystring['success']=='2' %}
+                <div class="alert alert-success">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <h4>Berhasil!</h4>
+                Contest berhasil dihapus.
+                </div>
+                {% endif %}
+            {% endif %}
+
+              <table class="table table-bordered table-striped">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Periode (Today: {{today|mytime|formattime}})</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                {% if contests %}
+                {% for c in contests %}
+                  <tr {% if c.active %}class="success"{% endif %}>
+                    <td>{{c.name}}</td>
+                    <td>{{c.start|formattime}} - {{c.end|formattime}}</td>
+                    <td><a href="{{ uri_for('admin_contest') }}?c={{c.key()}}"><i class="icon icon-pencil"></i></a> | 
+                        <a href="{{ uri_for('admin_contest') }}?c={{c.key()}}&action=delete"><i class="icon icon-remove"></i></a></td>
+                  </tr>
+                {% endfor %}
+                {% endif %}
+                  
+                </tbody>
+              </table>
+
+            <hr>
+            
+            <form name="settings" method="post" action="{{upload_url}}" enctype="multipart/form-data">
+            <p class="pull-right"><button class="btn btn-warning"><i class="icon icon-ok icon-white"></i> Simpan</button></p>
+            {% if form %}
+                {{ form.as_p() }}
+            {% endif %}
+            <p><label for="file">Image:</label><input type="file" name="file" id="file"/></p>
+            <hr>
+            <p><button class="btn btn-warning"><i class="icon icon-ok icon-white"></i> Simpan</button></p>
+            </form>
+
+          </div>
+        </li>
+        </ul>
+        </div>
+
+</div>
+{% endblock %}
+
+{% block footerscript %}
+<script type="text/javascript" src="{{STATIC_URL}}assets/js/markitup/markitup/jquery.markitup.js"></script>
+<script type="text/javascript" src="{{STATIC_URL}}assets/js/markitup/markitup/sets/default/set.js"></script>
+<script>
+$(function() {
+    $('#id_description,#id_reward').markItUp(mySettings);
+});
+</script>
+{% endblock %}

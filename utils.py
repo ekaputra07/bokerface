@@ -21,6 +21,7 @@ class BaseHandler(webapp2.RequestHandler):
     """
 
     login_required = False
+    superadmin_required = False
 
     @property
     def current_user(self):
@@ -134,15 +135,11 @@ class BaseHandler(webapp2.RequestHandler):
             if not self.current_user:
                 # Redirect to login page
                 self.redirect('%s?next=%s' % (self.uri_for('login'), self.request.path))
-            # else:
-            #     # Make use user have set their username before using
-            #     # this app further more.
-            #     user = User.get_by_key_name(self.current_user['id'])
 
-            #     # To avoid infinite redirect on settings page, redirect will only run on
-            #     # pages other than settings page.
-            #     if not user.username and self.request.path != self.uri_for('settings'):
-            #         self.redirect(self.uri_for('settings')+'?tab=profile&welcome=1')
+            # Check if need superadmin access
+            if self.superadmin_required:
+                if not self.current_user['is_admin']: self.redirect(self.uri_for('home'))
+
         return
 
     def render_response(self, tpl, context={}):

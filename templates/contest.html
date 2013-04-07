@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block title %}Kontes Boker Star{% endblock %}
+
+{% block content %}
+<div id='center' class="span8">
+          <div class='alert alert-warning welcome'>
+            <h1>Kontes Boker Star</h1>
+            Ga harus perfect untuk bisa menjadi star idol, Kamu pun bisa. Ini expresi BF gue, mana expresi BF loe?
+          </div>
+
+        <div class='row'>
+        <ul class='thumbnails'>
+        <li class='span8'>
+          <div class='outer about-txt'>
+
+        <!-- AddThis Button BEGIN -->
+        <div class="addthis_toolbox addthis_default_style pull-right">
+        <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+        <a class="addthis_button_tweet" tw:via="bokerface"></a>
+        <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+        </div>
+
+          {% if contest %}
+
+          {% if contest.banner %}
+          <div class="pull-right" style="background:#ddd;margin-left:20px">
+              <img src="{{ file_serve(contest.banner.key(), size=250, crop=True) }}"/>
+          </div>
+          {% endif %}
+
+          <span class="label label-warning"><i class="icon icon-star icon-white"></i> Nama Kontes</strong></span><br/>
+          {{contest.name}} {% if contest.active %}<span class="label label-success">Aktif</span>{% else %}<span class="label label-important">Sudah selesai</span>{% endif %}<br>
+          <i>(dicari {{contest.num_winners}} pemenang)</i>
+          <br><br>
+          <span class="label label-warning"><i class="icon icon-time icon-white"></i> Periode</strong></span><br/>
+          <strong>{{contest.start|formattime}}</strong> <i>- sampai -</i> <strong>{{contest.end|formattime}}</strong>
+          <br><br>
+          <span class="label label-warning"><i class="icon icon-info-sign icon-white"></i> Keterangan</strong></span><br/>
+          {{contest.description}}
+
+          <br><br>
+          <span class="label label-warning"><i class="icon icon-gift icon-white"></i> Hadiah</strong></span><br/>
+          {{contest.reward}}
+          {% endif %}
+
+
+        </div>
+        </li>
+        </ul>
+        </div>
+
+
+        <div class='row'>
+        <ul class='thumbnails'>
+        <li class='span8'>
+        <div class='outer about-txt'>
+        {% if contest.active %}
+        <p class="lead muted">Pemenang belum ditentukan karena kontes masih berjalan...</p>
+        {% else %}
+            <h1>Boker Star</h1>
+
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for win in winners %}
+                  <tr>
+                    <td>
+                        <a href="{{ uri_for('boker_view', boker_id=win[0].boker.key().id() ) }}"><img src="{{ uri_for('image', photo_id=win[0].boker.photo.key()) }}?type=winner"/></a>
+                    </td>
+                    <td>
+                      <span class="muted">oleh</span> <strong><a href="{{uri_for('user', username=win[0].boker.user.username )}}">{{ win[0].boker.user.username }}</a></strong> <span class="muted">pada</span> {{ win[0].boker.created|formattime }}<br>
+                      <i>" {{ win[0].boker.description }} "</i><br><br>
+                      <i class="icon icon-thumbs-up"></i> {{win[1]}} votes.
+                    </td>
+                  </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+
+        {% endif %}
+        </div>
+        </li>
+        </ul>
+        </div>
+
+</div>
+{% endblock %}

@@ -24,6 +24,7 @@
                   <li><a href='#'>Boker of the month</a></li>
                 </ul>
           </li>
+          <li {% if page == 'contest' %}class="active"{% endif %} ><a href="{{ uri_for('contests') }}" title="Kontes">Kontes</a></li>
           <li><a href="http://blog.bokerface.com/" title="Bokerface Blog" target="_blank">Blog</a></li>
         </ul>
         <ul class='nav pull-right'>
@@ -43,7 +44,7 @@
               <li><a href='{{ uri_for('settings') }}'>Settings</a></li>
               {% if current_user.is_admin %}
               <li class='divider'></li>
-              <li><a href='{{ uri_for('settings') }}'>Site Administration</a></li>
+              <li><a href='{{ uri_for('admin_contest') }}'>Manage Contest</a></li>
               {% endif %}
               <li class='divider'></li>
               <li><a href='javascript:;' onclick="fb_logout();" title="Log out"><strong>Logout</strong></a></li>

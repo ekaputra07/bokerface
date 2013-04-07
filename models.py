@@ -1,4 +1,7 @@
+from collections import Counter
+
 from google.appengine.ext import db
+from google.appengine.ext import blobstore
 
 class User(db.Model):
     """User account model"""
@@ -42,16 +45,61 @@ class Boker(db.Model):
     num_like = db.IntegerProperty(default=0)
 
 
+class Contest(db.Model):
+    """Contest"""
+
+    active = db.BooleanProperty(default=False)
+    name = db.StringProperty(required=True)
+    start = db.DateTimeProperty()
+    end = db.DateTimeProperty(required=True)
+    num_winners = db.IntegerProperty(default=1)
+    description = db.TextProperty(required=True)
+    reward = db.TextProperty(required=True)
+    created = db.DateTimeProperty(auto_now_add=True)
+    banner = blobstore.BlobReferenceProperty()
+
+    @classmethod
+    def active_contest(cls):
+        return Contest.gql('WHERE active=:1', True).get()
+
+    @classmethod
+    def is_nominee(cls, boker):
+        from templatetags import mytime
+        active_contest = cls.active_contest()
+        if mytime(boker.created) >= active_contest.start and mytime(boker.created) <= active_contest.end:
+            return True
+        return False
+
+    @classmethod
+    def get_winners(cls, contest):
+        votes_dict = {}
+        votes = Vote.gql('WHERE contest=:1', contest)
+
+        # Create votes based rank
+        for v in votes:
+            if v in votes_dict:
+                votes_dict[v] += 1
+            else:
+                votes_dict[v] = 1
+
+        ranked_votes = Counter(votes_dict).most_common()[:contest.num_winners]
+
+        # Create created-date based rank if some boker have same amount of votes.
+        # who created earlier, it gets higer rank.
+        return ranked_votes
+
+
 class Vote(db.Model):
     """Votes"""
 
+    contest = db.ReferenceProperty(Contest, collection_name='votes')
     user = db.ReferenceProperty(User, collection_name='votes')
     boker = db.ReferenceProperty(Boker, collection_name='votes')
     created = db.DateTimeProperty(auto_now_add=True)
 
     @classmethod
     def already_vote(cls, user, boker):
-        result = Vote.gql('WHERE user=:1 AND boker=:2', user, boker).get()
+        result = Vote.gql('WHERE user=:1 AND contest=:2', user, Contest.active_contest()).get()
         if result:
             return True
         return False

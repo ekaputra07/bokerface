@@ -79,6 +79,6 @@ def vote_boker(user_id, boker_key):
     if boker and user:
         # Avoid multi votes
         if not Vote.already_vote(user, boker):
-            vote = Vote(user=user, boker=boker)
+            vote = Vote(contest=Contest.active_contest(), user=user, boker=boker)
             vote.put()
     return

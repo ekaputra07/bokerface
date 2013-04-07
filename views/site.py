@@ -3,6 +3,8 @@ import urllib2, urllib, json
 import webapp2
 from google.appengine.api import images
 from google.appengine.ext import deferred
+from google.appengine.ext import blobstore
+from google.appengine.ext.webapp import blobstore_handlers
 
 from libs import facebook
 
@@ -76,13 +78,17 @@ class BokerViewHandler(BaseHandler):
 
         boker = Boker.get_by_id(int(boker_id))
         if boker:
+            deferred.defer(update_num_view, str(boker.key()))
+            
+            active_contest = Contest.active_contest()
+            if active_contest:
+                is_nominee = Contest.is_nominee(boker)
+
             if self.current_user is not None:
                 user = User.get_by_key_name(self.current_user['id'])
                 can_vote = not Vote.already_vote(user, boker)
             else:
                 can_vote = False
-
-            deferred.defer(update_num_view, str(boker.key()))
 
             return self.render_response(self.template, locals())
         else:
@@ -145,6 +151,36 @@ class BokerHandler(BaseHandler):
                             'photokey': photokey,
                             'desc': desc,
                             })
+
+
+class ContestListHandler(BaseHandler):
+    """Display contest List"""
+
+    template = 'contests.html'
+
+    def get(self):
+        page = 'contest'
+        tab = self.request.get('tab', 'kontes')
+
+        active_contest = Contest.active_contest()
+
+        contests = Contest.all().order('-created')
+        return self.render_response(self.template, locals())
+
+
+class ContestSingleHandler(BaseHandler):
+    """Display single contest detail"""
+
+    template = 'contest.html'
+
+    def get(self, contest_id):
+        page = 'contest'
+        contest = Contest.get_by_id(int(contest_id))
+        if contest:
+            if not contest.active:
+                winners = Contest.get_winners(contest)
+            return self.render_response(self.template, locals())
+        self.abort(404)
 
 
 class SettingHandler(BaseHandler):

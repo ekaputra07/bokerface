@@ -1,8 +1,11 @@
 from datetime import date, datetime, timedelta
+import time
 
 import webapp2
+from google.appengine.api import images
 
 from utils import jinja_environment
+import settings
 
 
 def naturaltime(value):
@@ -16,7 +19,7 @@ def naturaltime(value):
         return value
 
     value =  value
-    now =  datetime.now()
+    now =  datetime.utcnow()
 
     delta = now - value
 
@@ -37,7 +40,6 @@ def naturaltime(value):
         count = delta.total_seconds() // 60 // 60 // 24 // 30
         return '%d bulan yang lalu' % count
 
-
 def is_new(value):
     """ Return 'baru' if posted under a hour ago"""
 
@@ -50,7 +52,24 @@ def is_new(value):
         return '<span class="label label-success">baru</span>'
     return ''
 
+def mytime(value):
+    """ return current timezone time"""
+
+    offset = timedelta(hours=settings.TZ_OFFSET)
+    return value+offset
+
+def formattime(value):
+    """ Format the time"""
+
+    if not isinstance(value, date):
+        return value
+
+    return value.strftime('%d %B %Y %H:%M:%S')
+
 # Register custom filters and globals variable
 jinja_environment.filters['naturaltime'] = naturaltime
 jinja_environment.filters['is_new'] = is_new
+jinja_environment.filters['mytime'] = mytime
+jinja_environment.filters['formattime'] = formattime
+jinja_environment.globals['file_serve'] = images.get_serving_url
 jinja_environment.globals['uri_for'] = webapp2.uri_for

@@ -14,23 +14,6 @@
                 <a class="addthis_button_tweet" tw:via="bokerface"></a>
                 <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
                 </div>
-                <script type="text/javascript">
-                  var addthis_config = {
-                      username: "bokerface",
-                      ui_header_color: "#ffffff",
-                      ui_header_background: "#c70000",
-                      ui_cobrand: "bokerface.com",
-                      ui_use_addressbook: true,
-                      data_ga_property: "UA-1149719-10",
-                      data_track_clickback: true
-                  }
-                  var addthis_share = {
-                      templates: {
-                          twitter: '{{title}} {{url}} via @bokerface #bokerface #boker #bf',
-                      }
-                  }
-                  </script>
-                  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=bengkelmediagroup"></script>
                   <!-- AddThis Button END -->
                 <img src='{{ uri_for('image', photo_id=boker.photo.key()) }}' alt='{{boker.description}}' height="100">
               </div>
@@ -45,15 +28,32 @@
               {{boker.created|is_new}} <span><i class='icon-time'></i> {{boker.created|naturaltime}}</span>
             </div>
             <hr>
+            {% if active_contest and is_nominee %}
             <div class="comment-main">
               <span class='button-stat'>
-
                 <a href='javascript:;' class="btn btn-block btn-large btn-info vote-boker {% if not can_vote %}disabled{% endif %}" data-boker="{{boker.key()}}">
-                  <i class='icon-star icon-white'></i> Votes as Boker Star <i class='icon-star icon-white'></i>
+                  <i class='icon-star icon-white'></i> Vote Boker Star! <i class='icon-star icon-white'></i>
                 </a>
+                {% if not can_vote %}
+                <div class="alert alert-success">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <h4>Anda sudah melakukkan voting.</h4>
+                <p>Anda hanya diperbolehkan mem-vote 1 kontestan dalam setiap periode kontes Boker Star.</p>
+                <p>Untuk informasi lengkap tentang Kontes Boker Star saat ini, ada <a href=""><strong>disini</strong></a>.</p>
+                </div>
+                {% else %}
+                <div class="alert alert-success">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <h4>Kontes Boker Star sudah dimulai!</h4>
+                <p>Ayo vote kontestan Boker Star jagoan-mu, atau upload foto Boker mu dan jadilah kontestan.</p>
+                <p>Pemenang akan mendapatkan hadiah menarik dari Bokerface.</p>
+                <p>Untuk informasi lengkap tentang Kontes Boker Star saat ini, ada <a href="{{uri_for('contests')}}"><strong>disini</strong></a>.</p>
+                </div>
+                {% endif %}
               </span>
             </div>
             <hr>
+            {% endif %}
             <div class="comment-main" style="max-width:470px">
               <div class="fb-comments" data-href="{{app_domain}}{{ uri_for('boker_view', boker_id=boker.key().id()) }}" data-width="470" data-num-posts="20"></div>
             </div>
@@ -73,8 +73,26 @@
 {% endblock %}
 
 {% block footerscript %}
+    <script type="text/javascript">
+      var addthis_config = {
+          username: "bokerface",
+          ui_header_color: "#ffffff",
+          ui_header_background: "#c70000",
+          ui_cobrand: "bokerface.com",
+          ui_use_addressbook: true,
+          data_ga_property: "UA-1149719-10",
+          data_track_clickback: true
+      }
+      var addthis_share = {
+          templates: {
+              twitter: '{{title}} {{url}} via @bokerface #bokerface #boker #bf',
+          }
+      }
+    </script>
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=bengkelmediagroup"></script>
+
     {% if can_vote %}
-    <script>
+    <script type="text/javascript">
     jQuery(document).ready(function($){
         $('.vote-boker').click(function(){
             var boker = $(this).attr('data-boker'),
