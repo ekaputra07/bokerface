@@ -70,15 +70,3 @@ def update_num_comment(action, boker_key):
             if boker.num_comment > 0:
                 boker.num_comment -= 1
                 boker.put()
-
-
-def vote_boker(user_id, boker_key):
-    """ Vote a boker """
-    boker = Boker.get(boker_key)
-    user = User.get_by_key_name(user_id)
-    if boker and user:
-        # Avoid multi votes
-        if not Vote.already_vote(user, boker):
-            vote = Vote(contest=Contest.active_contest(), user=user, boker=boker)
-            vote.put()
-    return

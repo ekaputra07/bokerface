@@ -89,10 +89,23 @@ class BokerViewHandler(BaseHandler):
                 can_vote = not Vote.already_vote(user, boker)
             else:
                 can_vote = False
-
+                
+            querystring = self.request.GET
             return self.render_response(self.template, locals())
         else:
             self.abort(404)
+
+    def post(self, boker_id):
+
+        boker = Boker.get_by_id(int(boker_id))
+        user = User.get_by_key_name(self.current_user['id'])
+        if boker and user:
+            # Avoid multi votes
+            if not Vote.already_vote(user, boker):
+                vote = Vote(contest=Contest.active_contest(), user=user, boker=boker)
+                vote.put()
+
+        self.redirect(self.uri_for('boker_view', boker_id=boker_id))
 
 
 class BokerHandler(BaseHandler):
