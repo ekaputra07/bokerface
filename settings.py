@@ -1,6 +1,8 @@
+# -*- coding: utf-8 -*-
+
 import os
 
-DEBUG  = True
+DEBUG  = False
 
 TEMPLATES_DIR = os.path.join(os.path.dirname(__file__), 'templates/')
 STATIC_URL = '/static/'
@@ -8,6 +10,10 @@ STATIC_URL = '/static/'
 PAGINATION_LIMIT = 2
 
 APP_DOMAIN = 'http://www.bokerface.com'
+
+SITE_TITLE = u'Boker Face • ini expresi gue, mana expresi loe'
+SITE_DESCRIPTION = u'Ga harus perfect untuk bisa menjadi star idol, Kamu pun bisa. Ini expresi BF gue, mana expresi BF loe?'
+
 FACEBOOK_APP_ID = '496912247033162'
 FACEBOOK_APP_SECRET = '825d7cab759f02c098445bc2b0eede9e'
 

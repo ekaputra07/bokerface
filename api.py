@@ -5,7 +5,7 @@ import webapp2
 import settings
 from utils import BaseHandler
 from templatetags import naturaltime, is_new
-from models import *
+from models import Boker, User
 
 
 class StreamHandler(BaseHandler):
@@ -60,6 +60,8 @@ class StreamHandler(BaseHandler):
                 'description': b.description,
                 'permalink': self.uri_for('boker_view', boker_id=b.key().id()),
                 'num_comment': b.num_comment,
+                'num_view': b.num_view,
+                'num_like': b.num_like,
             }
 
             objects.append(data)

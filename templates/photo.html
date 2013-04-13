@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
 
-{% block title %}{{boker.description}}{% endblock %}
+{% block title %}{{boker.description}} | Boker Face{% endblock %}
+
+{% block fb_type %}bokerface:photo{% endblock %}
+{% block fb_url %}{{app_domain}}{{ uri_for('boker_view', boker_id=boker.key().id()) }}{% endblock %}
+{% block fb_title %}{{boker.description}}{% endblock %}
+{% block fb_image %}{{app_domain}}{{ uri_for('image', photo_id=boker.photo.key()) }}{% endblock %}
 
 {% block content %}
 <div id='center' class='span12'>

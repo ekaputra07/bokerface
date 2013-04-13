@@ -1,12 +1,16 @@
 from webapp2_extras.routes import RedirectRoute as R
 
-from views.site import *
-from views.administration import *
+from views.administration import AdminContestHandler
+from views.site import (HomeHandler, LoginHandler, LogoutHandler, LoginAdminHandler,
+                        AboutHandler, BokerHandler, BokerViewHandler, ImageHandler,
+                        SettingHandler, AjaxHandler, ContestListHandler, ContestSingleHandler,
+                        UserHandler)
 import api
 
 url_patterns = [
     R('/', HomeHandler, name='home'),
     R('/login', LoginHandler, name='login', strict_slash=True),
+    R('/login/superadmin', LoginAdminHandler, name='login_admin', strict_slash=True),
     R('/logout', LogoutHandler, name='logout', strict_slash=True),
     R('/about', AboutHandler, name='about', strict_slash=True),
     R('/boker', BokerHandler, name='boker', strict_slash=True),

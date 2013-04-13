@@ -17,27 +17,6 @@
 {% endblock %}
 
 {% block footerscript %}
-    <script type="text/template" id="boker_template">
-        <li class='span6'>
-          <div class='outer'>
-          <div class='view view-thumb thumbnail'>
-              <img src='/images/<%= obj.photo.key %>' alt='<%= obj.description %>'>
-              <a href='<%= obj.permalink %>'>
-                <div class='mask'>
-                  <span class='keyhole'></span>
-                  <span class='label label-important icon stat-info'><i class='icon-star icon-white'></i> 123 <i class='icon-thumbs-up icon-white'></i> 123 <i class='icon-comment icon-white'></i> <%= obj.num_comment %></span>
-                </div>
-              </a>
-          </div>
-          <p><span class='label label-inverse'><%= obj.user.username %></span> <%= obj.description %></p>
-          </div>
-          <div class='sidebox ft'>
-            <a href='<%= obj.user.url %>'><img class='avatar' src='http://graph.facebook.com/<%= obj.user.id %>/picture?type=square' alt='theheartdirector' /></a>
-            <%= obj.is_new %> <span><i class='icon-time'></i> <%= obj.created %></span>
-          </div>
-        </li>
-    </script>
-
     <script type="text/javascript">
 
         var BokersView = Backbone.View.extend({

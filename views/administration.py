@@ -11,9 +11,8 @@ from libs import facebook
 
 import settings
 from utils import BaseHandler
-from models import *
-from forms import *
-from workers import *
+from models import Contest
+from forms import ContestForm
 
 
 class AdminContestHandler(BaseHandler, blobstore_handlers.BlobstoreUploadHandler):

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# bokerface: http://ogp.me/ns/fb/bokerface#">
 <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'/>
 
 <meta name="google-site-verification" content="tfsfJmPwdsukhLFYb2s-D86Jr7UOLeo1bWNSrUK0CSA" />
@@ -8,15 +8,18 @@
 <meta name="alexaVerifyID" content="3sylDTpaSwmN7OOfiht2aJHytxM" />
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
 <meta property="fb:app_id" content="{{fbapp_id}}"/>
+<meta property="og:type"   content="{% block fb_type %}website{% endblock %}" /> 
+<meta property="og:url"    content="{% block fb_url %}{{app_domain}}{% endblock %}" /> 
+<meta property="og:title"  content="{% block fb_title %}{{site_title}}{% endblock %}" /> 
+<meta property="og:image"  content="{% block fb_image %}{{app_domain}}{{STATIC_URL}}assets/img/bokerface-icon.png{% endblock %}" />
+<meta property="og:description" content="{{site_desc}}"/>
 
-<title>{% block title %}Boker Face{% endblock %} • ini expresi gue, mana expresi loe</title>
-<link href='{{STATIC_URL}}assets/js/markitup/images/style.css' rel='stylesheet'>
-<link href="{{STATIC_URL}}assets/js/markitup/markitup/skins/simple/style.css" rel="stylesheet">
-<link href="{{STATIC_URL}}assets/js/markitup/markitup/sets/default/style.css" rel="stylesheet">
-
+<title>{% block title %}{{site_title}}{% endblock %}</title>
 <link href='{{STATIC_URL}}assets/css/docs.css' rel='stylesheet'>
 <link href='{{STATIC_URL}}assets/css/bootstrap.css' rel='stylesheet'>
+<link href='{{STATIC_URL}}assets/js/markitup/images/style.css' rel='stylesheet'>
 <style type='text/css'>
   body {
     padding-top: 60px;
@@ -26,12 +29,16 @@
 <link href='{{STATIC_URL}}assets/css/hover.css' rel='stylesheet'>
 <link href='{{STATIC_URL}}assets/css/addons.css' rel='stylesheet'>
 
+<link href="{{STATIC_URL}}assets/js/markitup/markitup/skins/simple/style.css" rel="stylesheet">
+<link href="{{STATIC_URL}}assets/js/markitup/markitup/sets/default/style.css" rel="stylesheet">
+
 <link href='{{STATIC_URL}}assets/img/favicon.png' rel='shortcut icon' type='image/x-icon' />
 <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
 <!--[if lt IE 9]>
   <script src='http://html5shim.googlecode.com/svn/trunk/html5.js'></script>
 <![endif]-->
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' />
+
 </head>
   <body>
     <div id="fb-root"></div>
@@ -110,6 +117,13 @@
           }
         }, {scope: 'publish_stream'});
       }
+      function fb_login_admin(){
+        FB.login(function(resp){
+          if(!resp.authResponse){
+            window.location = "{{ uri_for('login_admin') }}?msg=fb_error";
+          }
+        }, {scope: 'publish_stream,manage_pages'});
+      }
       {% endif %}
     </script>
 
@@ -127,6 +141,27 @@
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
       })();
 
+    </script>
+
+    <script type="text/template" id="boker_template">
+        <li class='span6'>
+          <div class='outer'>
+          <div class='view view-thumb thumbnail'>
+              <img src='/images/<%= obj.photo.key %>' alt='<%= obj.description %>'>
+              <a href='<%= obj.permalink %>'>
+                <div class='mask'>
+                  <span class='keyhole'></span>
+                  <span class='label label-important icon stat-info'><i class='icon-eye-open icon-white'></i> <%= obj.num_view %> &nbsp; <i class='icon-thumbs-up icon-white'></i> <%= obj.num_like %> &nbsp; <i class='icon-comment icon-white'></i> <%= obj.num_comment %></span>
+                </div>
+              </a>
+          </div>
+          <p><span class='label label-inverse'><%= obj.user.username %></span> <%= obj.description %></p>
+          </div>
+          <div class='sidebox ft'>
+            <a href='<%= obj.user.url %>'><img class='avatar' src='http://graph.facebook.com/<%= obj.user.id %>/picture?type=square' alt='theheartdirector' /></a>
+            <%= obj.is_new %> <span><i class='icon-time'></i> <%= obj.created %></span>
+          </div>
+        </li>
     </script>
   </body>
 </html>

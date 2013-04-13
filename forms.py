@@ -1,7 +1,8 @@
 import re
+
 from libs.djangoforms import forms, ModelForm
 
-from models import *
+from models import User, Contest
 
 
 def validate_username(username):

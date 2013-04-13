@@ -155,6 +155,8 @@ class BaseHandler(webapp2.RequestHandler):
             'current_user' : self.current_user,
             'fbapp_id': settings.FACEBOOK_APP_ID,
             'app_domain': settings.APP_DOMAIN,
+            'site_title': settings.SITE_TITLE,
+            'site_desc': settings.SITE_DESCRIPTION,
             # 'csrf_token': self.request.cookies['csrftoken'],
         }
         context.update(default_data)

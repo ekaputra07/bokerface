@@ -5,22 +5,26 @@
 {% block content %}
 <div id='center' class='span6'>
 
-        <div class='alert alert-warning about'>
-          <h1>Login</h1>
-        </div>
-        <div class='row'>
-        <ul class='thumbnails'>
-        <li class='span6'>
-          <div class='outer about-txt' style="text-align:center;">
-            {% if msg == 'fb_error' %}
-            <div class='alert'>Gagal terkoneksi dengan akun Facebook anda.</div>
-            {% endif %}
-            <p>Silahkan login dengan akun <strong>Facebook</strong> anda.</p>
-            <p><a href="javascript:;" title="Login with facebook" onclick="fb_login();"><img src="{{STATIC_URL}}assets/img/facebook-login-button.png" /></a></p>
-          </div>
-        </li>
-        </ul>
-        </div>
+    <div class='alert alert-warning about'>
+      <h1>Login</h1>
+    </div>
+    <div class='row'>
+    <ul class='thumbnails'>
+    <li class='span6'>
+      <div class='outer about-txt' style="text-align:center;">
+        {% if msg == 'fb_error' %}
+        <div class='alert'>Gagal terkoneksi dengan akun Facebook anda.</div>
+        {% endif %}
+        <p>Silahkan login dengan akun <strong>Facebook</strong> anda.</p>
+        <p>
+        <a href="javascript:;" title="Login with facebook" onclick="{% if not superadmin %}fb_login();{% else %}fb_login_admin();{% endif %}">
+            <img src="{{STATIC_URL}}assets/img/facebook-login-button.png" />
+        </a>
+        </p>
+      </div>
+    </li>
+    </ul>
+    </div>
 
 </div>
 {% endblock %}

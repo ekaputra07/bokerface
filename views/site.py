@@ -11,9 +11,9 @@ from libs import facebook
 import settings
 from utils import BaseHandler, crop_image
 from templatetags import naturaltime, is_new
-from models import *
-from forms import *
-from workers import *
+from models import User, Photo, Boker, Contest, Vote
+from forms import ProfileForm
+from workers import post_page_wall, post_vote_story, update_num_view, update_num_comment
 
 
 class HomeHandler(BaseHandler):
@@ -37,14 +37,29 @@ class UserHandler(BaseHandler):
 
 
 class LoginHandler(BaseHandler):
-    """Login required page"""
+    """Login page"""
 
     template = 'login.html'
 
     def get(self):
         if not self.current_user:
             msg = self.request.get('msg')
-            return self.render_response(self.template, {'msg': msg})
+            return self.render_response(self.template, locals())
+        else:
+            next = self.request.get('next') or self.uri_for('home')
+            self.redirect(next)
+
+
+class LoginAdminHandler(BaseHandler):
+    """Superadmin Login page"""
+
+    template = 'login.html'
+
+    def get(self):
+        if not self.current_user:
+            msg = self.request.get('msg')
+            superadmin = True
+            return self.render_response(self.template, locals())
         else:
             next = self.request.get('next') or self.uri_for('home')
             self.redirect(next)
@@ -105,7 +120,12 @@ class BokerViewHandler(BaseHandler):
                 vote = Vote(contest=Contest.active_contest(), user=user, boker=boker)
                 vote.put()
 
-        self.redirect(self.uri_for('boker_view', boker_id=boker_id))
+                # Trigger post action
+                user_access_token = self.current_user['access_token']
+                boker_url = settings.APP_DOMAIN + self.uri_for('boker_view', boker_id=boker_id)
+                deferred.defer(post_vote_story, user_access_token, boker_url)
+
+        self.redirect(self.uri_for('boker_view', boker_id=boker_id)+'?vote=1')
 
 
 class BokerHandler(BaseHandler):
