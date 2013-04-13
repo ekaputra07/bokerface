@@ -17,9 +17,10 @@
 <meta property="og:description" content="{{site_desc}}"/>
 
 <title>{% block title %}{{site_title}}{% endblock %}</title>
+<link href='{{STATIC_URL}}assets/js/markitup/images/style.css' rel='stylesheet'>
 <link href='{{STATIC_URL}}assets/css/docs.css' rel='stylesheet'>
 <link href='{{STATIC_URL}}assets/css/bootstrap.css' rel='stylesheet'>
-<link href='{{STATIC_URL}}assets/js/markitup/images/style.css' rel='stylesheet'>
+
 <style type='text/css'>
   body {
     padding-top: 60px;
@@ -52,7 +53,9 @@
   <div class='footer'>
     <div id='center' class='span9'>
       <div class='row'>
-             &copy; 2013 <a href='http://bokerface.com'>BokerFace.com (BF)</a> hasil kolaborasi <a href='http://ilabbali.org/labs/' target='_blank'>Labs</a> kontributor @sudieartha + <a href="{{ uri_for('user', username='ekaputra07') }}" title="Eka Putra">@ekaputra07</a> di <a href='http://ilabbali.org' target='_blank'>Ilabbali.org</a>
+             <p>&copy; 2013 <a href='http://bokerface.com'>BokerFace.com (BF)</a> | <a href='{{ uri_for('about') }}'>About</a> | <a href="{{ uri_for('contests') }}" title="Kontes">Kontes</a> | <a href="http://blog.bokerface.com/" title="Bokerface Blog" target="_blank">Blog</a></p>
+             <p>Networks: <a href='http://ilabbali.org/labs/' target='_blank'>Ilabbali.org</a> | <a href='http://balitechy.com' target='_blank'>Balitechy.com</a><p>
+             <p>Made with love in Bali.</p>
       </div>
     </div>
   </div>

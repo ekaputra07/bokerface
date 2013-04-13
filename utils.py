@@ -8,11 +8,13 @@ from libs import facebook
 import settings
 from models import User
 
-jinja_environment = jinja2.Environment(loader=jinja2.FileSystemLoader(settings.TEMPLATES_DIR))
+jinja_environment = jinja2.Environment(
+        loader=jinja2.FileSystemLoader(settings.TEMPLATES_DIR))
 
 
 class BaseHandler(webapp2.RequestHandler):
-    """Provides access to the active Facebook user in self.current_user
+    """
+    Provides access to the active Facebook user in self.current_user
 
     The property is lazy-loaded on first access, using the cookie saved
     by the Facebook JavaScript SDK to determine the user ID of the active
@@ -39,7 +41,7 @@ class BaseHandler(webapp2.RequestHandler):
                     name='Eka Putra',
                     profile_url='https://facebook.com/ekaputra07',
                     is_admin=True,
-                    access_token='AAAHD8GX4DUoBAPZBmp2UgUd4VHO7i5mnZApCfJ84cH4InLw6I1UpH6wkN076CPprMkQZAg9gAeu4xJelaP7vErxcrgPn7VZCdFfmUReP6ZC29tYHui5OO',
+                    access_token='AAAH4xJelaP7vErxcrgPn7VZCdFfmUReP6ZC29tYHui5OO',
                 )
                 user.put()
 
@@ -157,7 +159,6 @@ class BaseHandler(webapp2.RequestHandler):
             'app_domain': settings.APP_DOMAIN,
             'site_title': settings.SITE_TITLE,
             'site_desc': settings.SITE_DESCRIPTION,
-            # 'csrf_token': self.request.cookies['csrftoken'],
         }
         context.update(default_data)
 

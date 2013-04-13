@@ -161,6 +161,7 @@ class BokerHandler(BaseHandler):
         # Action create post
         if self.request.get('action') == 'boker':
 
+            explicit_share = self.request.get('explicit_share', False)
             photokey = self.request.get('photokey')
             desc = self.request.get('desc')
 
@@ -175,7 +176,7 @@ class BokerHandler(BaseHandler):
 
                 # Run task: Posting to page wall
                 user_access_token = self.current_user['access_token']
-                deferred.defer(post_page_wall, user_access_token, boker.key().id(), photokey, desc)
+                deferred.defer(post_page_wall, user_access_token, boker.key().id(), photokey, desc, explicit_share)
 
                 self.redirect(self.uri_for('boker_view', boker_id=boker.key().id() ))
             else:

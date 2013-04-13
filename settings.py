@@ -2,7 +2,7 @@
 
 import os
 
-DEBUG  = False
+DEBUG  = True
 
 TEMPLATES_DIR = os.path.join(os.path.dirname(__file__), 'templates/')
 STATIC_URL = '/static/'
@@ -24,7 +24,6 @@ TIMELINE_ALBUM_ID = '163850820438671'
 
 IMAGE_SIZES = {
     'post': [620, 620],
-    'thumb': [150, 150],
     'winner': [300, 100],
 }
 
