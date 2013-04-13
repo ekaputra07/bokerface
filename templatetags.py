@@ -10,6 +10,9 @@ import settings
 
 def naturaltime(value):
     """
+    TODO: This filter need serious fix,
+    incorrect time display on more than 1 month.
+
     For date and time values shows how many seconds, minutes or hours ago
     compared to current timestamp returns representing string.
 
@@ -53,7 +56,12 @@ def is_new(value):
     return ''
 
 def mytime(value):
-    """ return current timezone time"""
+    """
+    return current timezone time
+
+    TODO: Fix this. this is not correct method to convert
+    time between timezone.
+    """
 
     offset = timedelta(hours=settings.TZ_OFFSET)
     return value+offset

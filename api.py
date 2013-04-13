@@ -9,6 +9,12 @@ from models import Boker, User
 
 
 class StreamHandler(BaseHandler):
+    """
+    This is basic version of simple API that return data in Json.
+    TODO: Need lots of improvement or better use already API generator
+    for Appengine. 
+    """
+
 
     def _build_qs(self, qs={}):
         """Build querystring format from dictionary"""

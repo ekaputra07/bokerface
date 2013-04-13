@@ -84,7 +84,7 @@ class Contest(db.Model):
 
         ranked_votes = Counter(votes_dict).most_common()[:contest.num_winners]
 
-        # Create created-date based rank if some boker have same amount of votes.
+        # TODO: Create created-date based rank if some boker have same amount of votes.
         # who created earlier, it gets higer rank.
         return ranked_votes
 
@@ -104,6 +104,9 @@ class Vote(db.Model):
             return True
         return False
 
+
+# TODO: This Settings & AdminSetting not yet implemented,the main purpose of
+# this Model is to store user and Admin specific settings.
 
 class Setting(db.Model):
     """User settings"""
