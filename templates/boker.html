@@ -22,7 +22,7 @@
             <button class='btn btn-block btn delete' id="delete-photo">expresi mu kurang gokil? klik disini untuk hapus</button>
             </span>
 
-            <a class='btn btn-info btn-block btn-right' href="javascript:;" id="browse-photo">Browse photo...</a>
+            <a class='btn btn-info btn-block btn-right' href="javascript:;" id="browse-photo">Pilih photo...</a>
         </div>
       </div>
       <div class='span4'>
@@ -38,7 +38,7 @@
               <div class='span12'>
                 <div id='bodytxt' class='span12'>
                   <input type="hidden" name="photokey" id="photokey" value="" />
-                  <textarea rows='3' class='span12 textarea' placeholder='Cerita singkat...' name="desc" id="desc"></textarea>
+                  <textarea rows='3' class='span12 textarea' placeholder='Tentang expresimu...' name="desc" id="desc"></textarea>
                   <label class="checkbox pull-left">
                   <input type="checkbox" name="explicit_share" checked="checked"/> Bagikan di wall Facebook mu?
                   </label>
@@ -63,7 +63,6 @@ jQuery(document).ready(function($){
         var current_img = $('#photokey').val();
         $('#photokey').val('');
         $('.uploaded-photo').hide();
-        $('#browse-photo').show();
 
         $.post('/images/'+current_img+'?action=delete');
     });
@@ -80,45 +79,50 @@ jQuery(document).ready(function($){
             return true;
     });
 
-    var uploader = new qq.FineUploaderBasic({
-                button: $('body #browse-photo')[0],
-                multiple: false,
-                forceMultipart: true,
-                request: {
-                    endpoint: '/boker?action=upload',
-                    inputName: 'photo'
-                },
+    var init_uploader = function(){
+        new qq.FineUploaderBasic({
+                  button: $('#browse-photo')[0],
+                  multiple: false,
+                  forceMultipart: true,
+                  request: {
+                      endpoint: '/boker?action=upload',
+                      inputName: 'photo'
+                  },
 
-                validation: {
-                    allowedExtensions: ['jpg', 'jpeg', 'png', 'gif'],
-                    sizeLimit: 2000*1024
-                },
-                
-                callbacks: {
-                    //onProgress
-                    onProgress: function(id, fileName, loaded, total){
-                      $('#browse-photo').text('Uploading...');
-                    },
-                    
-                    //OnComplete
-                    onComplete: function(id, fileName, responseJSON){   
-                            
-                        if(responseJSON.success){
-                            $('.uploaded-photo img').attr('src', '/images/'+responseJSON.photo);
-                            $('#photokey').val(responseJSON.photo);
-                            $('.uploaded-photo').show();
-                            $('#browse-photo').hide();
-                        }
-                        $('#browse-photo').text('Browse photo...');
-                    },
-                    
-                    //OnError
-                    onError: function(id, fileName, reason) {
-                        // $('#browse-photo').text('Ups, Error! Silahkan coba lagi.');
-                        alert(reason);
-                    }
-                }
-            });
+                  validation: {
+                      allowedExtensions: ['jpg', 'jpeg', 'png', 'gif'],
+                      sizeLimit: 2000*1024
+                  },
+                  
+                  callbacks: {
+                      //onProgress
+                      onProgress: function(id, fileName, loaded, total){
+                        $('#browse-photo').text('Uploading...');
+                      },
+                      
+                      //OnComplete
+                      onComplete: function(id, fileName, responseJSON){   
+                              
+                          if(responseJSON.success){
+                              $('.uploaded-photo img').attr('src', '/images/'+responseJSON.photo);
+                              $('#photokey').val(responseJSON.photo);
+                              $('.uploaded-photo').show();
+                          }
+                          $('#browse-photo').text('Pilih photo...');
+                          init_uploader();
+
+                      },
+                      
+                      //OnError
+                      onError: function(id, fileName, reason) {
+                          $('#browse-photo').text('Ups, Error! Silahkan coba lagi.');
+                          init_uploader();
+                      }
+                  }
+              });
+          };
+
+        init_uploader();
 });
 </script>
 {% endblock %}
