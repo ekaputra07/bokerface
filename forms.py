@@ -1,8 +1,9 @@
 import re
 
-from libs.djangoforms import forms, ModelForm
+from django import forms
+from libs.djangoforms import ModelForm
 
-from models import User, Contest
+from models import User, Contest, Setting, AdminSetting
 
 
 def validate_username(username):
@@ -58,3 +59,44 @@ class ContestForm(ModelForm):
     class Meta:
         model = Contest
         exclude = ['banner']
+
+
+class BaseSettingForm(forms.Form):
+    """ Base Form class that wrapped with user object """
+
+    def __init__(self, *args, **kwargs):
+        """
+        Overrides the __init__ to fill the form initial data
+        from database
+        """
+        user = kwargs.get('user', None)
+
+        initial = {}
+        for field_name, obj in self.base_fields.items():
+            if user:
+                initial[field_name] = Setting.get_setting(user, field_name)
+            else:
+                initial[field_name] = AdminSetting.get_setting(field_name)
+
+        kwargs['initial'] = initial
+        super(BaseSettingForm, self).__init__(*args, **kwargs)
+        self.user = user
+
+    def save(self):
+        """ Custom save method for standard Django Form"""
+        data = self.cleaned_data
+        for k,v in data.items():
+            if self.user:
+                Setting.set_setting(self.user, k, v)
+            else:
+                AdminSetting.set_setting(k, v)
+
+
+class ContentForm(BaseSettingForm):
+    """ Static pages content """
+    about_us = forms.CharField(label='About Us', required=False, 
+                                    widget=forms.Textarea)
+    about_contest = forms.CharField(label='Tentang Kontes', required=False, 
+                                    widget=forms.Textarea)
+    contest_rule = forms.CharField(label='Peraturan Kontes', required=False, 
+                                    widget=forms.Textarea)

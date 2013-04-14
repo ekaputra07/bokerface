@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}Manage Text Content{% endblock %}
+
+{% block content %}
+<style>
+textarea{
+    width:100%;
+}
+</style>
+<div id='center' class="span8">
+
+        <div class='alert alert-warning about'>
+          <h1>Manage Text Content</h1>
+        </div>
+        <div class='row'>
+        <ul class='thumbnails'>
+        <li class='span8'>
+          <div class='outer about-txt'>
+            {% if querystring %}
+                {% if querystring['success']=='1' %}
+                <div class="alert alert-success">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <h4>Berhasil!</h4>
+                Content berhasil disimpan.
+                </div>
+                {% endif %}
+            {% endif %}
+
+        
+            <form name="settings" method="post" action="" enctype="multipart/form-data">
+            <p><button class="btn btn-warning"><i class="icon icon-ok icon-white"></i> Simpan</button></p>
+            <hr> 
+            {% if form %}
+                {{ form.as_p() }}
+            {% endif %}
+            <hr>
+            <p ><button class="btn btn-warning"><i class="icon icon-ok icon-white"></i> Simpan</button></p>
+            </form>
+
+          </div>
+        </li>
+        </ul>
+        </div>
+
+</div>
+{% endblock %}
+
+{% block footerscript %}
+<script type="text/javascript" src="{{STATIC_URL}}assets/js/markitup/markitup/jquery.markitup.js"></script>
+<script type="text/javascript" src="{{STATIC_URL}}assets/js/markitup/markitup/sets/default/set.js"></script>
+<script>
+$(function() {
+    $('textarea').markItUp(mySettings);
+});
+</script>
+{% endblock %}

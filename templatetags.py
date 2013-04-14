@@ -4,9 +4,9 @@ import time
 import webapp2
 from google.appengine.api import images
 
-from utils import jinja_environment
 import settings
-
+from utils import jinja_environment
+from models import AdminSetting, Setting
 
 def naturaltime(value):
     """
@@ -74,10 +74,20 @@ def formattime(value):
 
     return value.strftime('%d %B %Y %H:%M:%S')
 
-# Register custom filters and globals variable
+def admin_setting_value(name):
+    """Print admin setting value to template"""
+    return AdminSetting.get_setting(name)
+
+def user_setting_value(name):
+    """Print user setting value to template"""
+    return Setting.get_setting(user, name) 
+
+# Register custom filters and globals functions
 jinja_environment.filters['naturaltime'] = naturaltime
 jinja_environment.filters['is_new'] = is_new
 jinja_environment.filters['mytime'] = mytime
 jinja_environment.filters['formattime'] = formattime
 jinja_environment.globals['file_serve'] = images.get_serving_url
 jinja_environment.globals['uri_for'] = webapp2.uri_for
+jinja_environment.globals['admin_setting'] = admin_setting_value
+jinja_environment.globals['user_setting'] = user_setting_value

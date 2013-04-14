@@ -12,7 +12,7 @@ from libs import facebook
 import settings
 from utils import BaseHandler
 from models import Contest
-from forms import ContestForm
+from forms import ContestForm, ContentForm
 
 
 class AdminContestHandler(BaseHandler, blobstore_handlers.BlobstoreUploadHandler):
@@ -71,4 +71,23 @@ class AdminContestHandler(BaseHandler, blobstore_handlers.BlobstoreUploadHandler
 
             self.redirect(self.uri_for('admin_contest')+'?success=1')
 
+        return self.render_response(self.template, locals())
+
+
+class AdminContentHandler(BaseHandler):
+    template = 'admin_content.html'
+
+    login_required = True
+    superadmin_required = True
+
+    def get(self):
+        querystring = self.request.GET
+        form = ContentForm()
+        return self.render_response(self.template, locals())
+
+    def post(self):
+        form = ContentForm(self.request.POST)
+        if form.is_valid():
+            form.save()
+            self.redirect(self.uri_for('admin_content')+'?success=1')
         return self.render_response(self.template, locals())

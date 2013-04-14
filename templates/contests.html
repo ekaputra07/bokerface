@@ -75,11 +75,11 @@
             {% endif %}
 
             {% if tab == 'about' %}
-                Tentang Kontes...
+                  {{ admin_setting('about_contest') }}
             {% endif %} 
 
             {% if tab == 'rules' %}
-                Peraturan Kontes...
+                  {{ admin_setting('contest_rule') }}
             {% endif %} 
 
           </div>

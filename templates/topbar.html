@@ -45,6 +45,7 @@
               {% if current_user.is_admin %}
               <li class='divider'></li>
               <li><a href='{{ uri_for('admin_contest') }}'>Manage Contest</a></li>
+              <li><a href='{{ uri_for('admin_content') }}'>Manage Texts</a></li>
               {% endif %}
               <li class='divider'></li>
               <li><a href='javascript:;' onclick="fb_logout();" title="Log out"><strong>Logout</strong></a></li>

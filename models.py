@@ -3,6 +3,7 @@ from collections import Counter
 from google.appengine.ext import db
 from google.appengine.ext import blobstore
 
+
 class User(db.Model):
     """User account model"""
 
@@ -66,7 +67,8 @@ class Contest(db.Model):
     def is_nominee(cls, boker):
         from templatetags import mytime
         active_contest = cls.active_contest()
-        if mytime(boker.created) >= active_contest.start and mytime(boker.created) <= active_contest.end:
+        if mytime(boker.created) >= active_contest.start and \
+                mytime(boker.created) <= active_contest.end:
             return True
         return False
 
@@ -84,8 +86,8 @@ class Contest(db.Model):
 
         ranked_votes = Counter(votes_dict).most_common()[:contest.num_winners]
 
-        # TODO: Create created-date based rank if some boker have same amount of votes.
-        # who created earlier, it gets higer rank.
+        # TODO: Create created-date based rank if some boker have same amount 
+        # of votes. who created earlier, it gets higer rank.
         return ranked_votes
 
 
@@ -99,7 +101,8 @@ class Vote(db.Model):
 
     @classmethod
     def already_vote(cls, user, boker):
-        result = Vote.gql('WHERE user=:1 AND contest=:2', user, Contest.active_contest()).get()
+        result = Vote.gql('WHERE user=:1 AND contest=:2', user, 
+                                        Contest.active_contest()).get()
         if result:
             return True
         return False
@@ -113,29 +116,53 @@ class Setting(db.Model):
 
     user = db.ReferenceProperty(User, collection_name='settings')
     name = db.StringProperty(required=True)
-    value = db.StringProperty()
-    
-    @classmethod
-    def get(cls, u, n):
-        return Setting.gql('WHERE name=:1 AND user=:2', n, u) or ''
+    value = db.TextProperty()
 
     @classmethod
-    def set(cls, u, n, v):
-        setting = Setting(user=u, name=n, value=v)
-        setting.put()
+    def get_setting_obj(self, user, name):
+        return Setting.gql('WHERE user=:1 AND name=:2', user, name).get()
+    
+    @classmethod
+    def get_setting(cls, user, name):
+        setting = Setting.get_setting_obj(user, name)
+        if setting:
+            return setting.value
+        return
+
+    @classmethod
+    def set_setting(cls, user, name, value):
+        setting = Setting.get_setting_obj(user, name)
+        if setting:
+            setting.value = value
+            setting.put()
+        else:
+            setting = Setting(user=user, name=name, value=value)
+            setting.put()
 
 
 class AdminSetting(db.Model):
     """Admin settings"""
 
     name = db.StringProperty(required=True)
-    value = db.StringProperty()
+    value = db.TextProperty()
 
     @classmethod
-    def get(cls, n):
-        return AdminSetting.gql('WHERE name=:1', n) or ''
+    def get_setting_obj(cls, name):
+        return AdminSetting.gql('WHERE name=:1', name).get()
 
     @classmethod
-    def set(cls, n, v):
-        setting = AdminSetting(name=n, value=v)
-        setting.put()
+    def get_setting(cls, name):
+        setting = AdminSetting.get_setting_obj(name)
+        if setting:
+            return setting.value
+        return
+
+    @classmethod
+    def set_setting(cls, name, value):
+        setting = AdminSetting.get_setting_obj(name)
+        if setting:
+            setting.value = value
+            setting.put()
+        else:
+            setting = AdminSetting(name=name, value=value)
+            setting.put()

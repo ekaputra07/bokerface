@@ -1,6 +1,6 @@
 from webapp2_extras.routes import RedirectRoute as R
 
-from views.administration import AdminContestHandler
+from views.administration import AdminContestHandler, AdminContentHandler
 from views.site import (HomeHandler, LoginHandler, LogoutHandler, LoginAdminHandler,
                         AboutHandler, BokerHandler, BokerViewHandler, ImageHandler,
                         SettingHandler, AjaxHandler, ContestListHandler, ContestSingleHandler,
@@ -21,6 +21,9 @@ url_patterns = [
     R('/api/streams', api.StreamHandler, name='streams', strict_slash=True),
     R('/kontes/', ContestListHandler, name='contests', strict_slash=True),
     R('/kontes/<contest_id>', ContestSingleHandler, name='contest', strict_slash=True),
+
     R('/administration/contest', AdminContestHandler, name='admin_contest', strict_slash=True),
+    R('/administration/content', AdminContentHandler, name='admin_content', strict_slash=True),
+
     R('/<username>', UserHandler, name='user', strict_slash=True),
 ]
