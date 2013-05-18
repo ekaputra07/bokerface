@@ -100,9 +100,24 @@ class Vote(db.Model):
     created = db.DateTimeProperty(auto_now_add=True)
 
     @classmethod
-    def already_vote(cls, user, boker):
+    def already_vote(cls, user):
         result = Vote.gql('WHERE user=:1 AND contest=:2', user, 
                                         Contest.active_contest()).get()
+        if result:
+            return True
+        return False
+
+
+class Like(db.Model):
+    """Likes"""
+
+    user = db.ReferenceProperty(User, collection_name='likes')
+    boker = db.ReferenceProperty(Boker, collection_name='likes')
+    created = db.DateTimeProperty(auto_now_add=True)
+
+    @classmethod
+    def already_like(cls, user, boker):
+        result = Like.gql('WHERE user=:1 AND boker=:2', user, boker).get()
         if result:
             return True
         return False

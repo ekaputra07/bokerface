@@ -11,9 +11,10 @@ from libs import facebook
 import settings
 from utils import BaseHandler, crop_image
 from templatetags import naturaltime, is_new
-from models import User, Photo, Boker, Contest, Vote
+from models import User, Photo, Boker, Contest, Vote, Like
 from forms import ProfileForm
-from workers import post_page_wall, post_vote_story, update_num_view, update_num_comment
+from workers import (post_page_wall, post_vote_story, update_num_view,
+                     update_num_comment, like_boker)
 
 
 class HomeHandler(BaseHandler):
@@ -101,8 +102,10 @@ class BokerViewHandler(BaseHandler):
 
             if self.current_user is not None:
                 user = User.get_by_key_name(self.current_user['id'])
-                can_vote = not Vote.already_vote(user, boker)
+                can_vote = not Vote.already_vote(user)
+                can_like = not Like.already_like(user, boker)
             else:
+                can_vote = False
                 can_vote = False
                 
             querystring = self.request.GET
@@ -116,7 +119,7 @@ class BokerViewHandler(BaseHandler):
         user = User.get_by_key_name(self.current_user['id'])
         if boker and user:
             # Avoid multi votes
-            if not Vote.already_vote(user, boker):
+            if not Vote.already_vote(user):
                 vote = Vote(contest=Contest.active_contest(), user=user, boker=boker)
                 vote.put()
 
@@ -176,9 +179,11 @@ class BokerHandler(BaseHandler):
 
                 # Run task: Posting to page wall
                 user_access_token = self.current_user['access_token']
-                deferred.defer(post_page_wall, user_access_token, boker.key().id(), photokey, desc, explicit_share)
+                deferred.defer(post_page_wall, user_access_token,
+                               boker.key().id(), photokey, desc, explicit_share)
 
-                self.redirect(self.uri_for('boker_view', boker_id=boker.key().id() ))
+                self.redirect(self.uri_for('boker_view',
+                              boker_id=boker.key().id() ))
             else:
                 return self.render_response(self.template, {
                             'errors': 'Photo dan Deskripsi harus diisi.',
@@ -266,7 +271,10 @@ class ImageHandler(BaseHandler):
         if photo:
 
             if self.request.get('type'):
-                cropped, img = crop_image(photo.file, self.request.get('type'), True)
+                force_crop = self.request.get('crop', False)
+                if force_crop: force_crop = True
+                cropped, img = crop_image(photo.file, self.request.get('type'),
+                                          strict=force_crop)
                 if img:
                     self.response.headers['Content-Type'] = 'image/jpg'
                     self.response.out.write(img)
@@ -299,10 +307,17 @@ class AjaxHandler(BaseHandler):
 
         # Ajax comment count
         if action == 'inc_comment' or action == 'dec_comment':
-            deferred.defer(update_num_comment, action, self.request.get('boker'))
+            deferred.defer(update_num_comment, action,
+                           self.request.get('boker'))
         
         # Ajax vote
         if action == 'vote':
-            deferred.defer(vote_boker, self.current_user['id'], self.request.get('boker'))
+            deferred.defer(vote_boker, self.current_user['id'],
+                           self.request.get('boker'))
+
+        # Ajax like
+        if action == 'like':
+            user_key = self.current_user['id']
+            deferred.defer(like_boker, user_key, self.request.get('boker'))
 
         self.response.out.write('ok')

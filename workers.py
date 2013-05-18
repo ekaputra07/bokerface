@@ -2,7 +2,7 @@ import logging
 import urllib2
 
 import settings
-from models import Boker
+from models import User, Boker, Like
 from libs import facebook
 
 
@@ -36,7 +36,6 @@ def post_vote_story(access_token, url):
                 post_args={'photo': url, 'fb:explicitly_shared': 'true'})
     else:
         logging.info('Runtask: post_vote_story...')
-
 
 
 def post_page_wall(access_token, boker_id, photo_key, message, explicitly_shared):
@@ -101,3 +100,28 @@ def update_num_comment(action, boker_key):
             if boker.num_comment > 0:
                 boker.num_comment -= 1
                 boker.put()
+
+
+def like_boker(user_key, boker_key):
+    """Like a boker"""
+
+    user = User.get_by_key_name(user_key)
+    boker = Boker.get(boker_key)
+
+    if user and boker and not Like.already_like(user, boker):
+        # Create like
+        like = Like(user=user, boker=boker)
+        like.put()
+
+        # Update like numbers
+        boker.num_like += 1
+        boker.put()
+
+        # Post to FB
+        if not settings.DEBUG:
+            boker_url = "%s/boker/%s" % (settings.APP_DOMAIN, boker.key().id())
+            graph = facebook.GraphAPI(user.access_token)
+            graph.request('me/og.likes',
+                    post_args={'object': boker_url, 'fb:explicitly_shared': 'true'})
+        else:
+            logging.info('Runtask: post_like_story...')

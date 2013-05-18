@@ -5,7 +5,7 @@ from views.site import (HomeHandler, LoginHandler, LogoutHandler, LoginAdminHand
                         AboutHandler, BokerHandler, BokerViewHandler, ImageHandler,
                         SettingHandler, AjaxHandler, ContestListHandler, ContestSingleHandler,
                         UserHandler)
-import api
+from views import api
 
 url_patterns = [
     R('/', HomeHandler, name='home'),

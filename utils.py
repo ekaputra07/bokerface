@@ -185,12 +185,15 @@ def crop_image(raw_img, size_id, strict=True):
         crop = True
         if not strict:
             # Crop only if out of dimensions
-            if img.width < w and img.height < h:
+            if img.width < w:
                 crop = False
 
         if crop:
             try:
-                img.resize(w,h)
+                if h == 0:
+                    img.resize(width=w)
+                else:
+                    img.resize(w, h)
                 img = img.execute_transforms(output_encoding=images.JPEG)
             except:
                 return (False, False)

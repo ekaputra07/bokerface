@@ -33,8 +33,8 @@
         </li>
         <li class='divider-vertical'></li>
         {% if current_user %}
-        <li><a href='#'><span class='label label-important'>30</span></a></li>
-        <li class='divider-vertical'></li>
+        <!-- <li><a href='#'><span class='label label-important'>30</span></a></li> 
+        <li class='divider-vertical'></li>-->
           <li class='dropdown mobile-divider'>
             <a href='#' class='dropdown-toggle dropdown-hover'>
               <img src='http://graph.facebook.com/{{ current_user.id }}/picture?type=square' class='av-img' /> {{ current_user.username|escape }} <b class='caret'></b>

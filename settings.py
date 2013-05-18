@@ -5,12 +5,12 @@
 
 import os
 
-DEBUG  = True
+DEBUG  = False
 
 TEMPLATES_DIR = os.path.join(os.path.dirname(__file__), 'templates/')
 STATIC_URL = '/static/'
 
-PAGINATION_LIMIT = 2
+PAGINATION_LIMIT = 10
 
 APP_DOMAIN = 'http://www.bokerface.com'
 
@@ -18,7 +18,8 @@ SITE_TITLE = u'Boker Face • ini expresi gue, mana expresi loe'
 SITE_DESCRIPTION = u'Ga harus perfect untuk bisa menjadi star idol, Kamu pun bisa. Ini expresi BF gue, mana expresi BF loe?'
 
 IMAGE_SIZES = {
-    'post': [620, 620],
+    'list': [270, 0],
+    'post': [670, 0],
     'winner': [300, 100],
 }
 

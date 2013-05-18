@@ -32,6 +32,7 @@
 
 <link href="{{STATIC_URL}}assets/js/markitup/markitup/skins/simple/style.css" rel="stylesheet">
 <link href="{{STATIC_URL}}assets/js/markitup/markitup/sets/default/style.css" rel="stylesheet">
+<link href="{{STATIC_URL}}assets/css/styles.css" media="screen" rel="stylesheet" type="text/css"/>
 
 <link href='{{STATIC_URL}}assets/img/favicon.png' rel='shortcut icon' type='image/x-icon' />
 <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -54,14 +55,11 @@
     <div id='center' class='span9'>
       <div class='row'>
              <p>&copy; 2013 <a href='http://bokerface.com'>BokerFace.com (BF)</a> | <a href='{{ uri_for('about') }}'>About</a> | <a href="{{ uri_for('contests') }}" title="Kontes">Kontes</a> | <a href="http://blog.bokerface.com/" title="Bokerface Blog" target="_blank">Blog</a></p>
-             <p>Networks: <a href='http://ilabbali.org/labs/' target='_blank'>Ilabbali.org</a> | <a href='http://balitechy.com' target='_blank'>Balitechy.com</a><p>
+             <p>Supported by: <a href='http://ilabbali.org/labs' target='_blank'>ilabbali.org</a> | <a href='http://sudigital.com' target='_blank'>sudigital.com</a> | <a href='http://balitechy.com' target='_blank'>balitechy.com</a><p>
              <p>Made with love in Bali.</p>
       </div>
     </div>
   </div>
-    <!-- Le javascript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
 
     <script src='{{STATIC_URL}}assets/js/jquery.js'></script>
     <script src='{{STATIC_URL}}assets/js/bootstrap.min.js'></script>
@@ -71,6 +69,8 @@
     <script src='{{STATIC_URL}}assets/js/backbone/underscore-min.js'></script>
     <script src='{{STATIC_URL}}assets/js/backbone/backbone-min.js'></script>
     <script src='{{STATIC_URL}}assets/js/backbone/streams.js'></script>
+    <script src="{{STATIC_URL}}assets/js/jquery.masonry.min.js"></script>
+    <script src="{{STATIC_URL}}assets/js/jquery.imagesloaded.min.js"></script>
 
     <script>
     (function(d, s, id) {
@@ -147,24 +147,34 @@
     </script>
 
     <script type="text/template" id="boker_template">
-        <li class='span6'>
-          <div class='outer'>
-          <div class='view view-thumb thumbnail'>
-              <img src='/images/<%= obj.photo.key %>' alt='<%= obj.description %>'>
-              <a href='<%= obj.permalink %>'>
-                <div class='mask'>
-                  <span class='keyhole'></span>
-                  <span class='label label-important icon stat-info'><i class='icon-eye-open icon-white'></i> <%= obj.num_view %> &nbsp; <i class='icon-thumbs-up icon-white'></i> <%= obj.num_like %> &nbsp; <i class='icon-comment icon-white'></i> <%= obj.num_comment %></span>
+        <li class="span3 item" id="item-<%= obj.id %>">
+            <div class="thumbnail">
+                <div class="boker-picture view-thumb" id="view-thumb4">
+                <a href="<%= obj.permalink %>" id="boker-main-pic4"><img alt="<%= obj.description %>" src="/images/<%= obj.photo.key %>?type=list&crop=1"/></a>
+
+                <% if(obj.can_like){ %>
+                  <div class="mask m-button">
+                  <span class='info'>
+                  <button class='btn btn-large btn-warning btn-like-list' data-boker="<%= obj.key %>" type='button'>
+                  <i class='icon-thumbs-up icon-white'></i> Like!
+                  </button>
+                  </span>
+                  </div>
+                <% } %>
+
+            </div>
+            <h2 class="boker-name">
+            <a href="<%= obj.permalink %>"><%= obj.description %></a>
+            </h2>
+            <span><i class='icon-eye-open'></i> <%= obj.num_view %> <i class='icon-thumbs-up'></i> <%= obj.num_like %> <i class='icon-comment'></i> <%= obj.num_comment %></span>
+
+            <div class="sidebox">
+                <a href="<%= obj.user.url %>"><img src="http://graph.facebook.com/<%= obj.user.id %>/picture?type=square" width="36" height="36" class="avatar"/></a>
+                <span class='label label-inverse'><%= obj.user.username %></span> <span><i class="icon-time"></i> <%= obj.created %></span>
                 </div>
-              </a>
-          </div>
-          <p><span class='label label-inverse'><%= obj.user.username %></span> <%= obj.description %></p>
-          </div>
-          <div class='sidebox ft'>
-            <a href='<%= obj.user.url %>'><img class='avatar' src='http://graph.facebook.com/<%= obj.user.id %>/picture?type=square' alt='theheartdirector' /></a>
-            <%= obj.is_new %> <span><i class='icon-time'></i> <%= obj.created %></span>
-          </div>
+            </div>
         </li>
     </script>
+
   </body>
 </html>

@@ -5,7 +5,7 @@ import webapp2
 import settings
 from utils import BaseHandler
 from templatetags import naturaltime, is_new
-from models import Boker, User
+from models import Boker, User, Like
 
 
 class StreamHandler(BaseHandler):
@@ -29,13 +29,17 @@ class StreamHandler(BaseHandler):
         limit = int(self.request.get('limit') or settings.PAGINATION_LIMIT)
         bokers = Boker.all().order('-created')
 
-        user_filter = self.request.get('username')
+        # Current loggedin User
+        current_user = None
+        if self.current_user:
+            current_user = User.get_by_key_name(self.current_user['id'])
 
+        # Filter by user
+        user_filter = self.request.get('username')
         if user_filter:
             qs['username'] = user_filter
             user = User.gql("WHERE username=:1", user_filter).get()
             bokers.filter('user =', user)
-
 
         # calculate number of pages
         total = bokers.count()
@@ -51,6 +55,11 @@ class StreamHandler(BaseHandler):
         objects = []
         for b in bokers:
 
+            # Check if user can like a boker
+            user_can_like = False
+            if current_user:
+                user_can_like = not Like.already_like(current_user, b)
+
             data = {
                 'user': {
                     'id': b.user.id,
@@ -58,9 +67,15 @@ class StreamHandler(BaseHandler):
                     'name': b.user.name,
                     'url': self.uri_for('user', username=b.user.username),
                 },
+                'current_user': {
+                    'id': None,
+                    'username': None,
+                },
                 'photo': {
                     'key': str(b.photo.key()),
                 },
+                'id': b.key().id(),
+                'key': str(b.key()),
                 'created': naturaltime(b.created),
                 'is_new': is_new(b.created),
                 'description': b.description,
@@ -68,7 +83,14 @@ class StreamHandler(BaseHandler):
                 'num_comment': b.num_comment,
                 'num_view': b.num_view,
                 'num_like': b.num_like,
+                'can_like': user_can_like,
             }
+
+            if self.current_user:
+                data['current_user'] = {
+                    'id': self.current_user.get('id'),
+                    'username': self.current_user.get('username'),
+                }
 
             objects.append(data)
 

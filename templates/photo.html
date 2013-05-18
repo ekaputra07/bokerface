@@ -13,16 +13,16 @@
           <div id='photofix' class='span7'>
             <div class='photo-main'> 
               <div class='outerphoto'>
+                <img src='{{ uri_for('image', photo_id=boker.photo.key()) }}?type=post' alt='{{boker.description}}' height="100">
+              </div>
+            </div>
                 <!-- AddThis Button BEGIN -->
-                <div class="addthis_toolbox addthis_default_style ">
+                <div class="addthis_toolbox addthis_default_style " style="margin-top:10px;">
                 <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
                 <a class="addthis_button_tweet" tw:via="bokerface"></a>
                 <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
                 </div>
-                  <!-- AddThis Button END -->
-                <img src='{{ uri_for('image', photo_id=boker.photo.key()) }}' alt='{{boker.description}}' height="100">
-              </div>
-            </div>
+                <!-- AddThis Button END -->
           </div>
           <div class='span5 comment-box'>
             <div class='outertxt'>
@@ -31,6 +31,15 @@
             <div class='sidebox ft'>
               <a href='{{ uri_for('user', username=boker.user.username) }}'><img class='avatar' src='http://graph.facebook.com/{{ boker.user.id }}/picture?type=square' alt='{{boker.user.username}}' /></a>
               {{boker.created|is_new}} <span><i class='icon-time'></i> {{boker.created|naturaltime}}</span>
+            </div>
+            <hr>
+
+            <div class="comment-main">
+              <span class='button-stat'>
+                <button class="btn btn-block btn-large btn-like-detail {% if not can_like %}disabled{% endif %}" onclick="{% if not can_like %}return false;{% endif %}" data-boker="{{boker.key()}}">
+                  <i class='icon-thumbs-up'></i> Like!</i>
+                </button>
+              </span>
             </div>
             <hr>
             {% if active_contest and is_nominee %}

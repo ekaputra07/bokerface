@@ -3,24 +3,19 @@
 {% block title %}Boker Face • ini expresi gue, mana expresi loe{% endblock %}
 
 {% block content %}
-<div id='center' class='span6'>
-  <div class='alert alert-warning welcome'>
-    <h1>Boker Face</h1>
-    Ga harus perfect untuk bisa menjadi star idol, Kamu pun bisa. Ini expresi BF gue, mana expresi BF loe?
-  </div>
   <div class='row'>
-    <ul class='thumbnails' id="bokers-container">
+    <ul class='thumbnails bokers-container' id="boker-list">
     </ul>
     <div class="loading hide"><img src="{{STATIC_URL}}assets/img/loading.gif"/></div>
   </div>
-</div>
+<div class="clearfix"></div>
 {% endblock %}
 
 {% block footerscript %}
     <script type="text/javascript">
 
         var BokersView = Backbone.View.extend({
-            el: '#bokers-container',
+            el: '.bokers-container',
             initialize: function(){
                 _.bindAll(this, 'render_item', 'fetch_data');
                 this.template = _.template($('#boker_template').html());
@@ -28,9 +23,20 @@
                 this.bokers = new Posts([], {});
                 this.bokers.bind('add', this.render_item, this);
                 this.loading = false;
+
+                var that = this;
+                that.$el.masonry({
+                        itemSelector : '.item'
+                });
             },
+
             render_item: function(boker){
-                this.$el.append(this.template({obj: boker.toJSON()}));
+                var item = this.template({obj: boker.toJSON()});
+                var that = this;
+                this.$el.append(item);
+                this.$el.find('#item-'+boker.get('id')).imagesLoaded(function(){
+                    that.$el.masonry('reload');
+                });
                 return this;
             },
 
