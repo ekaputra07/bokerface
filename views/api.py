@@ -22,12 +22,29 @@ class StreamHandler(BaseHandler):
         query = [('%s=%s' % (k, v)) for k, v in qs.iteritems()]
         return '&'.join(query)
 
+    def sorter(self):
+        """ Determine the sorter field used to order the result"""
+
+        AVAILABLE_SORTERS = (
+            ('likes', '-num_like'), 
+            ('views', '-num_view'),
+            ('comments', '-num_comment'),
+            ('created', '-created'),
+        )
+        sorter = self.request.get('sort', 'created')
+        for sort in AVAILABLE_SORTERS:
+            if sorter == sort[0]:
+                return sort
+        return ('created', '-created')
+
     def get(self):
 
         qs = {}
         page = int(self.request.get('page') or 1)
         limit = int(self.request.get('limit') or settings.PAGINATION_LIMIT)
-        bokers = Boker.all().order('-created')
+        sort_name, sort_field = self.sorter()
+        qs['sort'] = sort_name
+        bokers = Boker.all().order(sort_field)
 
         # Current loggedin User
         current_user = None

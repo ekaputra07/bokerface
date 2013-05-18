@@ -19,7 +19,7 @@ url_patterns = [
     R('/settings', SettingHandler, name='settings', strict_slash=True),
     R('/ajax-action', AjaxHandler, name='ajax_handler', strict_slash=True),
     R('/api/streams', api.StreamHandler, name='streams', strict_slash=True),
-    R('/kontes/', ContestListHandler, name='contests', strict_slash=True),
+    R('/kontes', ContestListHandler, name='contests', strict_slash=True),
     R('/kontes/<contest_id>', ContestSingleHandler, name='contest', strict_slash=True),
 
     R('/administration/contest', AdminContestHandler, name='admin_contest', strict_slash=True),

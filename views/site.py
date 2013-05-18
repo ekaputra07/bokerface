@@ -23,7 +23,11 @@ class HomeHandler(BaseHandler):
     template = 'index.html'
 
     def get(self):
-        return self.render_response(self.template)
+        query = ''
+        sort = self.request.get('top')
+        if sort:
+            query = 'sort='+sort
+        return self.render_response(self.template, locals())
 
 
 class UserHandler(BaseHandler):

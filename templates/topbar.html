@@ -10,20 +10,21 @@
       <div class='nav-collapse collapse'>
         <ul class='nav'>
           <li {% if page == 'about' %}class="active"{% endif %}><a href='{{ uri_for('about') }}'>About</a></li>
-<!--           <li class='dropdown'>
+          <li class='dropdown'>
             <a href='#' class='dropdown-toggle dropdown-hover' data-toggle='dropdown'>Browse <b class='caret'></b></a>
                 <ul class='dropdown-menu'>
-                  <li><a href='#'>Bokers Idol</a></li>
-                  <li class='divider'></li>
-                  <li><a href='#'>Most Like</a></li>
-                  <li><a href='#'>Most View</a></li>
-                  <li><a href='#'>Most Comment</a></li>
-                  <li class='divider'></li>
+<!--                   <li><a href='#'>Bokers Idol</a></li>
+                  <li class='divider'></li> -->
+                  <li><a href='{{ uri_for('home') }}' title="Latest Bokers">Latest Bokers</a></li>
+                  <li><a href='{{ uri_for('home') }}?top=likes' title="Most Likes">Most Likes</a></li>
+                  <li><a href='{{ uri_for('home') }}?top=views' title="Most Views">Most Views</a></li>
+                  <li><a href='{{ uri_for('home') }}?top=comments' title="Most Comments">Most Comments</a></li>
+<!--                   <li class='divider'></li>
                   <li><a href='#'>Boker of the day</a></li>
                   <li><a href='#'>Boker of the week</a></li>
-                  <li><a href='#'>Boker of the month</a></li>
+                  <li><a href='#'>Boker of the month</a></li> -->
                 </ul>
-          </li> -->
+          </li>
           <li {% if page == 'contest' %}class="active"{% endif %} ><a href="{{ uri_for('contests') }}" title="Kontes">Kontes</a></li>
           <li><a href="http://blog.bokerface.com/" title="Bokerface Blog" target="_blank">Blog</a></li>
         </ul>

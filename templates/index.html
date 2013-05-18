@@ -20,7 +20,7 @@
                 _.bindAll(this, 'render_item', 'fetch_data');
                 this.template = _.template($('#boker_template').html());
 
-                this.bokers = new Posts([], {});
+                this.bokers = new Posts([], {query: '{{query}}'});
                 this.bokers.bind('add', this.render_item, this);
                 this.loading = false;
 
