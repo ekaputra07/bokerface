@@ -127,6 +127,10 @@ class BokerViewHandler(BaseHandler):
                 vote = Vote(contest=Contest.active_contest(), user=user, boker=boker)
                 vote.put()
 
+                # Upate boker vote score
+                boker.num_vote += 1
+                boker.save()
+
                 # Trigger post action
                 user_access_token = self.current_user['access_token']
                 boker_url = settings.APP_DOMAIN + self.uri_for('boker_view', boker_id=boker_id)

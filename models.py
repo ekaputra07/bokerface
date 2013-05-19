@@ -1,7 +1,8 @@
-from collections import Counter
+from operator import attrgetter
 
 from google.appengine.ext import db
 from google.appengine.ext import blobstore
+from google.appengine.api import memcache
 
 
 class User(db.Model):
@@ -44,6 +45,7 @@ class Boker(db.Model):
     num_comment = db.IntegerProperty(default=0)
     num_view = db.IntegerProperty(default=0)
     num_like = db.IntegerProperty(default=0)
+    num_vote = db.IntegerProperty(default=0)
 
 
 class Contest(db.Model):
@@ -74,21 +76,16 @@ class Contest(db.Model):
 
     @classmethod
     def get_winners(cls, contest):
-        votes_dict = {}
-        votes = Vote.gql('WHERE contest=:1', contest)
 
-        # Create votes based rank
-        for v in votes:
-            if v in votes_dict:
-                votes_dict[v] += 1
-            else:
-                votes_dict[v] = 1
-
-        ranked_votes = Counter(votes_dict).most_common()[:contest.num_winners]
-
-        # TODO: Create created-date based rank if some boker have same amount 
-        # of votes. who created earlier, it gets higer rank.
-        return ranked_votes
+        winners = memcache.get('winners:%s' % contest.key().id())
+        if not winners:
+            q1 = Boker.all()
+            q1.filter('created >=', contest.start).filter('created <=', contest.end)
+            nominee = list(q1)
+            nominee.sort(key=attrgetter('num_vote'), reverse=True)
+            winners = nominee[:contest.num_winners]
+            memcache.set('winners:%s' % contest.key().id(), winners)
+        return winners
 
 
 class Vote(db.Model):

@@ -12,6 +12,24 @@ indexes:
 
 - kind: Boker
   properties:
+  - name: created
+  - name: num_vote
+
+- kind: Boker
+  properties:
+  - name: created
+  - name: num_vote
+    direction: desc
+
+- kind: Boker
+  properties:
+  - name: created
+    direction: desc
+  - name: num_vote
+    direction: desc
+
+- kind: Boker
+  properties:
   - name: user
   - name: created
     direction: desc

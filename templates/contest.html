@@ -68,18 +68,20 @@
                 </tr>
               </thead>
               <tbody>
+              {% if winners %}
               {% for win in winners %}
                   <tr>
                     <td>
-                        <a href="{{ uri_for('boker_view', boker_id=win[0].boker.key().id() ) }}"><img src="{{ uri_for('image', photo_id=win[0].boker.photo.key()) }}?type=winner"/></a>
+                        <a href="{{ uri_for('boker_view', boker_id=win.key().id() ) }}"><img src="{{ uri_for('image', photo_id=win.photo.key()) }}?type=winner"/></a>
                     </td>
                     <td>
-                      <span class="muted">oleh</span> <strong><a href="{{uri_for('user', username=win[0].boker.user.username )}}">{{ win[0].boker.user.username }}</a></strong> <span class="muted">pada</span> {{ win[0].boker.created|formattime }}<br>
-                      <i>" {{ win[0].boker.description }} "</i><br><br>
-                      <i class="icon icon-thumbs-up"></i> {{win[1]}} votes.
+                      <span class="muted">oleh</span> <strong><a href="{{uri_for('user', username=win.user.username )}}">{{ win.user.username }}</a></strong> <span class="muted">pada</span> {{ win.created|formattime }}<br>
+                      <i>" {{ win.description }} "</i><br><br>
+                      <i class="icon icon-thumbs-up"></i> {{win.num_vote}} votes.
                     </td>
                   </tr>
               {% endfor %}
+              {% endif %}
               </tbody>
             </table>
 
