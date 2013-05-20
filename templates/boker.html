@@ -39,9 +39,9 @@
                 <div id='bodytxt' class='span12'>
                   <input type="hidden" name="photokey" id="photokey" value="" />
                   <textarea rows='3' class='span12 textarea' placeholder='Tentang expresimu...' name="desc" id="desc"></textarea>
-                  <label class="checkbox pull-left">
+<!--                   <label class="checkbox pull-left">
                   <input type="checkbox" name="explicit_share" checked="checked"/> Bagikan di wall Facebook mu?
-                  </label>
+                  </label> -->
                   <button class='btn btn-warning pull-right'>Boker!</button> 
                 </div>
               </div>
@@ -54,7 +54,7 @@
 {% endblock %}
 
 {% block footerscript %}
-<script src='{{STATIC_URL}}assets/js/fineuploader-3.0.min.js'></script>
+<script src='{{STATIC_URL}}assets/js/fineuploader-3.5.0.min.js'></script>
 <script type="text/javascript">
 jQuery(document).ready(function($){
 

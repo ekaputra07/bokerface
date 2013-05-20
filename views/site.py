@@ -154,15 +154,13 @@ class BokerHandler(BaseHandler):
         #  action upload a photo
         if self.request.get('action') == 'upload':
 
-            filename = self.request.get('photo')
-            ext = filename.split('.')[-1].lower()
-
-            fd = self.request.body
+            fd = self.request.get('photo')
+            # ext = fd.file.name.split('.')[-1].lower()
 
             cropped, img = crop_image(fd, 'post', False)
             photo_blob = Photo.create_blob(img)
 
-            extension = 'jpg' if cropped==True else ext
+            extension = 'jpg' # if cropped==True else ext
             photo = Photo(user=user, file=photo_blob, extension=extension, is_used=False)
             photo.put()
 
