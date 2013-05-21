@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 
-{% block title %}Boker Face • ini expresi gue, mana expresi loe{% endblock %}
+{% block title %}{{user.username}} | Boker Face • Apakah Anda lagi Boker hari ini?{% endblock %}
 
 {% block content %}
 <div class='welcome' style="height:100px">
     <h1>{{user.username}}</h1>
-    Ga harus perfect untuk bisa menjadi star idol, Kamu pun bisa. Ini expresi BF gue, mana expresi BF loe?
+    Apakah Anda lagi Boker hari ini?
 </div>
   <div class='row'>
     <ul class='thumbnails bokers-container' id="boker-list">

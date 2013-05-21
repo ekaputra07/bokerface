@@ -58,24 +58,26 @@ def post_page_wall(access_token, boker_id, photo_key, message, explicitly_shared
         except:
             pass
             
-        # if explicitly_shared:
-        #     try:
-        #         post_upload_story(access_token, boker_url)
-        #     except:
-        #         pass
+        if explicitly_shared:
+            try:
+                post_upload_story(access_token, boker_url)
 
-        # Post to userwall
-        # will use this if upload story not approved by facebook
-        attachment = {
-            "name": message,
-            "link": boker_url,
-            "picture": photo_url,
-            "description": 'Apakah Anda lagi Boker hari ini? cekidot http://bokerface.com',
-        }
-        try:
-            post_user_wall(access_token, message, attachment)
-        except:
-            pass
+                # Post to userwall
+                # will use this if upload story not approved by facebook
+                attachment = {
+                    "name": message,
+                    "link": boker_url,
+                    "picture": photo_url,
+                    "description": 'Apakah Anda lagi Boker hari ini? cekidot http://bokerface.com',
+                }
+                try:
+                    post_user_wall(access_token, message, attachment)
+                except:
+                    pass
+
+            except:
+                pass
+
     else:
         logging.info('Runtask: post_page_wall...')
 
@@ -121,9 +123,7 @@ def like_boker(user_key, boker_key):
         if not settings.DEBUG:
             boker_url = "%s/boker/%s" % (settings.APP_DOMAIN, boker.key().id())
             graph = facebook.GraphAPI(user.access_token)
-            # graph.request('me/og.likes',
-            #         post_args={'object': boker_url, 'fb:explicitly_shared': 'true'})
             graph.request('me/og.likes',
-                    post_args={'object': boker_url})
+                    post_args={'object': boker_url, 'fb:explicitly_shared': 'true'})
         else:
             logging.info('Runtask: post_like_story...')
