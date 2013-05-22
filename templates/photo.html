@@ -30,20 +30,22 @@
             </div>
             <div class='sidebox ft'>
               <a href='{{ uri_for('user', username=boker.user.username) }}'><img class='avatar' src='http://graph.facebook.com/{{ boker.user.id }}/picture?type=square' alt='{{boker.user.username}}' /></a>
-              {{boker.created|is_new}} <span><i class='icon-time'></i> {{boker.created|naturaltime}}</span>
+              {{boker.created|is_new}} <span><i class='icon-time'></i> {{boker.created|naturaltime}}</span> |
+                <span>
+                  <i class='icon-eye-open'></i> {{ boker.num_view }} <i class='icon-thumbs-up'></i> {{ boker.num_like }} <i class='icon-comment'></i> {{boker.num_comment}}
+                </span>
             </div>
-            <hr>
 
-            <div class="comment-main">
+            <div class="comment-main" style="margin-bottom:5px;">
               <span class='button-stat'>
                 <button class="btn btn-block btn-large btn-like-detail {% if not can_like %}disabled{% endif %}" onclick="{% if not can_like %}return false;{% endif %}" data-boker="{{boker.key()}}">
-                  <i class='icon-thumbs-up'></i> Like!</i>
+                  <i class='icon-star'></i> Suka! <i class='icon-star'></i>
                 </button>
               </span>
             </div>
-            <hr>
+
             {% if active_contest and is_nominee %}
-            <div class="comment-main">
+            <div class="comment-main" style="margin-bottom:5px;">
               <span class='button-stat'>
                 <form method="post" action="" name="voteform">
                 <input type="hidden" name="action" value="vote"/>
@@ -72,10 +74,10 @@
                 {% endif %}
               </span>
             </div>
-            <hr>
+
             {% endif %}
             <div class="comment-main" style="max-width:470px">
-              <div class="fb-comments" data-href="{{app_domain}}{{ uri_for('boker_view', boker_id=boker.key().id()) }}" data-width="470" data-num-posts="20"></div>
+              <div class="fb-comments" data-href="{{app_domain}}{{ uri_for('boker_view', boker_id=boker.key().id()) }}" data-width="460" data-num-posts="20"></div>
             </div>
         </div>
       </div>

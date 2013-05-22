@@ -16,29 +16,31 @@ def post_user_wall(access_token, message, attachment={}):
         logging.info('Runtask: post_user_wall...')
 
 
-def post_upload_story(access_token, url):
+def post_upload_story(access_token, url, explicitly_shared=False):
     """publish upload photo story on wall"""
 
     if not settings.DEBUG:
         graph = facebook.GraphAPI(access_token)
         graph.request('me/bokerface:upload', 
-                post_args={'photo': url, 'fb:explicitly_shared': 'true'})
+                      post_args={'photo': url,
+                                 'fb:explicitly_shared': str(explicitly_shared).lower()})
     else:
         logging.info('Runtask: post_upload_story...')
 
 
-def post_vote_story(access_token, url):
+def post_vote_story(access_token, url, explicitly_shared=False):
     """publish vote photo story on wall"""
 
     if not settings.DEBUG:
         graph = facebook.GraphAPI(access_token)
         graph.request('me/bokerface:vote',
-                post_args={'photo': url, 'fb:explicitly_shared': 'true'})
+                post_args={'photo': url,
+                           'fb:explicitly_shared': str(explicitly_shared).lower()})
     else:
         logging.info('Runtask: post_vote_story...')
 
 
-def post_page_wall(access_token, boker_id, photo_key, message, explicitly_shared):
+def post_page_wall(access_token, boker_id, photo_key, message, explicitly_shared=False):
     """ Post new boker to Page wall"""
 
     if not settings.DEBUG:
@@ -58,25 +60,24 @@ def post_page_wall(access_token, boker_id, photo_key, message, explicitly_shared
         except:
             pass
             
-        if explicitly_shared:
-            try:
-                post_upload_story(access_token, boker_url)
+        try:
+            post_upload_story(access_token, boker_url, explicitly_shared)
 
-                # Post to userwall
-                # will use this if upload story not approved by facebook
-                attachment = {
-                    "name": message,
-                    "link": boker_url,
-                    "picture": photo_url,
-                    "description": 'Apakah Anda lagi Boker hari ini? cekidot http://bokerface.com',
-                }
-                try:
-                    post_user_wall(access_token, message, attachment)
-                except:
-                    pass
+            # Post to userwall
+            # will use this if upload story not approved by facebook
+            # attachment = {
+            #     "name": message,
+            #     "link": boker_url,
+            #     "picture": photo_url,
+            #     "description": 'Apakah Anda lagi Boker hari ini? cekidot http://bokerface.com',
+            # }
+            # try:
+            #     post_user_wall(access_token, message, attachment)
+            # except:
+            #     pass
 
-            except:
-                pass
+        except:
+            pass
 
     else:
         logging.info('Runtask: post_page_wall...')
@@ -104,7 +105,7 @@ def update_num_comment(action, boker_key):
                 boker.put()
 
 
-def like_boker(user_key, boker_key):
+def like_boker(user_key, boker_key, explicitly_shared=False):
     """Like a boker"""
 
     user = User.get_by_key_name(user_key)
@@ -124,6 +125,6 @@ def like_boker(user_key, boker_key):
             boker_url = "%s/boker/%s" % (settings.APP_DOMAIN, boker.key().id())
             graph = facebook.GraphAPI(user.access_token)
             graph.request('me/og.likes',
-                    post_args={'object': boker_url, 'fb:explicitly_shared': 'true'})
+                    post_args={'object': boker_url, 'fb:explicitly_shared': str(explicitly_shared).lower()})
         else:
             logging.info('Runtask: post_like_story...')

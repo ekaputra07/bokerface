@@ -1,4 +1,6 @@
 import urllib2, urllib, json
+import logging
+logging.basicConfig(level=logging.INFO)
 
 import webapp2
 from google.appengine.api import images
@@ -170,7 +172,9 @@ class BokerHandler(BaseHandler):
         # Action create post
         if self.request.get('action') == 'boker':
 
-            explicit_share = self.request.get('explicit_share', False)
+            explicitly_shared = self.request.get('explicit_share', False)
+            if explicitly_shared == 'on': explicitly_shared = True
+
             photokey = self.request.get('photokey')
             desc = self.request.get('desc')
 
@@ -186,7 +190,7 @@ class BokerHandler(BaseHandler):
                 # Run task: Posting to page wall
                 user_access_token = self.current_user['access_token']
                 deferred.defer(post_page_wall, user_access_token,
-                               boker.key().id(), photokey, desc, explicit_share)
+                               boker.key().id(), photokey, desc, explicitly_shared)
 
                 self.redirect(self.uri_for('boker_view',
                               boker_id=boker.key().id() ))

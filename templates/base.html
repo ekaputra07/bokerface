@@ -146,6 +146,25 @@
 
     </script>
 
+    <!-- UserVoice JavaScript SDK (only needed once on a page) -->
+    <script>(function(){var uv=document.createElement('script');uv.type='text/javascript';uv.async=true;uv.src='//widget.uservoice.com/oPZPqQ1lI3lUc9xhc1A8Vg.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(uv,s)})()</script>
+
+    <!-- A tab to launch the Classic Widget -->
+    <script>
+    UserVoice = window.UserVoice || [];
+    UserVoice.push(['showTab', 'classic_widget', {
+      mode: 'full',
+      primary_color: '#cc6d00',
+      link_color: '#007dbf',
+      default_mode: 'support',
+      forum_id: 207837,
+      tab_label: 'Feedback & Support',
+      tab_color: '#cc6d00',
+      tab_position: 'middle-right',
+      tab_inverted: false
+    }]);
+    </script>
+
     <script type="text/template" id="boker_template">
         <li class="span3 item" id="item-<%= obj.id %>">
             <div class="thumbnail">
@@ -156,7 +175,7 @@
                   <div class="mask m-button">
                   <span class='info'>
                   <button class='btn btn-large btn-warning btn-like-list' data-boker="<%= obj.key %>" type='button'>
-                  <i class='icon-thumbs-up icon-white'></i> Like!
+                  <i class='icon-star icon-white'></i> Suka!
                   </button>
                   </span>
                   </div>
@@ -168,9 +187,12 @@
             </h2>
             <span><i class='icon-eye-open'></i> <%= obj.num_view %> <i class='icon-thumbs-up'></i> <%= obj.num_like %> <i class='icon-comment'></i> <%= obj.num_comment %></span>
 
-            <div class="sidebox">
-                <a href="<%= obj.user.url %>"><img src="http://graph.facebook.com/<%= obj.user.id %>/picture?type=square" width="36" height="36" class="avatar"/></a>
-                <span class='label label-inverse'><%= obj.user.username %></span> <span><i class="icon-time"></i> <%= obj.created %></span>
+            <div class="sidebox" style="padding:8px; height:auto">
+                <a href="<%= obj.user.url %>" style="float:left; margin-top:5px">
+                <img src="http://graph.facebook.com/<%= obj.user.id %>/picture?type=square" width="36" height="36" class="avatar"/>
+                </a>
+                <span class='label' style="margin-top:7px"><%= obj.user.username %></span><br/>
+                <span style="margin-left:3px"><i class="icon-time time"></i> <%= obj.created %></span>
                 </div>
             </div>
         </li>
