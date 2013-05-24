@@ -11,7 +11,7 @@ from libs import facebook
 
 import settings
 from utils import BaseHandler
-from models import Contest
+from models import Contest, AdminSetting
 from forms import ContestForm, ContentForm
 
 
@@ -91,3 +91,41 @@ class AdminContentHandler(BaseHandler):
             form.save()
             self.redirect(self.uri_for('admin_content')+'?success=1')
         return self.render_response(self.template, locals())
+
+
+class AdminTokenHandler(BaseHandler):
+    login_required = True
+    superadmin_required = True
+
+    def get(self):
+        current_admin_AT = self.current_user['access_token']
+
+        try:
+            # Get long-lived admin access token
+            og1 = facebook.GraphAPI(current_admin_AT)
+            current_admin_ATL = og1.extend_access_token(settings.FACEBOOK_APP_ID,
+                                                       settings.FACEBOOK_APP_SECRET)
+
+            AdminSetting.set_setting('admin_at', current_admin_AT)
+            AdminSetting.set_setting('admin_atl', current_admin_ATL.get('access_token'))
+
+            # Get long-lived Page access token
+            og2 = facebook.GraphAPI(current_admin_ATL.get('access_token'))
+            accounts = og2.request('me/accounts')
+
+            apps = accounts.get('data')
+            for app in apps:
+                if app.get('name') == settings.FACEBOOK_APP_NAME:
+                    AdminSetting.set_setting('page_atl', app.get('access_token'))
+                    break
+
+            # Print the result
+            self.response.out.write('Admin Token: %s\nAdmin Token L: %s\nPage Token: %s' % (
+                AdminSetting.get_setting('admin_at'), AdminSetting.get_setting('admin_atl'), 
+                AdminSetting.get_setting('page_atl')
+                ))
+        except Exception as e:
+            self.response.out.write(e)
+
+
+

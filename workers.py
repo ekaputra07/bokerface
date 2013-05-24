@@ -2,7 +2,7 @@ import logging
 import urllib2
 
 import settings
-from models import User, Boker, Like
+from models import User, Boker, Like, AdminSetting
 from libs import facebook
 
 
@@ -50,15 +50,16 @@ def post_page_wall(access_token, boker_id, photo_key, message, explicitly_shared
         final_message = "%s\n%s\n\nApakah Anda lagi Boker hari ini? cekidot http://bokerface.com" % (
                         message, boker_url)
 
-        graph = facebook.GraphAPI(settings.PAGE_ACCESS_TOKEN)
+        page_token = AdminSetting.get_setting('page_atl')
+        graph = facebook.GraphAPI(page_token)
 
         # Post to page wall
         try:
             file = urllib2.urlopen(photo_url)
             graph.put_photo(file, message=final_message, 
                     album_id=settings.TIMELINE_ALBUM_ID)
-        except:
-            pass
+        except Exception as e:
+            print e
             
         try:
             post_upload_story(access_token, boker_url, explicitly_shared)
@@ -110,6 +111,7 @@ def like_boker(user_key, boker_key, explicitly_shared=False):
 
     user = User.get_by_key_name(user_key)
     boker = Boker.get(boker_key)
+    boker_owner = boker.user
 
     if user and boker and not Like.already_like(user, boker):
         # Create like
@@ -120,11 +122,27 @@ def like_boker(user_key, boker_key, explicitly_shared=False):
         boker.num_like += 1
         boker.put()
 
-        # Post to FB
         if not settings.DEBUG:
-            boker_url = "%s/boker/%s" % (settings.APP_DOMAIN, boker.key().id())
-            graph = facebook.GraphAPI(user.access_token)
-            graph.request('me/og.likes',
-                    post_args={'object': boker_url, 'fb:explicitly_shared': str(explicitly_shared).lower()})
+            # Post to FB
+            try:
+                boker_url = "%s/boker/%s" % (settings.APP_DOMAIN, boker.key().id())
+                graph = facebook.GraphAPI(user.access_token)
+                graph.request('me/og.likes',
+                        post_args={'object': boker_url, 'fb:explicitly_shared': str(explicitly_shared).lower()})
+            except Exception as e:
+                print e
+
+            # Notify Boker owner
+            try:
+                boker_url = "boker/%s" % (boker.key().id())
+                graph = facebook.GraphAPI(settings.FACEBOOK_APP_ACCESS_TOKEN)
+                graph.request('%s/notifications' % boker_owner.id,
+                               post_args={
+                                        'href': boker_url,
+                                        'template': '@[%s] likes your boker!' % user.id,
+                                        })
+            except Exception as e:
+                print e
+
         else:
             logging.info('Runtask: post_like_story...')

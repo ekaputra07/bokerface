@@ -31,6 +31,9 @@ class HomeHandler(BaseHandler):
             query = 'sort='+sort
         return self.render_response(self.template, locals())
 
+    def post(self):
+        return self.redirect(self.uri_for('home'))
+
 
 class UserHandler(BaseHandler):
     """User profile page"""
