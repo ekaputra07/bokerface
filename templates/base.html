@@ -111,6 +111,13 @@
       function fb_logout(){
         FB.logout();
       }
+
+      function invite_friends(){
+        FB.ui({method: 'apprequests',
+          title: 'Ayo seru-seruan di bokerface.com',
+          message: 'Ayo seru-seruan di bokerface.com...',
+        }, function(){});
+      }
       
       {% else %}
       function fb_login(){

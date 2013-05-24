@@ -13,7 +13,7 @@
         <div class='alert alert-block upload box text'>
           <blockquote>
           <p>1. Upload</p>
-          <small>Pilih dan upload photo dengan expresi terbaik mu</small>
+          <small>Pilih photo gokil mu</small>
         </blockquote>
         </div>
         <div class='alert alert-block upload box'>
@@ -28,8 +28,8 @@
       <div class='span4'>
         <div class='alert alert-block upload box text'>
           <blockquote>
-          <p>2. Tentang expresimu</p>
-          <small>Ceritakan singkat tentang expresimu di photo</small>
+          <p>2. Sedikit cerita</p>
+          <small>Ceritakan sedikit tentang photo ini</small>
         </blockquote>
         </div>
         <div class='alert alert-block upload box'>
@@ -38,7 +38,7 @@
               <div class='span12'>
                 <div id='bodytxt' class='span12'>
                   <input type="hidden" name="photokey" id="photokey" value="" />
-                  <textarea rows='3' class='span12 textarea' placeholder='Tentang expresimu...' name="desc" id="desc"></textarea>
+                  <textarea rows='3' class='span12 textarea' name="desc" id="desc"></textarea>
                   <label class="checkbox pull-left">
                   <input type="checkbox" name="explicit_share" checked="checked"/> Bagikan di wall Facebook mu?
                   </label>
@@ -73,7 +73,7 @@ jQuery(document).ready(function($){
             desc = $('#desc').val();
 
             if(photo == '' || desc == ''){
-                alert('Photo gokil mu + deskripsi nya wajib diisi..');
+                alert('Photo + ceritantanya wajib diisi ya..');
                 return false;
             }
             return true;
