@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
 
-# TODO: Most of this settings should be stored in database
-# rather than hardcoded, for now simplicity matter.
-
 import os
 
 DEBUG  = False
@@ -27,10 +24,15 @@ TZ_OFFSET = +8 # WITA from UTC
 
 # Facebook App related settings
 # Long lived access token
-
 FACEBOOK_APP_NAME = 'Boker'
-FACEBOOK_APP_ID = '496912247033162'
-FACEBOOK_APP_SECRET = '825d7cab759f02c098445bc2b0eede9e'
-FACEBOOK_APP_ACCESS_TOKEN = '496912247033162|q6JcxHVPY1QJ9bEDSEX5ww5VUJc'
+FACEBOOK_APP_ID = ''
+FACEBOOK_APP_SECRET = ''
+FACEBOOK_APP_ACCESS_TOKEN = ''
 
-TIMELINE_ALBUM_ID = '163850820438671'
+TIMELINE_ALBUM_ID = ''
+
+
+try:
+	from local_settings import *
+except ImportError:
+	pass
