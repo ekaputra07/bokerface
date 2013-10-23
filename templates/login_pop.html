@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block style %}
+<link href='{{STATIC_URL}}assets/css/bootstrap.css' rel='stylesheet'>
+<link href='{{STATIC_URL}}assets/css/bootstrap-responsive.css' rel='stylesheet'>
+<link href='{{STATIC_URL}}assets/css/pop.css' rel='stylesheet'>
+{% endblock %}
+
+{% block additionalscript %}{% endblock %}
+{% block topbar %}{% endblock %}
+{% block footer %}{% endblock %}
+
+{% block content %}
+<div class="row pop login">
+
+<div class='outer about-txt' style="text-align:center;">
+{% if msg == 'fb_error' %}
+<div class='alert'>Gagal terkoneksi dengan akun Facebook anda.</div>
+{% endif %}
+<p class="lead">Silahkan login dengan akun <strong>Facebook</strong> anda.</p>
+<hr>
+<p>
+<a href="javascript:;" title="Login with facebook" onclick="{% if not superadmin %}fb_login(true);{% else %}fb_login_admin();{% endif %}">
+    <img src="{{STATIC_URL}}assets/img/facebook-login-button.png" />
+</a>
+</p>
+</div>
+
+</div>
+{% endblock %}

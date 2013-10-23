@@ -29,9 +29,9 @@
           <li><a href="http://blog.bokerface.com/" title="Bokerface Blog" target="_blank">Blog</a></li>
         </ul>
         <ul class='nav pull-right'>
-        <li class='divider-vertical'></li>
+<!--         <li class='divider-vertical'></li>
         <li class='navbar-social-btn'><div class="fb-like" data-href="http://www.facebook.com/pages/Boker/159547404202346" data-send="true" data-layout="button_count" data-width="450" data-show-faces="false"></div>
-        </li>
+        </li> -->
         <li class='divider-vertical'></li>
         {% if current_user %}
         <!-- <li><a href='#'><span class='label label-important'>30</span></a></li> 
@@ -53,11 +53,11 @@
             </ul>
           </li>
         {% else %}
-            <li><a href='{{ uri_for('login') }}'><i class='icon-user'></i>+ <strong>Login / Sign Up</strong></a></li>
+            <li><a href='{{ uri_for('login') }}?pop=1' class="fancybox" data-fancybox-type="iframe"><i class='icon-user'></i>+ <strong>Login / Daftar</strong></a></li>
         {% endif %}
 
           <li class='divider-vertical last'></li>
-          <a href='{{ uri_for('boker') }}' class='btn btn-warning'><i class='icon-upload icon-white'></i> Upload</a>
+          <a href='{{ uri_for('boker') }}?pop=1&type=photo' class='btn btn-warning fancybox' data-fancybox-type="iframe"><i class='icon-upload icon-white'></i> Upload</a>
           
         </ul>
       </div><!--/.nav-collapse -->

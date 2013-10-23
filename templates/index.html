@@ -3,11 +3,21 @@
 {% block title %}Boker Face • Apakah Anda lagi Boker hari ini?{% endblock %}
 
 {% block content %}
+    
+    {% if current_user %}
     <div class="well well-small">
     <strong class="muted text-warning" style="margin-top:5px;float:left; font-size:14px">STOP PRESS!! Jangan ketawa sendirian aja, paling asik tu rame-rame coy...</strong>
     <button class="btn btn-info pull-right" onclick="invite_friends();"><i class="icon icon-white icon-thumbs-up"></i> Invite friends</button>
+    <div class="fb-like pull-right" data-href="http://www.facebook.com/pages/Boker/159547404202346" data-send="true" data-layout="button_count" data-width="450" data-show-faces="false" style="margin:5px 10px 0 0"></div>
     <div class="clearfix"></div>
-    </div> 
+    </div>
+    {% else %}
+    <div class="well well-small">
+    <strong class="muted text-warning" style="margin-top:5px;float:left; font-size:14px">Apakah anda lagi <a href="{{ uri_for('about') }}">Boker</a> hari ini? langsung aja gabung di Bokerface.com...</strong>
+    <div class="fb-like pull-right" data-href="http://www.facebook.com/pages/Boker/159547404202346" data-send="true" data-layout="button_count" data-width="450" data-show-faces="false" style="margin:5px 10px 0 0"></div>
+    <div class="clearfix"></div>
+    </div>
+    {% endif %}
 
   <div class='row'>
     <ul class='thumbnails bokers-container' id="boker-list">

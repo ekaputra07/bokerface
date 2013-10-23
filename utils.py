@@ -1,3 +1,5 @@
+import base64
+import urllib
 import webapp2
 import jinja2
 from webapp2_extras import sessions
@@ -134,9 +136,14 @@ class BaseHandler(webapp2.RequestHandler):
         """ Check if user need loggedin"""
 
         if self.login_required:
+            ispop = self.request.get('pop') == '1'
+
             if not self.current_user:
                 # Redirect to login page
-                self.redirect('%s?next=%s' % (self.uri_for('login'), self.request.path))
+                redirect_url = '%s?next=%s' % (self.uri_for('login'), urllib.quote_plus(self.request.url))
+                if ispop:
+                    redirect_url += '&pop=1'
+                self.redirect(redirect_url)
 
             # Check if need superadmin access
             if self.superadmin_required:
@@ -202,3 +209,10 @@ def crop_image(raw_img, size_id, strict=True):
         else:
             return (False, raw_img)
     return (False, False)
+
+
+def encode_url(url):
+    return base64.b16encode(str(url))
+
+def decode_url(url):
+    return base64.b16decode(str(url))

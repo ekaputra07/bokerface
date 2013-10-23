@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block title %}{{boker.description}} | Boker Face • Apakah Anda lagi Boker hari ini?{% endblock %}
+
+{% block fb_type %}og:video{% endblock %}
+{% block fb_url %}{{app_domain}}{{ uri_for('boker_view', boker_id=boker.key().id()) }}{% endblock %}
+{% block fb_title %}{{boker.description}}{% endblock %}
+{% block fb_image %}http://img.youtube.com/vi/{{boker.video_id}}/hqdefault.jpg{% endblock %}
+{% block extrameta %}
+<meta property="og:video" content="http://www.youtube.com/v/{{boker.video_id}}?version=3&amp;autohide=1">
+<meta property="og:video:type" content="application/x-shockwave-flash">
+{% endblock %}
+
+{% block content %}
+<div id='center' class='span12'>
+        <div class='row'>  
+          <div id='photofix' class='span7'>
+            <div class='photo-main'> 
+              <div class='outerphoto'>
+              <iframe width="670" height="400" class="video_preview" src="http://www.youtube.com/embed/{{boker.video_id}}" frameborder="0" allowfullscreen></iframe>
+              </div>
+            </div>
+                <!-- AddThis Button BEGIN -->
+                <div class="addthis_toolbox addthis_default_style " style="margin-top:10px;">
+                <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+                <a class="addthis_button_tweet" tw:via="bokerface"></a>
+                <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+                </div>
+                <!-- AddThis Button END -->
+          </div>
+          <div class='span5 comment-box'>
+            <div class='outertxt'>
+              <p><span class='label label-inverse'>{{boker.user.username}}</span> {{boker.description}}</p>
+            </div>
+            <div class='sidebox ft'>
+              <a href='{{ uri_for('user', username=boker.user.username) }}'><img class='avatar' src='http://graph.facebook.com/{{ boker.user.id }}/picture?type=square' alt='{{boker.user.username}}' /></a>
+              {{boker.created|is_new}} <span><i class='icon-time'></i> {{boker.created|naturaltime}}</span> |
+                <span>
+                  <i class='icon-eye-open'></i> {{ boker.num_view }} <i class='icon-thumbs-up'></i> {{ boker.num_like }} <i class='icon-comment'></i> {{boker.num_comment}}
+                </span>
+            </div>
+
+            <div class="comment-main" style="margin-bottom:5px;">
+              <span class='button-stat'>
+                <button class="btn btn-block btn-large btn-like-detail {% if not can_like %}disabled{% endif %}" onclick="{% if not can_like %}return false;{% endif %}" data-boker="{{boker.key()}}">
+                  <i class='icon-star'></i> Suka! <i class='icon-star'></i>
+                </button>
+              </span>
+            </div>
+
+            <div class="comment-main" style="max-width:470px">
+              <div class="fb-comments" data-href="{{app_domain}}{{ uri_for('boker_view', boker_id=boker.key().id()) }}" data-width="460" data-num-posts="20"></div>
+            </div>
+        </div>
+      </div>
+    </div>
+{% endblock %}
+
+{% block fb_event_scripts %}
+    FB.Event.subscribe('comment.create', function(resp){
+        ajax_action('inc_comment', {boker: '{{ boker.key() }}'});
+    });
+
+    FB.Event.subscribe('comment.remove', function(resp){
+        ajax_action('dec_comment', {boker: '{{ boker.key() }}'});
+    });
+{% endblock %}
+
+{% block footerscript %}
+    <script type="text/javascript">
+      var addthis_config = {
+          username: "bokerface",
+          ui_header_color: "#ffffff",
+          ui_header_background: "#c70000",
+          ui_cobrand: "bokerface.com",
+          ui_use_addressbook: true,
+          data_ga_property: "UA-1149719-10",
+          data_track_clickback: true
+      }
+      var addthis_share = {
+          templates: {
+              twitter: '{{title}} {{url}} via @bokerface #bokerface #boker #bf',
+          }
+      }
+    </script>
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=bengkelmediagroup"></script>
+{% endblock %}

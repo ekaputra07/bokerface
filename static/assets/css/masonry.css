@@ -1,14 +1,7 @@
 /**** Demos ****/
 
 #container {
-  background: #FFF;
-  padding: 5px;
-  margin-bottom: 20px;
-  border-radius: 5px;
-  clear: both;
-  -webkit-border-radius: 5px;
-     -moz-border-radius: 5px;
-          border-radius: 5px;
+
 }
 
 .centered { margin: 0 auto; }

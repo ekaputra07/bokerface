@@ -1,0 +1,10 @@
+.pop{
+    padding:20px 0;
+}
+
+.pop.boker{
+    width: 800px;
+}
+.pop.login{
+    width:500px;
+}

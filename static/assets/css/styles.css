@@ -1,8 +1,8 @@
 body {
     padding-top: 60px; padding-bottom: 60px; color:#333;
-    background:url(../img/bg.png) #fff;
+    /*background:#ddd;*/
+    background:url(../img/bg3.png) #ddd;
 }
-
 body .pull-center {margin: 0 auto; float: none}
 body .a-right {text-align: right !important}
 body .a-center {text-align: center !important}
@@ -71,8 +71,8 @@ body .view-boker .comment-box {margin-left: 0}
 .thumbnail {padding:0;background: #fff; box-shadow: rgba(0, 0, 0, 0.14902) 0px 5px 10px !important;}
 .row-fluid div.thumbnail {padding:0;-webkit-border-radius: 0px;-moz-border-radius: 0px;border-radius: 0px; border: 5px solid #fff;background: #fff; box-shadow: rgba(0, 0, 0, 0.14902) 0px 5px 10px !important;}
 
-h2.boker-name {font-size: 15px; margin: 10px 5px; line-height: 18px; font-weight: normal;}
-.boker-name a {color: #999999}
+h2.boker-name {font-size: 14px; margin: 10px 5px; line-height: 16px; font-weight: normal;}
+.boker-name a {color: #555}
 .boker-name a:hover {color: #333}
 .boker-picture {text-align: center; position: relative; overflow: hidden;}
 .boker-picture .carousel {margin-bottom: 0;}
@@ -225,7 +225,7 @@ h2.boker-name {font-size: 15px; margin: 10px 5px; line-height: 18px; font-weight
 .sidebox a:hover {text-decoration: none}
 #boker-list .sidebox {padding-top: 5px; text-align: left; border-top: 1px solid #eee;}
 #boker-list .sidebox .avatar {border: 0; margin-top: 0}
-.view-profile .thumbnail, #boker-list .thumbnail {text-align: center; font-size: 13px; color: #8A8F9C}
+.view-profile .thumbnail, #boker-list .thumbnail {text-align: center; font-size: 12px; color: #8A8F9C}
 #boker-list .thumbnail a.soundbull {color: #8A8F9C}
 .view-profile .span4 .thumbnail {box-shadow: none !important;}
 .view-profile h2.product-name a {color: #333; font-size: 15px; line-height: 15px}
@@ -247,6 +247,7 @@ html .view-profile input.uprofile {width: 100%}
 }
 @media (max-width: 768px) {
     .view-boker .boker-info {position: static}
+    body{padding-top:0;}
 }
 @media (min-width: 767px) and (max-width: 979px) {
 /*    #products-list .span3 {width: 340px}
@@ -254,4 +255,14 @@ html .view-profile input.uprofile {width: 100%}
     #boker-list .span3 {width: 340px; float: left; margin-left: 20px}
     #boker-list .span6 {width: 340px; float: left; margin-left: 20px}
     html .thumbnails {margin-left: -20px}
+    body{padding-top:0;}
+}
+
+.vid{
+    width:50px; height:50px; position:absolute; z-index:10; top:0; left:0; background:#fff;
+    background: url(../img/play.png) -7px -7px no-repeat #fff;
+  -webkit-box-shadow: 0 3px 8px rgba(0, 0, 0, 0.125);
+     -moz-box-shadow: 0 3px 8px rgba(0, 0, 0, 0.125);
+          box-shadow: 0 3px 8px rgba(0, 0, 0, 0.125);
+    opacity:0.9;
 }

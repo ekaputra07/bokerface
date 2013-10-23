@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+
+{% block style %}
+<link href='{{STATIC_URL}}assets/css/bootstrap.css' rel='stylesheet'>
+<link href='{{STATIC_URL}}assets/css/bootstrap-responsive.css' rel='stylesheet'>
+<link href='{{STATIC_URL}}assets/css/pop.css' rel='stylesheet'>
+
+{% endblock %}
+
+{% block additionalscript %}{% endblock %}
+{% block topbar %}{% endblock %}
+{% block footer %}{% endblock %}
+
+{% block content %}
+<div class="row pop boker">
+    <div class="span12">
+        <ul class="nav nav-tabs">
+            <li><a href="{{ uri_for('boker') }}?pop=1&type=photo" title="Upload Photo"><i class="icon icon-picture"></i> <strong>Photo</strong></a></li>
+            <li class="active"><a href="javascript:;" title="Bagikan Video"><i class="icon icon-facetime-video"></i> <strong>Video</strong></a></li>
+        </ul>
+    </div>
+
+    {% if errors %}
+    <div class="span12">
+    <div class="alert alert-danger"><strong>{{errors}}</strong></div>
+    </div>
+    {% endif %}
+
+    <form id='boker' name='boker' method='POST' action='/boker?action=boker_video&pop=1'>
+    <div class="span6">
+        <blockquote>
+          <p>1. Youtube Video</p>
+          <small>Link video dari Youtube.com</small>
+        </blockquote>
+        <div>
+            <span class="video">
+            <iframe width="350" height="280" class="video_preview hide" src="" frameborder="0" allowfullscreen></iframe>
+            <input type="text" name="video_url" value="{{video_url}}" class="input-block-level" placeholder="https://www.youtube.com/watch?v=AbcDxytsd"/>
+            <input type="hidden" name="video_id" value=""/>
+            <input type="hidden" name="video_source" value="youtube"/>
+            <a href="javascript:;" class='btn pull-right test-play'><i class="icon icon-play"></i> Preview</a>
+            </span>
+        </div>
+    </div>
+
+    <div class="span6">
+        <blockquote>
+          <p>2. Sedikit cerita</p>
+          <small>Ceritakan sedikit tentang video ini</small>
+        </blockquote>
+        <div>
+            <div class='row-fluid'>
+              <div class='span12'>
+                <div id='bodytxt' class='span12'>
+                  <textarea rows='3' class='span12 textarea' name="desc" id="desc">{{desc}}</textarea>
+                  <label class="checkbox pull-left">
+                  <input type="checkbox" name="explicit_share" checked="checked"/> Bagikan di wall Facebook mu?
+                  </label>
+                  <button class='btn btn-warning pull-right'>Boker!</button> 
+                </div>
+              </div>
+        </div>
+    </div>
+    </form>
+
+</div>
+{% endblock %}
+
+{% block footerscript %}
+<script type="text/javascript">
+function youtube_parser(url){
+    var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
+    var match = url.match(regExp);
+    if (match&&match[7].length==11){
+        return match[7];
+    }else{
+        return false;
+    }
+}
+
+jQuery(document).ready(function($){
+    
+    window.parent.jQuery.fancybox.update();
+
+    $('.test-play').click(function(){
+        var url = $('input[name=video_url]').val();
+        var vid = youtube_parser(url);
+        if(!vid){
+            alert('URL Video salah!.');
+        }else{
+            $('input[name=video_id]').val(vid);
+            $('.video_preview').attr('src', 'http://www.youtube.com/embed/'+vid).show('fast', function(){
+                setTimeout(function(){
+                    window.parent.jQuery.fancybox.update();
+                }, 500);
+            });
+        }
+    });
+
+  $('form#boker').submit(function(){
+
+        var video_url = $('input[name=video_url]').val(),
+            video_id = $('input[name=video_id]').val(),
+            desc = $('#desc').val();
+
+            if(video_url == '' || desc == '' || video_id == ''){
+                alert('Video + ceritanya wajib diisi ya..');
+                return false;
+            }
+            return true;
+    });
+});
+</script>
+{% endblock %}

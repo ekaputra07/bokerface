@@ -1,9 +1,12 @@
 import logging
 import urllib2
 
-import settings
-from models import User, Boker, Like, AdminSetting
 from libs import facebook
+
+import settings
+from utils import encode_url
+from models import User, Boker, Like, AdminSetting
+
 
 
 def post_user_wall(access_token, message, attachment={}):
@@ -16,7 +19,7 @@ def post_user_wall(access_token, message, attachment={}):
         logging.info('Runtask: post_user_wall...')
 
 
-def post_upload_story(access_token, url, explicitly_shared=False):
+def publish_upload_action(access_token, url, explicitly_shared=False):
     """publish upload photo story on wall"""
 
     if not settings.DEBUG:
@@ -25,10 +28,21 @@ def post_upload_story(access_token, url, explicitly_shared=False):
                       post_args={'photo': url,
                                  'fb:explicitly_shared': str(explicitly_shared).lower()})
     else:
-        logging.info('Runtask: post_upload_story...')
+        logging.info('Runtask: post_upload_action...')
 
 
-def post_vote_story(access_token, url, explicitly_shared=False):
+def publish_posts_action(access_token, url, explicitly_shared=False):
+    """publish posting an object story"""
+
+    if not settings.DEBUG:
+        graph = facebook.GraphAPI(access_token)
+        graph.request('me/og.posts',
+                        post_args={'object': url, 'fb:explicitly_shared': str(explicitly_shared).lower()})
+    else:
+        logging.info('Runtask: post_posts_action...')
+
+
+def publish_vote_action(access_token, url, explicitly_shared=False):
     """publish vote photo story on wall"""
 
     if not settings.DEBUG:
@@ -40,15 +54,14 @@ def post_vote_story(access_token, url, explicitly_shared=False):
         logging.info('Runtask: post_vote_story...')
 
 
-def post_page_wall(access_token, boker_id, photo_key, message, explicitly_shared=False):
-    """ Post new boker to Page wall"""
+def post_page_photo(url, photo_key, message):
+    """ Post new boker photo to Page wall"""
 
     if not settings.DEBUG:
-        boker_url = "%s/boker/%s" % (settings.APP_DOMAIN, boker_id)
         photo_url = "%s/images/%s" % (settings.APP_DOMAIN, photo_key)
 
         final_message = "%s\n%s\n\nApakah Anda lagi Boker hari ini? cekidot http://bokerface.com" % (
-                        message, boker_url)
+                        message, url)
 
         page_token = AdminSetting.get_setting('page_atl')
         graph = facebook.GraphAPI(page_token)
@@ -60,28 +73,35 @@ def post_page_wall(access_token, boker_id, photo_key, message, explicitly_shared
                     album_id=settings.TIMELINE_ALBUM_ID)
         except Exception as e:
             print e
-            
-        try:
-            post_upload_story(access_token, boker_url, explicitly_shared)
-
-            # Post to userwall
-            # will use this if upload story not approved by facebook
-            # attachment = {
-            #     "name": message,
-            #     "link": boker_url,
-            #     "picture": photo_url,
-            #     "description": 'Apakah Anda lagi Boker hari ini? cekidot http://bokerface.com',
-            # }
-            # try:
-            #     post_user_wall(access_token, message, attachment)
-            # except:
-            #     pass
-
-        except:
-            pass
-
     else:
-        logging.info('Runtask: post_page_wall...')
+        logging.info('Runtask: post_page_photo...')
+
+
+def post_page_video(url, message):
+    """ Post new boker Video to Page wall"""
+
+    if not settings.DEBUG:
+        # video_image = 'http://img.youtube.com/vi/%s/hqdefault.jpg' % video_id
+        # video_src = 'http://www.youtube.com/v/%s?version=3&amp;autohide=1' % video_id
+
+        final_message = "%s\n%s" % (message, url)
+
+        page_token = AdminSetting.get_setting('page_atl')
+        graph = facebook.GraphAPI(page_token)
+
+        # Post to page wall
+        try:
+            attachment = {
+                "name": message,
+                "link": url,
+                "caption": settings.APP_DOMAIN,
+                "description": settings.SITE_TITLE,
+            }
+            graph.put_wall_post(final_message, attachment)
+        except Exception as e:
+            print e
+    else:
+        logging.info('Runtask: post_page_video...')
 
 
 def update_num_view(boker_key):
@@ -92,7 +112,7 @@ def update_num_view(boker_key):
         boker.put()
 
 
-def update_num_comment(action, boker_key):
+def update_num_comment(action, boker_key, current_user):
     """ Update number of comment per Boker """
 
     boker = Boker.get(boker_key)
@@ -100,6 +120,27 @@ def update_num_comment(action, boker_key):
         if action=='inc_comment':
             boker.num_comment += 1
             boker.put()
+
+            # Notify Boker owner
+            notify_user = True
+            if current_user:
+                if current_user['id'] == boker.user.id:
+                    notify_user = False
+
+            if notify_user and not settings.DEBUG:
+                try:
+                    boker_url = encode_url("/boker/%s" % boker.key().id())
+                    graph = facebook.GraphAPI(settings.FACEBOOK_APP_ACCESS_TOKEN)
+                    graph.request('%s/notifications' % boker.user.id,
+                                   post_args={
+                                            'href': '?to='+boker_url,
+                                            'template': 'Ada komentar baru untuk boker anda.',
+                                            })
+                except Exception as e:
+                    print e
+            else:
+                logging.info('Runtask: notify new comment...')
+
         if action=='dec_comment':
             if boker.num_comment > 0:
                 boker.num_comment -= 1
@@ -133,16 +174,17 @@ def like_boker(user_key, boker_key, explicitly_shared=False):
                 print e
 
             # Notify Boker owner
-            try:
-                boker_url = "boker/%s" % (boker.key().id())
-                graph = facebook.GraphAPI(settings.FACEBOOK_APP_ACCESS_TOKEN)
-                graph.request('%s/notifications' % boker_owner.id,
-                               post_args={
-                                        'href': boker_url,
-                                        'template': '@[%s] likes your boker!' % user.id,
-                                        })
-            except Exception as e:
-                print e
+            if user != boker_owner:
+                try:
+                    boker_url = encode_url("/boker/%s" % boker.key().id())
+                    graph = facebook.GraphAPI(settings.FACEBOOK_APP_ACCESS_TOKEN)
+                    graph.request('%s/notifications' % boker_owner.id,
+                                   post_args={
+                                            'href': '?to=' + boker_url,
+                                            'template': '@[%s] menyukai boker anda.' % user.id,
+                                            })
+                except Exception as e:
+                    print e
 
         else:
             logging.info('Runtask: post_like_story...')

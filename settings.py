@@ -23,7 +23,6 @@ IMAGE_SIZES = {
 TZ_OFFSET = +8 # WITA from UTC
 
 # Facebook App related settings
-# Long lived access token
 FACEBOOK_APP_NAME = 'Boker'
 FACEBOOK_APP_ID = ''
 FACEBOOK_APP_SECRET = ''
@@ -36,3 +35,4 @@ try:
 	from local_settings import *
 except ImportError:
 	pass
+

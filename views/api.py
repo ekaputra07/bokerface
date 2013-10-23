@@ -88,9 +88,6 @@ class StreamHandler(BaseHandler):
                     'id': None,
                     'username': None,
                 },
-                'photo': {
-                    'key': str(b.photo.key()),
-                },
                 'id': b.key().id(),
                 'key': str(b.key()),
                 'created': naturaltime(b.created),
@@ -102,6 +99,14 @@ class StreamHandler(BaseHandler):
                 'num_like': b.num_like,
                 'can_like': user_can_like,
             }
+
+            if b.photo:
+                data['type'] = 'photo'
+                data['photo'] = {'key': str(b.photo.key())}
+
+            if b.video_id:
+                data['type'] = 'video'
+                data['embed'] = {'id': b.video_id, 'url': 'http://www.youtube.com/embed/' + b.video_id}     
 
             if self.current_user:
                 data['current_user'] = {

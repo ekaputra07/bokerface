@@ -14,18 +14,16 @@
 <meta property="og:url"    content="{% block fb_url %}{{app_domain}}{% endblock %}" /> 
 <meta property="og:title"  content="{% block fb_title %}{{site_title}}{% endblock %}" /> 
 <meta property="og:image"  content="{% block fb_image %}{{app_domain}}{{STATIC_URL}}assets/img/bokerface-icon.png{% endblock %}" />
+{% block extrameta %}
+{% endblock %}
 <meta property="og:description" content="{{site_desc}}"/>
 
 <title>{% block title %}{{site_title}}{% endblock %}</title>
+
+{% block style %}
 <link href='{{STATIC_URL}}assets/js/markitup/images/style.css' rel='stylesheet'>
 <link href='{{STATIC_URL}}assets/css/docs.css' rel='stylesheet'>
-<link href='{{STATIC_URL}}assets/css/bootstrap.css' rel='stylesheet'>
-
-<style type='text/css'>
-  body {
-    padding-top: 60px;
-  }
-</style>
+<link href='{{STATIC_URL}}assets/css/bootstrap.min.css' rel='stylesheet'>
 <link href='{{STATIC_URL}}assets/css/bootstrap-responsive.css' rel='stylesheet'>
 <link href='{{STATIC_URL}}assets/css/hover.css' rel='stylesheet'>
 <link href='{{STATIC_URL}}assets/css/addons.css' rel='stylesheet'>
@@ -33,6 +31,11 @@
 <link href="{{STATIC_URL}}assets/js/markitup/markitup/skins/simple/style.css" rel="stylesheet">
 <link href="{{STATIC_URL}}assets/js/markitup/markitup/sets/default/style.css" rel="stylesheet">
 <link href="{{STATIC_URL}}assets/css/styles.css" media="screen" rel="stylesheet" type="text/css"/>
+{% endblock %}
+
+<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}assets/js/fancybox/source/jquery.fancybox.css?v=2.1.4" media="screen" />
+<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}assets/js/fancybox/source/helpers/jquery.fancybox-buttons.css?v=1.0.5" />
+<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}assets/js/fancybox/source/helpers/jquery.fancybox-thumbs.css?v=1.0.7" />
 
 <link href='{{STATIC_URL}}assets/img/favicon.png' rel='shortcut icon' type='image/x-icon' />
 <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -44,13 +47,16 @@
 </head>
   <body>
     <div id="fb-root"></div>
+    {% block topbar %}
     {% include 'topbar.html' %}
-    
+    {% endblock %}
+
     <div class='container'>
     {% block content %}
     {% endblock %}
     </div>
 
+  {% block footer %}
   <div class='footer'>
     <div id='center' class='span9'>
       <div class='row'>
@@ -60,6 +66,7 @@
       </div>
     </div>
   </div>
+  {% endblock %}
 
     <script src='{{STATIC_URL}}assets/js/jquery.js'></script>
     <script src='{{STATIC_URL}}assets/js/bootstrap.min.js'></script>
@@ -71,6 +78,14 @@
     <script src='{{STATIC_URL}}assets/js/backbone/streams.js'></script>
     <script src="{{STATIC_URL}}assets/js/jquery.masonry.min.js"></script>
     <script src="{{STATIC_URL}}assets/js/jquery.imagesloaded.min.js"></script>
+
+    <!-- Fancybox -->
+    <script type="text/javascript" src="{{STATIC_URL}}assets/js/fancybox/lib/jquery.mousewheel-3.0.6.pack.js"></script>
+    <script type="text/javascript" src="{{STATIC_URL}}assets/js/fancybox/source/jquery.fancybox.js?v=2.1.4"></script>
+    <script type="text/javascript" src="{{STATIC_URL}}assets/js/fancybox/source/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+    <script type="text/javascript" src="{{STATIC_URL}}assets/js/fancybox/source/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+    <script type="text/javascript" src="{{STATIC_URL}}assets/js/fancybox/source/helpers/jquery.fancybox-media.js?v=1.0.5"></script>
+    <!-- end fancybox -->
 
     <script>
     (function(d, s, id) {
@@ -94,6 +109,22 @@
             $('<img />').attr('src', $(this).attr('data-hover'));
         });;
         $('.dropdown-hover').dropdownHover();
+
+        $('.fancybox').fancybox({
+            helpers : {
+                overlay : {
+                    css : {
+                        'background' : 'rgba(0, 0, 0, 0.7)'
+                    }
+                }
+            },
+            padding: 0,
+
+            beforeShow: function(){
+                this.width = $('.fancybox-iframe').contents().find('.pop').width();
+            }
+        });
+
     });
     </script>
 
@@ -120,25 +151,31 @@
       }
       
       {% else %}
-      function fb_login(){
+      function fb_login(is_pop){
         FB.login(function(resp){
           if(!resp.authResponse){
-            window.location = "{{ uri_for('login') }}?msg=fb_error";
+            if(is_pop == true){
+                window.location = "{{ uri_for('login') }}?msg=fb_error&pop=1";
+            }else{
+                window.location = "{{ uri_for('login') }}?msg=fb_error";
+            }
+            
           }
-        }, {scope: 'publish_stream'});
+        }, {scope: 'publish_actions'});
       }
       function fb_login_admin(){
         FB.login(function(resp){
           if(!resp.authResponse){
             window.location = "{{ uri_for('login_admin') }}?msg=fb_error";
           }
-        }, {scope: 'publish_stream,manage_pages'});
+        }, {scope: 'publish_actions,publish_stream,manage_pages'});
       }
       {% endif %}
     </script>
 
     {% block footerscript %}{% endblock %}
 
+    {% block additionalscript %}
     <script type="text/javascript">
       //BokerFace.com UA-1149719-10
       var _gaq = _gaq || [];
@@ -174,21 +211,25 @@
 
     <script type="text/template" id="boker_template">
         <li class="span3 item" id="item-<%= obj.id %>">
+
+            <% if(obj.type == 'video'){ %>
+            <div class="vid"></div>
+            <% } %>
+
             <div class="thumbnail">
                 <div class="boker-picture view-thumb" id="view-thumb4">
-                <a href="<%= obj.permalink %>" id="boker-main-pic4"><img alt="<%= obj.description %>" src="/images/<%= obj.photo.key %>?type=list&crop=1"/></a>
 
-                <% if(obj.can_like){ %>
-                  <div class="mask m-button">
-                  <span class='info'>
-                  <button class='btn btn-large btn-warning btn-like-list' data-boker="<%= obj.key %>" type='button'>
-                  <i class='icon-star icon-white'></i> Suka!
-                  </button>
-                  </span>
-                  </div>
+                <% if(obj.type == 'photo'){ %>
+                <a href="<%= obj.permalink %>" id="boker-main-pic4"><img alt="<%= obj.description %>" src="/images/<%= obj.photo.key %>?type=list&crop=1"/></a>
                 <% } %>
 
-            </div>
+                <% if(obj.type == 'video'){ %>
+                <a href="<%= obj.permalink %>" id="boker-main-pic4">
+                <img alt="<%= obj.description %>" src="http://img.youtube.com/vi/<%= obj.embed.id %>/hqdefault.jpg"/>
+                </a>
+                <% } %>
+
+            </div> 
             <h2 class="boker-name">
             <a href="<%= obj.permalink %>"><%= obj.description %></a>
             </h2>
@@ -204,6 +245,7 @@
             </div>
         </li>
     </script>
+    {% endblock %}
 
   </body>
 </html>

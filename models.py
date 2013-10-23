@@ -39,7 +39,9 @@ class Boker(db.Model):
     """Boker posts"""
 
     user = db.ReferenceProperty(User, collection_name='bokers')
-    photo = db.ReferenceProperty(Photo, required=True, collection_name='photos')
+    photo = db.ReferenceProperty(Photo, collection_name='photos')
+    video_id = db.StringProperty()
+    video_source = db.StringProperty()
     description = db.TextProperty()
     created = db.DateTimeProperty(auto_now_add=True)
     num_comment = db.IntegerProperty(default=0)
