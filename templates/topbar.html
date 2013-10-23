@@ -13,29 +13,18 @@
           <li class='dropdown'>
             <a href='#' class='dropdown-toggle dropdown-hover' data-toggle='dropdown'>Browse <b class='caret'></b></a>
                 <ul class='dropdown-menu'>
-<!--                   <li><a href='#'>Bokers Idol</a></li>
-                  <li class='divider'></li> -->
                   <li><a href='{{ uri_for('home') }}' title="Latest Bokers">Latest Bokers</a></li>
                   <li><a href='{{ uri_for('home') }}?top=likes' title="Most Likes">Most Likes</a></li>
                   <li><a href='{{ uri_for('home') }}?top=views' title="Most Views">Most Views</a></li>
                   <li><a href='{{ uri_for('home') }}?top=comments' title="Most Comments">Most Comments</a></li>
-<!--                   <li class='divider'></li>
-                  <li><a href='#'>Boker of the day</a></li>
-                  <li><a href='#'>Boker of the week</a></li>
-                  <li><a href='#'>Boker of the month</a></li> -->
                 </ul>
           </li>
-          <li {% if page == 'contest' %}class="active"{% endif %} ><a href="{{ uri_for('contests') }}" title="Kontes">Kontes</a></li>
+          <!-- <li {% if page == 'contest' %}class="active"{% endif %} ><a href="{{ uri_for('contests') }}" title="Kontes">Kontes</a></li> -->
           <li><a href="http://blog.bokerface.com/" title="Bokerface Blog" target="_blank">Blog</a></li>
         </ul>
         <ul class='nav pull-right'>
-<!--         <li class='divider-vertical'></li>
-        <li class='navbar-social-btn'><div class="fb-like" data-href="http://www.facebook.com/pages/Boker/159547404202346" data-send="true" data-layout="button_count" data-width="450" data-show-faces="false"></div>
-        </li> -->
         <li class='divider-vertical'></li>
         {% if current_user %}
-        <!-- <li><a href='#'><span class='label label-important'>30</span></a></li> 
-        <li class='divider-vertical'></li>-->
           <li class='dropdown mobile-divider'>
             <a href='#' class='dropdown-toggle dropdown-hover'>
               <img src='http://graph.facebook.com/{{ current_user.id }}/picture?type=square' class='av-img' /> {{ current_user.username|escape }} <b class='caret'></b>
@@ -45,7 +34,7 @@
               <li><a href='{{ uri_for('settings') }}'>Settings</a></li>
               {% if current_user.is_admin %}
               <li class='divider'></li>
-              <li><a href='{{ uri_for('admin_contest') }}'>Manage Contest</a></li>
+              <!-- <li><a href='{{ uri_for('admin_contest') }}'>Manage Contest</a></li> -->
               <li><a href='{{ uri_for('admin_content') }}'>Manage Texts</a></li>
               {% endif %}
               <li class='divider'></li>
