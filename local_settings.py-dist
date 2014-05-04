@@ -1,5 +1,7 @@
 # Rename this to local_settings.py and set following settings to enable FB connect.
 
+DEBUG = True
+
 FACEBOOK_APP_NAME = ''
 FACEBOOK_APP_ID = ''
 FACEBOOK_APP_SECRET = ''
