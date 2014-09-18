@@ -18,7 +18,7 @@
 {% endblock %}
 <meta property="og:description" content="{{site_desc}}"/>
 
-<title>{% block title %}{{site_title}}{% endblock %}</title>
+<title>{% block title %}{{site_title}}{% endblock %} | Bokie</title>
 
 {% block style %}
 <link href='{{STATIC_URL}}assets/js/markitup/images/style.css' rel='stylesheet'>
@@ -60,8 +60,8 @@
   <div class='footer'>
     <div id='center' class='span9'>
       <div class='row'>
-             <p>&copy; 2013 <a href='http://bokerface.com'>BokerFace.com (BF)</a> | <a href='{{ uri_for('about') }}'>About</a> | <a href="http://blog.bokerface.com/" title="Bokerface Blog" target="_blank">Blog</a></p>
-             <p>Supported by: <a href='http://ilabbali.org/labs' target='_blank'>ilabbali.org</a> | <a href='http://sudigital.com' target='_blank'>sudigital.com</a> | <a href='http://balitechy.com' target='_blank'>balitechy.com</a><p><br>
+             <p>&copy; 2014 <a href='/'>Bokie</a> | <a href='{{ uri_for('about') }}'>About</a></p>
+             <p>Supported by: <a href='http://ilabbali.org/labs' target='_blank'>ilabbali.org</a> | <a href='http://sudigital.com' target='_blank'>sudigital.com</a><p><br>
              <p>Bokerface is developed on top of Open Source software, this site is also open source.<br>The source code is available at <a href="https://github.com/BokerFace">https://github.com/BokerFace</a></p>
       </div>
     </div>
@@ -188,25 +188,6 @@
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
       })();
 
-    </script>
-
-    <!-- UserVoice JavaScript SDK (only needed once on a page) -->
-    <script>(function(){var uv=document.createElement('script');uv.type='text/javascript';uv.async=true;uv.src='//widget.uservoice.com/oPZPqQ1lI3lUc9xhc1A8Vg.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(uv,s)})()</script>
-
-    <!-- A tab to launch the Classic Widget -->
-    <script>
-    UserVoice = window.UserVoice || [];
-    UserVoice.push(['showTab', 'classic_widget', {
-      mode: 'full',
-      primary_color: '#cc6d00',
-      link_color: '#007dbf',
-      default_mode: 'support',
-      forum_id: 207837,
-      tab_label: 'Feedback & Support',
-      tab_color: '#cc6d00',
-      tab_position: 'middle-right',
-      tab_inverted: false
-    }]);
     </script>
 
     <script type="text/template" id="boker_template">

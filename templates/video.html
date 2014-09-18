@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}{{boker.description}} | Boker Face • Apakah Anda lagi Boker hari ini?{% endblock %}
+{% block title %}{{boker.description}}{% endblock %}
 
 {% block fb_type %}og:video{% endblock %}
 {% block fb_url %}{{app_domain}}{{ uri_for('boker_view', boker_id=boker.key().id()) }}{% endblock %}

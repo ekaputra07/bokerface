@@ -295,8 +295,9 @@ class BokerHandler(BaseHandler):
                 boker_url = "%s/boker/%s" % (settings.APP_DOMAIN, boker.key().id())
                 user_access_token = self.current_user['access_token']
 
-                deferred.defer(post_page_photo, boker_url, photokey, desc)
-                deferred.defer(publish_upload_action, user_access_token, boker_url, explicitly_shared)
+                # deferred.defer(post_page_photo, boker_url, photokey, desc)
+                # deferred.defer(publish_upload_action, user_access_token, boker_url, explicitly_shared)
+                deferred.defer(publish_posts_action, user_access_token, boker_url, explicitly_shared)
 
                 boker_url = self.uri_for('boker_view', boker_id=boker.key().id())
                 if ispop:
@@ -332,7 +333,7 @@ class BokerHandler(BaseHandler):
                 user_access_token = self.current_user['access_token']
 
                 # deferred.defer(post_page_video, boker_url, boker.description)
-                deferred.defer(publish_posts_action, user_access_token, boker_url, False)
+                deferred.defer(publish_posts_action, user_access_token, boker_url, explicitly_shared)
 
                 boker_url = self.uri_for('boker_view', boker_id=boker.key().id())
                 if ispop:

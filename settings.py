@@ -11,8 +11,8 @@ PAGINATION_LIMIT = 10
 
 APP_DOMAIN = 'http://www.bokerface.com'
 
-SITE_TITLE = u'Boker Face • Apakah Anda lagi Boker hari ini?'
-SITE_DESCRIPTION = u'Boker Face • Apakah Anda lagi Boker hari ini?'
+SITE_TITLE = u''
+SITE_DESCRIPTION = u''
 
 IMAGE_SIZES = {
     'list': [270, 0],

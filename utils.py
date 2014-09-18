@@ -29,9 +29,8 @@ class BaseHandler(webapp2.RequestHandler):
 
     @property
     def current_user(self):
+
         if settings.DEBUG:
-
-
             # Since we can't test real FB user on localhost
             # I made a fake account
             user = User.get_by_key_name('100000145269859')
@@ -63,8 +62,6 @@ class BaseHandler(webapp2.RequestHandler):
                 # User is logged in
                 return self.session.get("user")
             else:
-                # Either used just logged in or just saw the first page
-                # We'll see here
                 cookie = facebook.get_user_from_cookie(self.request.cookies,
                                                    settings.FACEBOOK_APP_ID,
                                                    settings.FACEBOOK_APP_SECRET
@@ -113,7 +110,6 @@ class BaseHandler(webapp2.RequestHandler):
 
         self.session_store = sessions.get_store(request=self.request)
         try:
-
             # Check user login if required
             self.if_login_required()
 
